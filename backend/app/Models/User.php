@@ -20,4 +20,11 @@ class User extends Model {
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
+
+    // Delete user
+    public static function delete($id) {
+        $stmt = self::getDB()->prepare("DELETE FROM users WHERE id = :id");
+        $stmt->bindValue(':id',$id,\PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }

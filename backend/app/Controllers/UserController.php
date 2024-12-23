@@ -20,4 +20,13 @@ class UserController extends Controller {
             $this->jsonResponse(['error' => 'Assignment not found'], 404);
         }
     }
+
+    public function deleteUser($id) {
+        $deleted = User::delete($id);
+        if ($deleted) {
+            $this->jsonResponse(['message' => 'Assignment deleted successfully']);
+        } else {
+            $this->jsonResponse(['error' => 'Failed to delete assignment'], 500);
+        }
+    }
 }

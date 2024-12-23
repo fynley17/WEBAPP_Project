@@ -13,9 +13,11 @@ if ($uri === '/api/users' && $method === 'GET' ) {
     $controller = new UserController();
     $controller->getUsers(); 
 } else if (preg_match('/^\/api\/users\/([^\/]+)$/', $uri, $matches) && $method === 'GET') {
-    $username = $matches[1]; // Extract the username from the URL
     $controller = new UserController();
-    $controller->getUserByUsername($username);
+    $controller->getUserByUsername($matches[1]);
+} else if (preg_match('/^\/api\/users\/(\d+)$/', $uri, $matches) && $method === 'DELETE'){
+    $controller = new UserController();
+    $controller->deleteUser($matches[1]);
 }
 // Course routes
 else if ($uri === '/api/courses' && $method === 'GET'){
