@@ -15,7 +15,7 @@ class User extends Model {
         if (!preg_match("/^[a-zA-Z0-9_-]{3,30}$/",$username)){
             throw new \InvalidArgumentException('Invalid username format');
         }
-        $stmt = self::getDB()->query("SELECT * FROM users WHERE username = :username");
+        $stmt = self::getDB()->prepare("SELECT * FROM users WHERE username = :username");
         $stmt->bindValue(':username', $username, \PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
