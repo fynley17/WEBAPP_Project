@@ -1,8 +1,1 @@
 .env
-backend/vendor/graham-campbell/result-type
-backend/vendor/nikic/fast-route
-backend/vendor/phpoption/phpoption
-backend/vendor/symfony/polyfill-ctype
-backend/vendor/symfony/polyfill-mbstring
-backend/vendor/symfony/polyfill-php80
-backend/vendor/vlucas/phpdotenv
