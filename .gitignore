@@ -1,2 +1,3 @@
 .env
-backend/vendor
+composer.phar
+/vendor/
