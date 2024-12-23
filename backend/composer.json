@@ -10,5 +10,10 @@
             "name": "fynley17",
             "email": "62519801+fynley17@users.noreply.github.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
 }

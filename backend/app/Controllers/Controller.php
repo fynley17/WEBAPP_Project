@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controllers;
 
 class Controller {
     public function jsonResponse($data, $status = 200) {
