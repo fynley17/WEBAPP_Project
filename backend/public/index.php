@@ -18,6 +18,9 @@ if ($uri === '/api/users' && $method === 'GET' ) {
 } else if (preg_match('/^\/api\/users\/(\d+)$/', $uri, $matches) && $method === 'DELETE'){
     $controller = new UserController();
     $controller->deleteUser($matches[1]);
+} else if ($uri === '/api/users' && $method === 'POST') {
+    $controller = new UserController();
+    $controller->createUser();
 }
 // Course routes
 else if ($uri === '/api/courses' && $method === 'GET'){
