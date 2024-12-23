@@ -12,8 +12,8 @@ class UserController extends Controller {
     }
 
     // Get by username
-    public function getUserByUsername($username){
-        $user = User::find($username);
+    public function getUserByID($id){
+        $user = User::findByID($id);
         if ($user) {
             $this->jsonResponse($user);
         } else {
@@ -21,6 +21,19 @@ class UserController extends Controller {
         }
     }
 
+    // Get by username
+    public function getUserByUsername($username){
+        $user = User::findByUsername($username);
+        if ($user) {
+            $this->jsonResponse($user);
+        } else {
+            $this->jsonResponse(['error' => 'Assignment not found'], 404);
+        }
+    }
+
+    // Create user 
+
+    // Delete User
     public function deleteUser($id) {
         $deleted = User::delete($id);
         if ($deleted) {
