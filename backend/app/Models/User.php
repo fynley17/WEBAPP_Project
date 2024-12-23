@@ -55,9 +55,9 @@ class User extends Model {
         if (empty($data['jobTitle']) ||!preg_match("/^[a-zA-Z\s'-]{2,100}$/", $data['jobTitle'])) {
             throw new \InvalidArgumentException('Invalid job title format');
         }
-        if (empty($data['accessLevel']) || $data['accessLevel'] != "staff" || $data['accessLevel'] != "admin" ){
+        if (empty($data['accessLevel']) || ($data['accessLevel'] != "staff" && $data['accessLevel'] != "admin")) {
             throw new \InvalidArgumentException('not valid access level');
-        }
+        }        
 
 
         $username = htmlspecialchars(trim($data['username']), ENT_QUOTES, 'UTF-8');
@@ -66,11 +66,11 @@ class User extends Model {
         $firstname = htmlspecialchars($data['firstName'], ENT_QUOTES, 'UTF-8');
         $lastname = htmlspecialchars($data['lastName'], ENT_QUOTES, 'UTF-8');
         $job_title = htmlspecialchars($data['jobTitle'], ENT_QUOTES, 'UTF-8');
-        $access_level = htmlspecialchars($data['accesslevel'], ENT_QUOTES, 'UTF-8');
+        $access_level = htmlspecialchars($data['accessLevel'], ENT_QUOTES, 'UTF-8');
 
 
         // Insert into database
-        $stmt = self::getDB()->prepare("INSERT INTO users (email, username, password,firstName,lastName,jobTitle,accessLevel) VALUES (:email, :username, :password,:firstname,:lastname,:job_title,:acces_level)");
+        $stmt = self::getDB()->prepare("INSERT INTO users (email, username, password,firstName,lastName,jobTitle,accessLevel) VALUES (:email, :username, :password,:firstname,:lastname,:job_title,:access_level)");
         $stmt->bindValue(':email', $email, \PDO::PARAM_STR);
         $stmt->bindValue(':username', $username, \PDO::PARAM_STR);
         $stmt->bindValue(':password', $password, \PDO::PARAM_STR);

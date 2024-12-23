@@ -11,7 +11,7 @@ class UserController extends Controller {
         $this->jsonResponse($users);
     }
 
-    // Get by username
+    // Get by ID
     public function getUserByID($id){
         $user = User::findByID($id);
         if ($user) {
@@ -32,6 +32,19 @@ class UserController extends Controller {
     }
 
     // Create user 
+    public function createUser() {
+        try {
+            $data = json_decode(file_get_contents("php://input"), true);
+            $result = User::create($data);
+            if ($result) {
+                $this->jsonResponse(['message' => 'User created successfully'], 201);
+            } else {
+                $this->jsonResponse(['error' => 'Failed to create user'], 400);
+            }
+        } catch (\Exception $e) {
+            $this->jsonResponse(['error' => $e->getMessage()], 500);
+        }
+    }
 
     // Delete User
     public function deleteUser($id) {
