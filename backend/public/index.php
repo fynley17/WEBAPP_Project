@@ -24,6 +24,9 @@ if ($uri === '/api/users' && $method === 'GET' ) {
 } else if ($uri === '/api/users' && $method === 'POST') {
     $controller = new UserController();
     $controller->createUser();
+} else if (preg_match('/^\/api\/users\/(\d+)$/', $uri, $matches) && $method === 'PATCH'){
+    $controller = new UserController();
+    $controller->updateUser($matches[1]);
 }
 // Course routes
 else if ($uri === '/api/courses' && $method === 'GET'){

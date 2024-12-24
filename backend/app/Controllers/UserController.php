@@ -46,6 +46,17 @@ class UserController extends Controller {
         }
     }
 
+    // Update a user
+    public function updateUser($id) {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $updated = User::update($id, $data);
+        if ($updated) {
+            $this->jsonResponse(['message' => 'user updated successfully']);
+        } else {
+            $this->jsonResponse(['error' => 'Failed to update assignuserment'], 500);
+        }
+    }
+
     // Delete User
     public function deleteUser($id) {
         $deleted = User::delete($id);
