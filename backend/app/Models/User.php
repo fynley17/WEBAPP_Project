@@ -86,7 +86,7 @@ class User extends Model {
         if (!is_numeric($id) || $id <= 0) {
             throw new \InvalidArgumentException('Invalid user ID');
         }
-        $stmt = self::getDB()->prepare("DELETE FROM users WHERE userID = :id");
+        $stmt = self::getDB()->prepare("DELETE FROM * WHERE userID = :id");
         $stmt->bindValue(':id',$id,\PDO::PARAM_INT);
         return $stmt->execute();
     }
