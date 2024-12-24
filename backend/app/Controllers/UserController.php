@@ -50,9 +50,9 @@ class UserController extends Controller {
     public function deleteUser($id) {
         $deleted = User::delete($id);
         if ($deleted) {
-            $this->jsonResponse(['message' => 'Assignment deleted successfully']);
+            $this->jsonResponse(['message' => 'user deleted successfully']);
         } else {
-            $this->jsonResponse(['error' => 'Failed to delete assignment'], 500);
+            $this->jsonResponse(['error' => 'Failed to delete user'], 500);
         }
     }
 }
