@@ -12,6 +12,9 @@ $method = $_SERVER['REQUEST_METHOD'];
 if ($uri === '/api/users' && $method === 'GET' ) {
     $controller = new UserController();
     $controller->getUsers(); 
+} else if (preg_match('/^\/api\/users\/(\d+)$/', $uri, $matches) && $method === 'GET'){
+    $controller = new UserController();
+    $controller->getUserByID($matches[1]);
 } else if (preg_match('/^\/api\/users\/([^\/]+)$/', $uri, $matches) && $method === 'GET') {
     $controller = new UserController();
     $controller->getUserByUsername($matches[1]);
