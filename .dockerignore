@@ -1,0 +1,21 @@
+# Root
+.git/
+.devcontainer
+.github/
+database/
+.dockerignore
+.gitignore
+docker-compose.yml
+Dockerfile.Backend
+LICENCE
+package.json
+README.md
+
+# Backend
+backend/vendor/
+backend/tests/
+backend/phpunit.xml
+.env
+.env.example
+
+# Frontend
