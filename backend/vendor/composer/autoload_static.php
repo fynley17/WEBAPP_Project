@@ -4,13 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd59fc3ad9b26aeaf57e86007ee22be2c
+class ComposerStaticInit075489489086c4e50dbb0c13ec264edf
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
-        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -27,10 +26,6 @@ class ComposerStaticInitd59fc3ad9b26aeaf57e86007ee22be2c
         'G' => 
         array (
             'GrahamCampbell\\ResultType\\' => 26,
-        ),
-        'F' => 
-        array (
-            'FastRoute\\' => 10,
         ),
         'D' => 
         array (
@@ -63,10 +58,6 @@ class ComposerStaticInitd59fc3ad9b26aeaf57e86007ee22be2c
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
         ),
-        'FastRoute\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/nikic/fast-route/src',
-        ),
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
@@ -89,9 +80,9 @@ class ComposerStaticInitd59fc3ad9b26aeaf57e86007ee22be2c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd59fc3ad9b26aeaf57e86007ee22be2c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd59fc3ad9b26aeaf57e86007ee22be2c::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitd59fc3ad9b26aeaf57e86007ee22be2c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit075489489086c4e50dbb0c13ec264edf::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit075489489086c4e50dbb0c13ec264edf::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit075489489086c4e50dbb0c13ec264edf::$classMap;
 
         }, null, ClassLoader::class);
     }
