@@ -7,8 +7,10 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
-    php-mysqli \
-    && docker-php-ext-install mysqli zip \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    && docker-php-ext-install mysqli zip pdo pdo_mysql \
     && apt-get clean
 
 # Enable Apache rewrite module
