@@ -39,6 +39,12 @@ class Course extends Model
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    public static function create() {}
+
+    public static function update() {}
+
+    public static function delete() {}
+
     // Healpers
     public static function validTitle($title)
     {
