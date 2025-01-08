@@ -15,7 +15,7 @@ class User extends Model {
             throw new \InvalidArgumentException('Invalid user ID');
         }
 
-        $stmt = self::getDB()->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt = self::getDB()->prepare("SELECT * FROM users WHERE userID = :id");
         $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
