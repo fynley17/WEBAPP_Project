@@ -1,16 +1,20 @@
 <?php
+
 namespace App\Models;
 
-class User extends Model {
+class User extends Model
+{
 
     // Fetch all users
-    public static function all() {
+    public static function all()
+    {
         $stmt = self::getDB()->query("SELECT * FROM users");
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     // Fetch user by id
-    public static function findByID($id) {
+    public static function findByID($id)
+    {
         if (!is_numeric($id) || $id <= 0) {
             throw new \InvalidArgumentException('Invalid user ID');
         }
@@ -22,9 +26,10 @@ class User extends Model {
     }
 
     // Fetch user by username
-    public static function findByUsername($username) {
+    public static function findByUsername($username)
+    {
         // Validation
-        if (!self::validUsername($username)){
+        if (!self::validUsername($username)) {
             throw new \InvalidArgumentException('Invalid username format');
         }
         $username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
@@ -35,7 +40,8 @@ class User extends Model {
     }
 
     // Create a new user
-    public static function create($data) {
+    public static function create($data)
+    {
         // Validate and sanitize input
         if (empty($data['email']) || !self::ValidEmail($data['email'])) {
             throw new \InvalidArgumentException('Invalid email format');
@@ -52,12 +58,12 @@ class User extends Model {
         if (empty($data['lastName']) || !self::names($data['lastName'])) {
             throw new \InvalidArgumentException('not valid last name');
         }
-        if (empty($data['jobTitle']) ||!preg_match("/^[a-zA-Z\s'-]{2,100}$/", $data['jobTitle'])) {
+        if (empty($data['jobTitle']) || !preg_match("/^[a-zA-Z\s'-]{2,100}$/", $data['jobTitle'])) {
             throw new \InvalidArgumentException('Invalid job title format');
         }
         if (empty($data['accessLevel']) || ($data['accessLevel'] != "staff" && $data['accessLevel'] != "admin")) {
             throw new \InvalidArgumentException('not valid access level');
-        }        
+        }
 
 
         $username = htmlspecialchars(trim($data['username']), ENT_QUOTES, 'UTF-8');
@@ -82,7 +88,8 @@ class User extends Model {
     }
 
     // Update user info
-    public static function update($id, $data) {
+    public static function update($id, $data)
+    {
         // Validate ID
         if (!is_numeric($id) || $id <= 0) {
             throw new \InvalidArgumentException('Invalid user ID');
@@ -117,7 +124,7 @@ class User extends Model {
         }
         if ($access_level && ($access_level != "staff" && $access_level != "admin")) {
             throw new \InvalidArgumentException('not valid access level');
-        }        
+        }
 
         // Build dynamic query
         $fields = [];
@@ -142,12 +149,12 @@ class User extends Model {
             $fields[] = "lastName = :lastName";
             $params['lastName'] = $lastname;
         }
-        if ($job_title) { 
+        if ($job_title) {
             $fields[] = "jobTitle = :jobTitle";
             $params['jobTitle'] = $job_title;
         }
         if ($access_level) {
-            $fields[] ="accessLevel =:accessLevel";
+            $fields[] = "accessLevel =:accessLevel";
             $params['accessLevel'] = $access_level;
         }
 
@@ -164,26 +171,30 @@ class User extends Model {
     }
 
     // Delete user
-    public static function delete($id) {
+    public static function delete($id)
+    {
         if (!is_numeric($id) || $id <= 0) {
             throw new \InvalidArgumentException('Invalid user ID');
         }
         $stmt = self::getDB()->prepare("DELETE FROM users WHERE userID = :id");
-        $stmt->bindValue(':id',$id,\PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
         return $stmt->execute();
     }
 
 
     // Helpers
-    public static function names($name){
+    public static function names($name)
+    {
         return preg_match("/^[a-zA-Z\s'-]{2,50}$/", $name);
     }
 
-    public static function validUsername($username){
-        return preg_match("/^[a-zA-Z0-9_-]{3,30}$/",$username);
+    public static function validUsername($username)
+    {
+        return preg_match("/^[a-zA-Z0-9_-]{3,30}$/", $username);
     }
 
-    private static function ValidEmail($email) {
+    private static function ValidEmail($email)
+    {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 }

@@ -1,38 +1,44 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\User;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
 
     // Get all users
-    public function getUsers(){
+    public function getUsers()
+    {
         $users = User::all();
         $this->jsonResponse($users);
     }
 
     // Get by ID
-    public function getUserByID($id){
+    public function getUserByID($id)
+    {
         $user = User::findByID($id);
         if ($user) {
             $this->jsonResponse($user);
         } else {
-            $this->jsonResponse(['error' => 'Assignment not found'], 404);
+            $this->jsonResponse(['error' => 'user not found'], 404);
         }
     }
 
     // Get by username
-    public function getUserByUsername($username){
+    public function getUserByUsername($username)
+    {
         $user = User::findByUsername($username);
         if ($user) {
             $this->jsonResponse($user);
         } else {
-            $this->jsonResponse(['error' => 'Assignment not found'], 404);
+            $this->jsonResponse(['error' => 'user not found'], 404);
         }
     }
 
     // Create user 
-    public function createUser() {
+    public function createUser()
+    {
         try {
             $data = json_decode(file_get_contents("php://input"), true);
             $result = User::create($data);
@@ -47,18 +53,20 @@ class UserController extends Controller {
     }
 
     // Update a user
-    public function updateUser($id) {
+    public function updateUser($id)
+    {
         $data = json_decode(file_get_contents('php://input'), true);
         $updated = User::update($id, $data);
         if ($updated) {
             $this->jsonResponse(['message' => 'user updated successfully']);
         } else {
-            $this->jsonResponse(['error' => 'Failed to update assignuserment'], 500);
+            $this->jsonResponse(['error' => 'Failed to update user'], 500);
         }
     }
 
     // Delete User
-    public function deleteUser($id) {
+    public function deleteUser($id)
+    {
         $deleted = User::delete($id);
         if ($deleted) {
             $this->jsonResponse(['message' => 'user deleted successfully']);
