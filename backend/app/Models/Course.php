@@ -39,7 +39,12 @@ class Course extends Model
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public static function create() {}
+    public static function create($data)
+    {
+        if (empty($data['cTitle']) || !self::validTitle($data['cTitle'])) {
+            throw new \InvalidArgumentException(' Invalid title format');
+        }
+    }
 
     public static function update() {}
 
