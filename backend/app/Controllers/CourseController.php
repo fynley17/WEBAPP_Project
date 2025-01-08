@@ -26,9 +26,9 @@ class CourseController extends Controller
     }
 
     // Get by title
-    public function getCourseByTitle($coursename)
+    public function getCourseByTitle($courseName)
     {
-        $course = Course::findByTitle($coursename);
+        $course = Course::findByTitle($courseName);
         if ($course) {
             $this->jsonResponse($course);
         } else {
