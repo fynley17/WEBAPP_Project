@@ -41,8 +41,21 @@ class Course extends Model
 
     public static function create($data)
     {
+        // Validate and sanitize inputs
         if (empty($data['cTitle']) || !self::validTitle($data['cTitle'])) {
             throw new \InvalidArgumentException(' Invalid title format');
+        }
+        if (empty($data['cDate']) || !preg_match("/^\d{4}-\d{2}-\d{2}$/", $data['cDate'])) {
+            throw new \InvalidArgumentException('Invalid date format');
+        }
+        if (empty($data['cDuration']) || !preg_match("^\d+(\.\d+)?$", $data['cDuration'])) {
+            throw new \InvalidArgumentException('invalid duration format');
+        }
+        if (empty($data['maxAttedees']) || !preg_match("^\d{1,3}$", $data['maxAttendees'])) {
+            throw new \InvalidArgumentException('invaid max attende format');
+        }
+        if (empty($data['cDescription']) || !preg_match("/^[a-zA-Z\s'-]{2,1000}$/", $data['cDescription'])) {
+            throw new \InvalidArgumentException('invalid description format');
         }
     }
 
