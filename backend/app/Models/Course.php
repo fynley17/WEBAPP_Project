@@ -57,6 +57,12 @@ class Course extends Model
         if (empty($data['cDescription']) || !preg_match("/^[a-zA-Z\s'-]{2,1000}$/", $data['cDescription'])) {
             throw new \InvalidArgumentException('invalid description format');
         }
+
+        $cTitle = htmlspecialchars(trim($data['cTitle']), ENT_QUOTES, 'UTF-8');
+        $cDate = htmlspecialchars(trim($data['cDate']), ENT_QUOTES, 'UTF-8');
+        $cDuration = htmlspecialchars(trim($data['cDuration']), ENT_QUOTES, 'UTF-8');
+        $maxAttendees = htmlspecialchars(trim($data['maxAttendees']), ENT_QUOTES, 'UTF-8');
+        $cDescription = htmlspecialchars(trim($data['cDescription']), ENT_QUOTES, 'UTF-8');
     }
 
     public static function update() {}
