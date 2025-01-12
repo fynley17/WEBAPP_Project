@@ -24,9 +24,9 @@ class AssignmentController extends Controller
     }
 
     // Get by title
-    public function getAssignmentByTitle($assignmentName)
+    public function getAssignmentByUsername($assignmentName)
     {
-        $assignment = Assignment::findByTitle($assignmentName);
+        $assignment = Assignment::findByUsername($assignmentName);
         if ($assignment) {
             $this->jsonResponse($assignment);
         } else {

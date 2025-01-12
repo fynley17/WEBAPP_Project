@@ -125,7 +125,7 @@ class Course extends Model
             $params['maxAttendees'] = $maxAttendees;
         }
         if ($currentAttendees) {
-            $fields[] = "currentAttendees = :currentAttendees";
+            $fields[] = "currentAttendence = :currentAttendees";
             $params['currentAttendees'] = $currentAttendees;
         }
         if ($cDescription) {
