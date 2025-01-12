@@ -63,6 +63,14 @@ class Course extends Model
         $cDuration = htmlspecialchars(trim($data['cDuration']), ENT_QUOTES, 'UTF-8');
         $maxAttendees = htmlspecialchars(trim($data['maxAttendees']), ENT_QUOTES, 'UTF-8');
         $cDescription = htmlspecialchars(trim($data['cDescription']), ENT_QUOTES, 'UTF-8');
+
+        $stmt = self::getDB()->prepare("INSERT INTO `courses`(`cTitle`, `cDate`, `cDuration`, `maxAttendees`, `cDescription`) VALUES (:cTitle,:cDate,:cDuration,:maxAttendees,:cDeescription)");
+        $stmt->bindvalue(':cTitle', $cTitle, \PDO::PARAM_STR);
+        $stmt->bindvalue(':cDate', $cDate, \PDO::PARAM_STR);
+        $stmt->bindvalue(':cDuration', $cDuration, \PDO::PARAM_STR);
+        $stmt->bindvalue(':maxAttendees', $maxAttendees, \PDO::PARAM_INT);
+        $stmt->bindvalue(':cDescritpion', $cDescription, \PDO::PARAM_STR);
+        return $stmt->execute();
     }
 
     public static function update() {}
