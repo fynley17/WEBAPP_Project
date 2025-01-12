@@ -52,6 +52,21 @@ else if ($uri === '/api/courses' && $method === 'GET') {
 else if ($uri === '/api/assignments' && $method === 'GET') {
     $controller = new AssignmentController();
     $controller->getAssignments();
+} else if (preg_match('/^\/api\/assignments\/(\d+)$/', $uri, $matches) && $method === 'GET') {
+    $controller = new AssignmentController();
+    $controller->getCourseByID($matches[1]);
+} else if (preg_match('/^\/api\/courses\/([^\/]+)$/', $uri, $matches) && $method === 'GET') {
+    $controller = new AssignmentController();
+    $controller->getCourseByTitle($matches[1]);
+} else if (preg_match('/^\/api\/courses\/(\d+)$/', $uri, $matches) && $method === 'DELETE') {
+    $controller = new AssignmentController();
+    $controller->deleteCourse($matches[1]);
+} else if ($uri === '/api/courses' && $method === 'POST') {
+    $controller = new AssignmentController();
+    $controller->createCourse();
+} else if (preg_match('/^\/api\/courses\/(\d+)$/', $uri, $matches) && $method === 'PATCH') {
+    $controller = new AssignmentController();
+    $controller->updateCourse($matches[1]);
 } else {
     http_response_code(404);
     echo json_encode(['error' => 'Not Found']);
