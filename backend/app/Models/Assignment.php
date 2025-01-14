@@ -46,6 +46,13 @@ class Assignment extends Model
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    public static function updateAttendenceByOne($id) {
+        $sql = "UPDATE courses SET currentAttendence = currentAttendence + 1 WHERE courseID = :id";
+        $stmt = self::getDB()->prepare($sql);
+        $stmt->bindValue(':id',$id, \PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
     public static function create($data){
         if (empty($data['userID']) || !preg_match("/\d+/", $data['userID'])){
             throw new \InvalidArgumentException('Invalid userID format');
@@ -56,6 +63,8 @@ class Assignment extends Model
 
         $userID = htmlspecialchars(trim($data['userID']), ENT_QUOTES, 'utf-8');
         $courseID = htmlspecialchars(trim($data['courseID']), ENT_QUOTES, 'utf-8');
+
+        self::updateAttendenceByOne($courseID);
 
         $stmt = self::getDB()->prepare("INSERT INTO `assignments`(`userID`, `courseID`) VALUES (:userID,:userID)");
         $stmt->bindValue(':userID',$userID, \PDO::PARAM_INT);
