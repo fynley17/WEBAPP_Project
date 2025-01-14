@@ -47,6 +47,7 @@ class Assignment extends Model
                 courses.cTitle,
                 courses.cDate,
                 courses.cDuration
+                COUNT(assignments.userID) AS currentAttendence
             FROM
                 assignments
             JOIN
@@ -54,7 +55,9 @@ class Assignment extends Model
             JOIN
                 courses ON courses.courseID = assignments.courseID
             WHERE 
-                assignmentID = :id");
+                assignmentID = :id
+            GROUP BY
+                courses.courseID, users.username");
         $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
