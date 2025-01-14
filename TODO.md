@@ -3,8 +3,9 @@
 - [ ] Authentication
 
 
-<h3>frontend</h3>
+<h2>frontend</h2>
 
+- [ ] create wire frames
 - [ ] login page
 - [ ] create page
     - [ ] user
