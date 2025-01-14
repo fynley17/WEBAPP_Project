@@ -65,11 +65,11 @@ class Course extends Model
         $cDescription = htmlspecialchars(trim($data['cDescription']), ENT_QUOTES, 'UTF-8');
 
         $stmt = self::getDB()->prepare("INSERT INTO `courses`(`cTitle`, `cDate`, `cDuration`, `maxAttendees`, `cDescription`) VALUES (:cTitle,:cDate,:cDuration,:maxAttendees,:cDescription)");
-        $stmt->bindvalue(':cTitle', $cTitle, \PDO::PARAM_STR);
-        $stmt->bindvalue(':cDate', $cDate, \PDO::PARAM_STR);
-        $stmt->bindvalue(':cDuration', $cDuration, \PDO::PARAM_STR);
-        $stmt->bindvalue(':maxAttendees', $maxAttendees, \PDO::PARAM_INT);
-        $stmt->bindvalue(':cDescription', $cDescription, \PDO::PARAM_STR); // Fixed typo here
+        $stmt->bindValue(':cTitle', $cTitle, \PDO::PARAM_STR);
+        $stmt->bindValue(':cDate', $cDate, \PDO::PARAM_STR);
+        $stmt->bindValue(':cDuration', $cDuration, \PDO::PARAM_STR);
+        $stmt->bindValue(':maxAttendees', $maxAttendees, \PDO::PARAM_INT);
+        $stmt->bindValue(':cDescription', $cDescription, \PDO::PARAM_STR); // Fixed typo here
         return $stmt->execute();
     }
 
@@ -107,7 +107,7 @@ class Course extends Model
         }
 
         $fields = [];
-        $params = ['id' => $id];
+        $params = ['courseID' => $id];
         if ($cTitle) {
             $fields[] = "cTitle = :cTitle";
             $params['cTitle'] = $cTitle;

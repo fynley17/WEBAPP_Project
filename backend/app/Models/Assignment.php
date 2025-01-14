@@ -47,10 +47,10 @@ class Assignment extends Model
     }
 
     public static function create($data){
-        if (empty($data['userID']) || !is_numeric($data['userID'])){
+        if (empty($data['userID']) || !preg_match("/\d+/", $data['userID'])){
             throw new \InvalidArgumentException('Invalid userID format');
         }
-        if (empty($data['courseID']) || !is_numeric($data['courseID'])){
+        if (empty($data['courseID']) || !preg_match("/\d+/", $data['courseID'])){
             throw new \InvalidArgumentException('invalid courseID format');
         }
 
@@ -58,8 +58,46 @@ class Assignment extends Model
         $courseID = htmlspecialchars(trim($data['courseID']), ENT_QUOTES, 'utf-8');
 
         $stmt = self::getDB()->prepare("INSERT INTO `assignments`(`userID`, `courseID`) VALUES (:userID,:userID)");
-        $stmt->bindvalue(':userID',$userID, \PDO::PARAM_INT);
-        $stmt->bindvalue(':courseID',$courseID, \PDO::PARAM_INT);
+        $stmt->bindValue(':userID',$userID, \PDO::PARAM_INT);
+        $stmt->bindValue(':courseID',$courseID, \PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public static function update($id,$data){
+        if (!is_numeric($id) || $id <= 0) {
+            throw new \InvalidArgumentException('Invalid assignment ID');
+        }
+
+        $courseID = isset($data['courseID']) ? htmlspecialchars(trim($data['courseID']), ENT_QUOTES, 'utf-8') : null;
+        $userID = isset($data['userID']) ? htmlspecialchars(trim($data['userID']), ENT_QUOTES, 'utf-8') : null;
+
+        if ($userID && !preg_match("/\d+/",$data['userID'])){
+            throw new \InvalidArgumentException('invalid userID format');
+        }
+        if ($courseID && !preg_match("/\d+/",$data['courseID'])){
+            throw new \InvalidArgumentException('invalid courseID format');
+        }
+
+        $fields = [];
+        $params = ['assignmentID' => $id];
+        if($userID) {
+            $feilds[] = "userID = :userID";
+            $params['userID'] = $userID;
+        }
+        if ($courseID) {
+            $feilds[] = "courseID = :courseID";
+            $params['courseID'] = $courseID;
+        }
+
+        if (empty($feilds)) {
+            throw new \InvalidArgumentException('no valid feilds to update');
+        }
+
+        $sql = "UPDATE assignments SET " . implode(', ', $fields) . " WHERE userID = :id";
+        $stmt = self::getDB()->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
         return $stmt->execute();
     }
 
