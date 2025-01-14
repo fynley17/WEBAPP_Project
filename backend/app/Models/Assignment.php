@@ -39,18 +39,10 @@ class Assignment extends Model
             throw new \InvalidArgumentException('Invalid username format');
         }
 
-
         $stmt = self::getDB()->prepare("SELECT assignmentID,users.username,courses.cTitle,courses.cDate,courses.cDuration,courses.currentAttendence FROM assignments JOIN users ON users.userID = assignments.userID JOIN courses ON courses.courseID = assignments.courseID WHERE users.username = :username");
         $stmt->bindValue(':username', $username, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
-    }
-
-    public static function updateAttendenceByOne($id) {
-        $sql = "UPDATE courses SET currentAttendence = currentAttendence + 1 WHERE courseID = :id";
-        $stmt = self::getDB()->prepare($sql);
-        $stmt->bindValue(':id',$id, \PDO::PARAM_INT);
-        return $stmt->execute();
     }
 
     public static function create($data){
@@ -63,8 +55,6 @@ class Assignment extends Model
 
         $userID = htmlspecialchars(trim($data['userID']), ENT_QUOTES, 'utf-8');
         $courseID = htmlspecialchars(trim($data['courseID']), ENT_QUOTES, 'utf-8');
-
-        self::updateAttendenceByOne($courseID);
 
         $stmt = self::getDB()->prepare("INSERT INTO `assignments`(`userID`, `courseID`) VALUES (:userID,:userID)");
         $stmt->bindValue(':userID',$userID, \PDO::PARAM_INT);
