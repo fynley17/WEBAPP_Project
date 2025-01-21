@@ -6,6 +6,16 @@
 <h2>frontend</h2>
 
 - [ ] create wire frames
+    - [x] login page
+    - [x] create account
+    - [x] create course
+    - [x] edit account
+    - [x] edit course
+    - [ ] staff desktop
+        - [ ] course info page
+        - [ ] show all courses they can enroll on
+        - [ ] show all coures they are signed up to
+    - [ ] admin desktop
 - [ ] login page
 - [ ] create page
     - [ ] user
