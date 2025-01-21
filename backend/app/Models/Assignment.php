@@ -13,6 +13,8 @@ class Assignment extends Model
                 courses.cTitle,
                 courses.cDate,
                 courses.cDuration,
+                courses.maxAttendees,
+                courses.cDescription,
                 COUNT(assignments.userID) AS currentAttendence
             FROM
                 assignments
@@ -46,7 +48,9 @@ class Assignment extends Model
                 users.username,
                 courses.cTitle,
                 courses.cDate,
-                courses.cDuration
+                courses.cDuration,
+                courses.maxAttendees,
+                courses.cDescription,
                 COUNT(assignments.userID) AS currentAttendence
             FROM
                 assignments
@@ -69,7 +73,23 @@ class Assignment extends Model
             throw new \InvalidArgumentException('Invalid username format');
         }
 
-        $stmt = self::getDB()->prepare("SELECT assignmentID,users.username,courses.cTitle,courses.cDate,courses.cDuration FROM assignments JOIN users ON users.userID = assignments.userID JOIN courses ON courses.courseID = assignments.courseID WHERE users.username = :username");
+        $stmt = self::getDB()->prepare("
+            SELECT
+                users.username,
+                courses.cTitle,
+                courses.cDate,
+                courses.cDuration,
+                courses.maxAttendees,
+                courses.cDescription,
+                COUNT(assignments.userID) AS currentAttendence
+            FROM 
+                assignments 
+            JOIN
+                users ON users.userID = assignments.userID
+            JOIN
+                courses ON courses.courseID = assignments.courseID 
+            WHERE
+                users.username = :username");
         $stmt->bindValue(':username', $username, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
