@@ -1,20 +1,14 @@
-# Use Node.js for building and running the React app
 FROM node:20
 
 # Set the working directory
-WORKDIR /app
-
-# Copy package.json and package-lock.json
-COPY package*.json ./
+WORKDIR /usr/src/app
 
 # Install dependencies
+COPY package*.json ./
 RUN npm install
 
-# Copy the source code
-COPY . .
-
-# Expose the port React runs on
+# Expose port 8080
 EXPOSE 8080
 
-# Start the React development server
+# Start the app
 CMD ["npm", "run", "serve"]
