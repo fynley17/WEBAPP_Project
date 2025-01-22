@@ -16,8 +16,8 @@ services:
 
   backend:
     build:
-      context: ..
-      dockerfile: .devcontainer/Dockerfile.Backend.Dev
+      context: .
+      dockerfile: Dockerfile.Backend.Dev
     volumes:
       - ./backend:/var/www/html
     ports:
