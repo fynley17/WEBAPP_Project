@@ -1,14 +1,18 @@
-FROM node:20
+# Dockerfile.Frontend.Dev
+FROM node:18-alpine
 
-# Set the working directory
-WORKDIR /usr/src/app
+# Set working directory
+WORKDIR /var/www/html
 
 # Install dependencies
-COPY package*.json ./
+COPY ./frontend/package*.json ./
 RUN npm install
 
-# Expose port 8080
+# Copy the rest of the frontend files
+COPY ./frontend/ .
+
+# Expose Vue app on port 8080
 EXPOSE 8080
 
-# Start the app
+# Run the Vue dev server
 CMD ["npm", "run", "serve"]
