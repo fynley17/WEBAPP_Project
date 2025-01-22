@@ -5,7 +5,8 @@ services:
       context: ../frontend
       dockerfile: Dockerfile.Frontend.Dev
     volumes:
-      - ../frontend:/workspace
+      - ../frontend:/var/www/html
+      - ..:/workspace
     ports:
       - "8080:8080"
     command: npm run serve
@@ -15,5 +16,6 @@ services:
       dockerfile: Dockerfile.Backend.Dev
     volumes:
       - ../backend:/var/www/html
+      - ..:/workspace
     ports:
       - "80:80"
