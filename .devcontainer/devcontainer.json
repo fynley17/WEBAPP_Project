@@ -1,19 +1,15 @@
 {
-  "name": "Staff Enrolment - Dev Container",
-  "dockerComposeFile": "docker-compose-dev.yml",
-  "service": "backend",
-  "workspaceFolder": "/workspaces/WEBAPP_Project",
-  "forwardPorts": [
-    80,
-    8080
+  "name": "Vue + PHP Backend (Apache2)",
+  "dockerComposeFile": [
+    "./.devcontainer/docker-compose-dev.yml"
   ],
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-azuretools.vscode-docker", // Docker Support
-        "bmewburn.vscode-intelephense-client", // PHP IntelliSense
-        "geeebe.duplicate" // Duplicate Line 'Ctrl + D'
-      ]
-    }
-  }
+  "service": "frontend", 
+  "workspaceFolder": "/workspace/WEBAPP_Project",
+  "shutdownAction": "stopCompose",
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "mhutchie.git-graph"
+  ],
+  "postCreateCommand": "npm install --prefix frontend && composer install --working-dir backend"
 }
