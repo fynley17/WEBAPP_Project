@@ -1,34 +1,19 @@
-version: '3.8'
-
+version: '3'
 services:
   frontend:
     build:
-      context: ..
-      dockerfile: .devcontainer/Dockerfile.Frontend.Dev
+      context: ../frontend
+      dockerfile: Dockerfile.Frontend.Dev
     volumes:
-      - ./frontend:/var/www/html
+      - ../frontend:/workspace
     ports:
-      - 8081:8080
-    working_dir: /var/www/html
+      - "8080:8080"
     command: npm run serve
-    networks:
-      - webapp-network
-
   backend:
     build:
-      context: .
+      context: ../backend
       dockerfile: Dockerfile.Backend.Dev
     volumes:
-      - ./backend:/var/www/html
+      - ../backend:/var/www/html
     ports:
-      - 80:80
-    depends_on:
-      - frontend
-    networks:
-      - webapp-network
-    environment:
-      - APACHE_DOCUMENT_ROOT=/var/www/html/public
-
-networks:
-  webapp-network:
-    driver: bridge
+      - "80:80"
