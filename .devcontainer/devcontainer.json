@@ -2,7 +2,8 @@
 	"name": "Vue.js and PHP Development Container",
 	"dockerComposeFile": "docker-compose-dev.yml",
 	"service": "backend",
-	"workspaceFolder": "workspace/WEBAPP_Project",
+	"workspaceFolder": "/workspace/WEBAPP_Project",
+	"forwardPorts": [80,8080],
 	"customizations": {
 		"extensions": [
 		"felixfbecker.php-debug", // PHP debugging
