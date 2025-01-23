@@ -9,6 +9,7 @@
 	},
 	"postCreateCommand": "npm install --prefix /workspace/frontend",
 	"mounts": [
+"source=${localWorkspaceFolder},target=/workspace,type=bind",
 	  "source=${localWorkspaceFolder}/frontend,target=/workspace/frontend,type=bind",
 	  "source=${localWorkspaceFolder}/backend,target=/workspace/backend,type=bind",
 	  "source=${localWorkspaceFolder}/backend,target=/var/www/html,type=bind"
