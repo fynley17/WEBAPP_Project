@@ -26,9 +26,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY backend /var/www/html
 RUN composer install --working-dir=/var/www/html
 
-# Set the working directory
-WORKDIR /var/www/html
-
 # Update the Apache configuration to use the public directory as the document root
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
