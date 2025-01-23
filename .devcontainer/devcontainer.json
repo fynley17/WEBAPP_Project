@@ -1,21 +1,20 @@
 {
-	"name": "PHP + Vue Dev Container",
-	"dockerFile": "Dockerfile",
-	"context": "..",
-	"customizations": {
-		"settings": {
-			"terminal.integrated.defaultProfile.linux": "/bin/bash"
-		  }
-	},
-	"postCreateCommand": "npm install --prefix /workspace/frontend",
-	"mounts": [
-"source=${localWorkspaceFolder},target=/workspace,type=bind",
-	  "source=${localWorkspaceFolder}/frontend,target=/workspace/frontend,type=bind",
-	  "source=${localWorkspaceFolder}/backend,target=/workspace/backend,type=bind",
-	  "source=${localWorkspaceFolder}/backend,target=/var/www/html,type=bind"
-	],
-	"forwardPorts": [80, 8080],
-	"workspaceFolder": "/workspace",
-	"features": {}
-  }
-  
+  "name": "PHP + Vue Dev Container",
+  "dockerFile": "Dockerfile",
+  "context": "..",
+  "customizations": {
+    "settings": {
+      "terminal.integrated.defaultProfile.linux": "/bin/bash"
+    }
+  },
+  "postCreateCommand": "npm install --prefix /workspaces/${localWorkspaceFolderBasename}/frontend",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
+    "source=${localWorkspaceFolder}/frontend,target=/workspaces/${localWorkspaceFolderBasename}/frontend,type=bind",
+    "source=${localWorkspaceFolder}/backend,target=/workspaces/${localWorkspaceFolderBasename}/backend,type=bind",
+    "source=${localWorkspaceFolder}/backend,target=/var/www/html,type=bind"
+  ],
+  "forwardPorts": [80, 8080],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "features": {}
+}
