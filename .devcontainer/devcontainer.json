@@ -10,6 +10,7 @@
 	"postCreateCommand": "npm install --prefix /workspace/frontend",
 	"mounts": [
 	  "source=${localWorkspaceFolder}/frontend,target=/workspace/frontend,type=bind",
+	  "source=${localWorkspaceFolder}/backend,target=/workspace/backend,type=bind",
 	  "source=${localWorkspaceFolder}/backend,target=/var/www/html,type=bind"
 	],
 	"forwardPorts": [80, 8080],
