@@ -10,35 +10,32 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    && docker-php-ext-install mysqli zip pdo pdo_mysql \
-    && apt-get clean
+    curl \
+    vim \
+    nodejs \
+    npm \
+    && docker-php-ext-install mysqli zip pdo pdo_mysql
 
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
-# Install Composer (Pinning a version to avoid issues with the latest)
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Copy backend code to Apache's document root
+COPY backend /var/www/html
 
 # Set the working directory
 WORKDIR /var/www/html
-
-# Copy only composer files to install dependencies
-COPY composer.json composer.lock /var/www/html/
-
-# Install PHP dependencies
-RUN composer install
-
-# Copy the application code to the container
-COPY ./backend /var/www/html/
-
-# Set proper file permissions
-RUN chown -R www-data:www-data /var/www/html
 
 # Update the Apache configuration to use the public directory as the document root
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
 # Update the Apache configuration to allow .htaccess overrides
 RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 
 # Expose port 80
 EXPOSE 80
