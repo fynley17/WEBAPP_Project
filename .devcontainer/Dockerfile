@@ -24,6 +24,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy backend code to Apache's document root
 COPY backend /var/www/html
+RUN composer install --working-dir=/var/www/html
 
 # Set the working directory
 WORKDIR /var/www/html
