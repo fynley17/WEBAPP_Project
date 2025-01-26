@@ -128,7 +128,7 @@ class User extends Model
 
         // Build dynamic query
         $fields = [];
-        $params = ['userID' => $id];
+        $params = ['id' => $id];
         if ($username) {
             $fields[] = "username = :username";
             $params['username'] = $username;
@@ -154,7 +154,7 @@ class User extends Model
             $params['jobTitle'] = $job_title;
         }
         if ($access_level) {
-            $fields[] = "accessLevel =:accessLevel";
+            $fields[] = "accessLevel = :accessLevel";
             $params['accessLevel'] = $access_level;
         }
 
