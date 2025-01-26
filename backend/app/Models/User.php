@@ -33,7 +33,7 @@ class User extends Model
             throw new \InvalidArgumentException('Invalid username format');
         }
         $username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
-        $stmt = self::getDB()->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt = self::getDB()->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
         $stmt->bindValue(':username', $username, \PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
