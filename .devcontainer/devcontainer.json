@@ -1,21 +1,25 @@
 {
-  "name": "PHP + Vue Dev Container",
-  "dockerFile": "Dockerfile",
-  "context": "..",
-  "customizations": {
-    "settings": {
-      "terminal.integrated.defaultProfile.linux": "/bin/bash"
-    }
-  },
-  "postCreateCommand": "npm install --prefix /workspaces/${localWorkspaceFolderBasename}/frontend",
-  "mounts": [
-    "source=${localWorkspaceFolder}/frontend,target=/workspaces/${localWorkspaceFolderBasename}/frontend,type=bind",
-    "source=${localWorkspaceFolder}/backend,target=/var/www/html,type=bind"
-  ],
-  "forwardPorts": [
-    80,
-    8080
-  ],
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  "features": {}
-}
+    "name": "Vue + PHP (Apache) Dev Container",
+    "dockerComposeFile": "./docker-compose.yml",
+    "service": "frontend",
+    "workspaceFolder": "/usr/src/app",
+    "shutdownAction": "stopCompose",
+    "postCreateCommand": "npm install",
+    "customizations": {
+        "extensions": [
+            "dbaeumer.vscode-eslint",
+            "ms-vscode.vscode-typescript-tslint-plugin",
+            "esbenp.prettier-vscode"
+        ],
+        "settings": {
+            "editor.formatOnSave": true,
+            "eslint.autoFixOnSave": true
+        }
+    },
+    "forwardPorts": [
+      8080,
+      80
+    ],
+    "remoteUser": "vscode"
+  }
+  
