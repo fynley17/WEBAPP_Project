@@ -4,7 +4,6 @@
     "service": "frontend",
     "workspaceFolder": "/usr/src/app",
     "shutdownAction": "stopCompose",
-    "postCreateCommand": "npm install",
     "customizations": {
         "extensions": [
             "dbaeumer.vscode-eslint",
@@ -19,6 +18,7 @@
     "forwardPorts": [
       8080,
       80
-    ]
+    ],
+    "remoteUser": "vscode"
   }
   
