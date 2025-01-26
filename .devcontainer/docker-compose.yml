@@ -2,21 +2,21 @@ version: '3'
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ../frontend
     ports:
       - "8080:8080"
     volumes:
-      - ./frontend:/usr/src/app
+      - ../frontend:/usr/src/app
     working_dir: /usr/src/app
     command: ["npm", "run", "serve"]
 
   backend:
     build:
-      context: ./backend
+      context: ../backend
     ports:
       - "80:80"
     volumes:
-      - ./backend:/var/www/html
+      - ../backend:/var/www/html
     networks:
       - app-network
 
