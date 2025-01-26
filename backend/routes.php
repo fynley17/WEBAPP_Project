@@ -3,6 +3,7 @@
 use App\Controllers\UserController;
 use App\Controllers\CourseController;
 use App\Controllers\AssignmentController;
+use App\Controllers\AuthController;
 use App\Router;
 
 // Initialise the router
@@ -31,5 +32,6 @@ $router->addRoute('GET', '/^\\/api\\/assignments\\/([^\\/]+)$/', [new Assignment
 $router->addRoute('DELETE', '/^\\/api\\/assignments\\/(\\d+)$/', [new AssignmentController(), 'deleteAssignment']);
 $router->addRoute('POST', '/^\\/api\\/assignments$/', [new AssignmentController(), 'createAssignment']);
 $router->addRoute('PATCH', '/^\\/api\\/assignments\\/(\\d+)$/', [new AssignmentController(), 'updateAssignment']);
+
 
 return $router;
