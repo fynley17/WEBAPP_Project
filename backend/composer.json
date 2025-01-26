@@ -2,7 +2,8 @@
     "name": "vendor/backend",
     "type": "phpdotenv",
     "require": {
-        "vlucas/phpdotenv": "^5.6"
+        "vlucas/phpdotenv": "^5.6",
+        "firebase/php-jwt": "*"
     },
     "authors": [
         {
