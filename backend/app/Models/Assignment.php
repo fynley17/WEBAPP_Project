@@ -112,7 +112,8 @@ class Assignment extends Model
         return $stmt->execute();
     }
 
-    public static function update($id,$data){
+    public static function update($id, $data)
+    {
         if (!is_numeric($id) || $id <= 0) {
             throw new \InvalidArgumentException('Invalid assignment ID');
         }
@@ -120,35 +121,36 @@ class Assignment extends Model
         $courseID = isset($data['courseID']) ? htmlspecialchars(trim($data['courseID']), ENT_QUOTES, 'utf-8') : null;
         $userID = isset($data['userID']) ? htmlspecialchars(trim($data['userID']), ENT_QUOTES, 'utf-8') : null;
 
-        if ($userID && !preg_match("/\d+/",$data['userID'])){
+        if ($userID && !preg_match("/\d+/", $data['userID'])) {
             throw new \InvalidArgumentException('invalid userID format');
         }
-        if ($courseID && !preg_match("/\d+/",$data['courseID'])){
+        if ($courseID && !preg_match("/\d+/", $data['courseID'])) {
             throw new \InvalidArgumentException('invalid courseID format');
         }
 
         $fields = [];
         $params = ['id' => $id];
-        if($userID) {
-            $feilds[] = "userID = :userID";
+        if ($userID) {
+            $fields[] = "userID = :userID";
             $params['userID'] = $userID;
         }
         if ($courseID) {
-            $feilds[] = "courseID = :courseID";
+            $fields[] = "courseID = :courseID";
             $params['courseID'] = $courseID;
         }
 
-        if (empty($feilds)) {
-            throw new \InvalidArgumentException('no valid feilds to update');
+        if (empty($fields)) {
+            throw new \InvalidArgumentException('no valid fields to update');
         }
 
-        $sql = "UPDATE assignments SET " . implode(', ', $fields) . " WHERE userID = :id";
+        $sql = "UPDATE assignments SET " . implode(', ', $fields) . " WHERE assignmentID = :id";
         $stmt = self::getDB()->prepare($sql);
         foreach ($params as $key => $value) {
             $stmt->bindValue(":$key", $value);
         }
         return $stmt->execute();
     }
+
 
     public static function validUsername($username)
     {
