@@ -128,7 +128,7 @@ class Assignment extends Model
         }
 
         $fields = [];
-        $params = ['assignmentID' => $id];
+        $params = ['id' => $id];
         if($userID) {
             $feilds[] = "userID = :userID";
             $params['userID'] = $userID;

@@ -107,7 +107,7 @@ class Course extends Model
         }
 
         $fields = [];
-        $params = ['courseID' => $id];
+        $params = ['id' => $id];
         if ($cTitle) {
             $fields[] = "cTitle = :cTitle";
             $params['cTitle'] = $cTitle;
