@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     nano \
-    npm \ 
+    npm \
     sudo \
     && docker-php-ext-install mysqli zip pdo pdo_mysql \
     && apt-get clean
