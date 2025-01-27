@@ -13,6 +13,3 @@ COPY . .
 
 # Expose the port that the Vue app will run on
 EXPOSE 8080
-
-# Start the Vue development server
-CMD ["npm", "run", "serve"]
