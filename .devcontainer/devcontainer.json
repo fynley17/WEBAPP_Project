@@ -1,22 +1,17 @@
 {
-    "name": "Vue + PHP (Apache) Dev Container",
-    "dockerComposeFile": "./docker-compose.yml",
-    "service": "frontend",
-    "workspaceFolder": "/workspace",
-    "customizations": {
-        "extensions": [
-            "dbaeumer.vscode-eslint",
-            "ms-vscode.vscode-typescript-tslint-plugin",
-            "esbenp.prettier-vscode"
-        ],
-        "settings": {
-            "editor.formatOnSave": true,
-            "eslint.autoFixOnSave": true
-        }
-    },
-    "forwardPorts": [
-      8080,
-      80
-    ]
+  "name": "Staff Enrolment - Dev Container",
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "backend",
+  "workspaceFolder": "/workspaces/WEBAPP_Project",
+  "forwardPorts": [80,8080],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker", // Docker Support
+        "bmewburn.vscode-intelephense-client", // PHP IntelliSense
+        "geeebe.duplicate" // Duplicate Line 'Ctrl + D'
+      ]
+    }
   }
+}
   
