@@ -3,7 +3,7 @@
         'name' => 'vendor/backend',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '989f879d85af41b0beafcfb6a72f9dd20f0f5416',
+        'reference' => 'ae941e26ae6989152f55f4b0db8015b3f08c1230',
         'type' => 'phpdotenv',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -67,7 +67,7 @@
         'vendor/backend' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '989f879d85af41b0beafcfb6a72f9dd20f0f5416',
+            'reference' => 'ae941e26ae6989152f55f4b0db8015b3f08c1230',
             'type' => 'phpdotenv',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
