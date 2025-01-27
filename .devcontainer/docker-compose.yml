@@ -6,6 +6,7 @@ services:
       - "8080:8080"
     volumes:
       - ../frontend:/usr/src/app
+      - ..:/workspace
     working_dir: /usr/src/app
     networks:
       - app-network
@@ -17,6 +18,7 @@ services:
       - "80:80"
     volumes:
       - ../backend:/var/www/html
+      - ..:/workspace
     networks:
       - app-network
 
