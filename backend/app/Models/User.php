@@ -124,7 +124,7 @@ class User extends Model
         }        
         // Build dynamic query
         $fields = [];
-        $params = ['userid' => $id];
+        $params = ['id' => $id];
         if ($username) {
             $fields[] = "username = :username";
             $params['username'] = $username;
