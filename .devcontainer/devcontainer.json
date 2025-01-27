@@ -2,7 +2,7 @@
     "name": "Vue + PHP (Apache) Dev Container",
     "dockerComposeFile": "./docker-compose.yml",
     "service": "frontend",
-    "workspaceFolder": "/usr/src/app",
+    "workspaceFolder": "/workspace",
     "customizations": {
         "extensions": [
             "dbaeumer.vscode-eslint",
