@@ -6,6 +6,19 @@ use App\Controllers\AssignmentController;
 use App\Controllers\AuthController;
 use App\Router;
 
+// Allow requests from the frontend origin
+header("Access-Control-Allow-Origin: http://127.0.0.1:8080");
+// Allow specific HTTP methods
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+// Allow specific headers
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+// Handle preflight requests (OPTIONS method)
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(204); // No content
+    exit;
+}
+
 // Initialise the router
 $router = new Router();
 

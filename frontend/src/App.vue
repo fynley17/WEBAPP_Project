@@ -6,7 +6,8 @@ import axios from 'axios'
 <template>
 </template> -->
 <template>
-  <div>
+  <div v-for="user in users" :key="user.id">
+    <h2>{{ user.id }} {{ user.username }}</h2>
   </div>
 </template>
 
@@ -14,9 +15,17 @@ import axios from 'axios'
 import axios from 'axios'
 
 export default {
+  data() {
+    return {
+      users:[]
+    }
+  },
   mounted() {
     axios
       .get('http://localhost/api/users')
+      .then((response) => {
+        this.users = response.data
+      })
   }
 }
 </script>
