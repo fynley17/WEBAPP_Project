@@ -3,5 +3,7 @@ import Login from './components/Login.vue'
 </script>
 
 <template>
-  <Login />
+  <div>
+    <Login />
+  </div>
 </template>

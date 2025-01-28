@@ -1,45 +1,33 @@
-<script>
-import { ref, onMounted } from 'vue'
-
-export default {
-  setup() {
-    const name = ref('')
-    const el = ref()
-    const submitForm = () => {
-      console.log(`Form submitted! Name = ${name.value}`)
-    }
-
-    onMounted(() => {
-      el.value.focus()
-    })
-
-    return {
-      name,
-      submitForm,
-      el,
-    }
-  }
-}
-</script>
-
 <template>
-  <div>
-    <h1>Login</h1>
-    <input ref="el" type="text" placeholder="Username" v-model="name" />
-    <div>
-      <button @click="submitForm" v-bind:disabled="name.length == 0">
-        Submit
-      </button>
+  <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="row mt-5">
+      <div class="col">
+        <form class="bg-dark p-4 rounded">
+          <div class="form-floating mb-3">
+            <input type="text" name="username" class="form-control" id="username" placeholder="Username">
+            <label for="username">Username</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" name="password" class="form-control" id="password" placeholder="Password">
+            <label for="password">Password</label>
+          </div>
+          <button class="btn btn-primary form-control">Login</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
 
-<style>
-input[type='text'] {
-  padding: 5px;
+<script>
+export default {
+  name: 'LoginView',
+  data(){
+    return{
+        input:{
+            username: "",
+            password: ""
+        }
+    }
+  }
 }
-
-button {
-  margin-top: 20px;
-}
-</style>
+</script>

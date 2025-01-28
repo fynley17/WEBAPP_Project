@@ -68,7 +68,7 @@ class User extends Model
 
         $username = htmlspecialchars(trim($data['username']), ENT_QUOTES, 'UTF-8');
         $email = htmlspecialchars(trim($data['email']), ENT_QUOTES, 'UTF-8');
-        $password = password_hash(trim($data['password']), PASSWORD_BCRYPT);
+        $password = htmlspecialchars(password_hash(trim($data['password']), PASSWORD_BCRYPT));
         $firstname = htmlspecialchars($data['firstName'], ENT_QUOTES, 'UTF-8');
         $lastname = htmlspecialchars($data['lastName'], ENT_QUOTES, 'UTF-8');
         $job_title = htmlspecialchars($data['jobTitle'], ENT_QUOTES, 'UTF-8');
@@ -96,7 +96,7 @@ class User extends Model
         // Validate and sanitize input
         $username = isset($data['username']) ? htmlspecialchars(trim($data['username']), ENT_QUOTES, 'UTF-8') : null;
         $email = isset($data['email']) ? htmlspecialchars(trim($data['email']), ENT_QUOTES, 'UTF-8') : null;
-        $password = isset($data['password']) ? password_hash(trim($data['password']), PASSWORD_BCRYPT) : null;
+        $password = isset($data['password']) ? htmlspecialchars(password_hash(trim($data['password']), PASSWORD_BCRYPT)) : null;
         $firstname = isset($data['firstName']) ? htmlspecialchars($data['firstName'], ENT_QUOTES, 'UTF-8') : null;
         $lastname = isset($data['lastName']) ? htmlspecialchars($data['lastName'], ENT_QUOTES, 'UTF-8') : null;
         $job_title = isset($data['jobTitle']) ? htmlspecialchars($data['jobTitle'], ENT_QUOTES, 'UTF-8') : null;
