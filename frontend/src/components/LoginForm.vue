@@ -19,15 +19,4 @@
 </template>
 
 <script>
-export default {
-  name: 'LoginView',
-  data(){
-    return{
-        input:{
-            username: "",
-            password: ""
-        }
-    }
-  }
-}
 </script>
