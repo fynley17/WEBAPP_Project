@@ -17,12 +17,12 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      users:[]
+      users: []
     }
   },
   mounted() {
     axios
-      .get('http://localhost/api/users')
+      .get('http://ws381211-wad.remote.ac/api/users')
       .then((response) => {
         this.users = response.data
       })
