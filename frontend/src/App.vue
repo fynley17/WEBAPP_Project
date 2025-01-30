@@ -22,7 +22,7 @@ export default {
   },
   mounted() {
     axios
-      .get('http://localhost/api/users')
+      .get('https://ws381211-wad.remote.ac/api/users')
       .then((response) => {
         this.users = response.data
       })
