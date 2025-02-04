@@ -1,10 +1,3 @@
-<!-- <script setup>
-import Login from './components/LoginForm.vue'
-import axios from 'axios'
-</script>
-
-<template>
-</template> -->
 <template>
   <div v-for="user in users" :key="user.id">
     <h2>{{ user.userID }} {{ user.username }}</h2>
