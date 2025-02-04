@@ -12,4 +12,4 @@ RUN npm install
 COPY . .
 
 # Expose the port that the Vue app will run on
-EXPOSE 8080
+EXPOSE 5173
