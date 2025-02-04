@@ -7,7 +7,7 @@ use App\Controllers\AuthController;
 use App\Router;
 
 // Allow requests from the frontend origin
-header("Access-Control-Allow-Origin: http://127.0.0.1:5173");
+header("Access-Control-Allow-Origin: https://ws381211-wad.remote.ac/");
 // Allow specific HTTP methods
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 // Allow specific headers
