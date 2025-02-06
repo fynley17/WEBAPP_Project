@@ -53,7 +53,7 @@ class AuthController extends Controller
                 $token = \App\Helpers\Jwt::generate_jwt($payload);
 
                 // Return the token to the client
-                $this->jsonResponse(['message' => 'Login successful', 'token' => $token]);
+                $this->jsonResponse(['message' => 'Login successful', 'token' => $token, 'accessLevel' => $user['accessLevel']]);
             } else {
                 // If password is incorrect
                 $this->jsonResponse(['error' => 'Invalid credentials'], 401);

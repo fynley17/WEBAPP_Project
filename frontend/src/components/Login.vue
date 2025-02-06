@@ -49,9 +49,10 @@ export default {
                     // Store session or redirect user here
                 }
 
+
                 if (response.data.token) {
                     localStorage.setItem('token', response.data.token);
-                    const userRole = response.data.role;
+                    const userRole = response.data.accessLevel;
                     if (userRole === 'admin') {
                         this.$router.push('/admin');
                     } else {
