@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../components/Login.vue';
-// import AdminDashboard from '/../views/AdminDashboard';
-// import StaffDashboard from '/../views/StaffDashboard';
+import Admin from '../components/DashboardAdmin.vue';
+import Staff from '../components/DashboardStaff.vue';
 
 const routes = [
-  { path: '/', component: Login }
-  // { path: '/admin', component: AdminDashboard, meta: { requiresAuth: true, role: 'admin' } },
-  // { path: '/staff', component: StaffDashboard, meta: { requiresAuth: true, role: 'staff' } }
+  { path: '/', component: Login },
+  { path: '/admin', component: Admin, meta: { requiresAuth: true, role: 'admin' } },
+  { path: '/staff', component: Staff, meta: { requiresAuth: true, role: 'staff' } }
 ];
 
 const router = createRouter({
