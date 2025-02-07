@@ -1,18 +1,22 @@
 <template>
-    <div>
-      <h2>Staff Dashboard</h2>
-      <button @click="logout">Logout</button>
-    </div>
-  </template>
+  <header>
+    <Nav />
+  </header>
+  <div>
+    <h2>Staff Dashboard</h2>
+    <CardGrid />
+  </div>
+</template>
   
-  <script>
+<script>
+  import Nav from '../components/Nav.vue';
+  import CardGrid from '../components/CardGrid.vue';
+
   export default {
-    methods: {
-      logout() {
-        localStorage.removeItem('token');
-        this.$router.push('/');
-      }
+    components: {
+      Nav,
+      CardGrid
     }
   };
-  </script>
+</script>
   
