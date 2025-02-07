@@ -3,9 +3,9 @@
       <h2>Admin Dashboard</h2>
       <button @click="logout">Logout</button>
     </div>
-  </template>
+</template>
   
-  <script>
+<script>
   export default {
     methods: {
       logout() {
@@ -14,5 +14,5 @@
       }
     }
   };
-  </script>
+</script>
   
