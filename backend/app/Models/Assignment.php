@@ -15,7 +15,9 @@ class Assignment extends Model
                 courses.cDuration,
                 courses.maxAttendees,
                 courses.cDescription,
-                COUNT(assignments.userID) AS currentAttendence
+                (SELECT COUNT(DISTINCT assignments.userID) 
+                FROM assignments 
+                WHERE assignments.courseID = courses.courseID) AS currentAttendence
             FROM
                 assignments
             JOIN
@@ -23,9 +25,10 @@ class Assignment extends Model
             JOIN
                 courses ON courses.courseID = assignments.courseID
             GROUP BY
-                courses.courseID, users.username");
+                courses.courseID, users.userID");
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
 
     public static function delete($id)
     {
@@ -51,7 +54,9 @@ class Assignment extends Model
                 courses.cDuration,
                 courses.maxAttendees,
                 courses.cDescription,
-                COUNT(assignments.userID) AS currentAttendence
+                (SELECT COUNT(DISTINCT assignments.userID) 
+                FROM assignments 
+                WHERE assignments.courseID = courses.courseID) AS currentAttendence
             FROM
                 assignments
             JOIN
@@ -81,7 +86,9 @@ class Assignment extends Model
                 courses.cDuration,
                 courses.maxAttendees,
                 courses.cDescription,
-                COUNT(assignments.userID) AS currentAttendence
+                (SELECT COUNT(DISTINCT assignments.userID) 
+                FROM assignments 
+                WHERE assignments.courseID = courses.courseID) AS currentAttendence
             FROM 
                 assignments 
             JOIN
@@ -89,7 +96,9 @@ class Assignment extends Model
             JOIN
                 courses ON courses.courseID = assignments.courseID 
             WHERE
-                users.username = :username");
+                users.username = :username
+            GROUP BY
+                courses.courseID, users.username");
         $stmt->bindValue(':username', $username, \PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);

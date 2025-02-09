@@ -1,8 +1,8 @@
 <template>
     <div class="container mt-4">
       <h2 class="mb-4">Your Courses</h2>
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <div class="col" v-for="course in courses" :key="course.username">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-3" style="background-color: lightgrey;">
+        <div class="col mt-0" v-for="course in courses" :key="course.username">
           <div class="card h-100 small-card">
             <div class="card-body">
               <!-- Title (top left) and Date (top right) -->
