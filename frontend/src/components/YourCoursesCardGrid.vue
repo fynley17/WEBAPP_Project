@@ -149,7 +149,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    -webkit-line-clamp: 3; /* Limit the text to 3 lines */
+    -webkit-line-clamp: 2; /* Limit the text to 3 lines */
     position: relative;
   }
 
