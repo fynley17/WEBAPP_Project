@@ -4,18 +4,21 @@
   </header>
   <div>
     <h2>Staff Dashboard</h2>
-    <CardGrid :username="username"/>
+    <YourCoursesCardGrid :username="username"/>
+    <CoursesCardGird />
   </div>
 </template>
   
 <script>
 import Nav from '../components/Nav.vue';
-import CardGrid from '../components/CardGrid.vue';
+import YourCoursesCardGrid from '../components/YourCoursesCardGrid.vue';
+import CoursesCardGird from '../components/CoursesCardGird.vue';
 
 export default {
   components: {
     Nav,
-    CardGrid
+    YourCoursesCardGrid,
+    CoursesCardGird
   },
   data() {
     return {

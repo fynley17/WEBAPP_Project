@@ -97,12 +97,10 @@ class Assignment extends Model
             JOIN
                 courses ON courses.courseID = assignments.courseID 
             WHERE
-                users.username = :username
-            GROUP BY
-                courses.courseID, users.username");
+                users.username = :username");
         $stmt->bindValue(':username', $username, \PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public static function create($data)
