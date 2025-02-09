@@ -22,13 +22,15 @@
               <!-- Description -->
               <p class="card-text">{{ course.cDescription }}</p>
             </div>
-            <div class="card-footer p-2">
+            <div class="card-footer p-2 d-flex justify-content-between">
               <button class="btn btn-sm btn-primary">View Details</button>
+              <button class="btn btn-sm btn-secondary " @click="Delete(course.assignmentID)">Delete</button>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <Modal :showModal="showModal" :message="modalMessage" @update:showModal="showModal = $event" />
   </template>
   
   <style>
@@ -60,6 +62,7 @@
   
 <script>
   import api from '../services/api'; 
+  import Modal from './Modal.vue';
   
   export default {
     props: {
@@ -68,6 +71,8 @@
     data() {
       return {
         courses: [],
+        showModal: false,
+        modalMessage: ''
       };
     },
     watch: {
@@ -91,7 +96,25 @@
         } catch (error) {
           console.error('Error fetching courses:', error);
         }
+      },
+      async Delete(assignmentID) {
+        try {
+          const response = await api.delete(`/assignments/${assignmentID}`);
+          this.modalMessage = response.data.message;  // Show the response message in modal
+          this.showModal = true;  // Show the modal
+
+          // Remove the course from the courses array
+          this.courses = this.courses.filter(course => course.assignmentID !== assignmentID);
+
+        } catch (error) {
+          console.error('Error deleting assignment:', error);
+          this.modalMessage = 'An error occurred while deleting the assignment.';
+          this.showModal = true;
+        }
       }
+    },
+    components: {
+      Modal  // Register the Modal component
     }
   };
   </script>

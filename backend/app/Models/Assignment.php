@@ -80,6 +80,7 @@ class Assignment extends Model
 
         $stmt = self::getDB()->prepare("
             SELECT
+                assignmentID,
                 users.username,
                 courses.cTitle,
                 courses.cDate,
