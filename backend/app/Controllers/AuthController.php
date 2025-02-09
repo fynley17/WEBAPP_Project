@@ -43,9 +43,10 @@ class AuthController extends Controller
             if (password_verify($password, $user['password'])) {
                 // Create JWT payload with user details
                 $payload = [
-                    'user_id' => $user['userID'],
+                    'user_id' => $user['username'],
                     'username' => $user['username'],
                     'access_level' => $user['accessLevel'],
+                    'username' => $username['username'],
                     'exp' => time() + 3600 // Expires in 1 hour
                 ];
 
@@ -53,7 +54,7 @@ class AuthController extends Controller
                 $token = \App\Helpers\Jwt::generate_jwt($payload);
 
                 // Return the token to the client
-                $this->jsonResponse(['message' => 'Login successful', 'token' => $token, 'accessLevel' => $user['accessLevel']]);
+                $this->jsonResponse(['message' => 'Login successful', 'token' => $token, 'accessLevel' => $user['accessLevel'], 'username' => $user['username']]);
             } else {
                 // If password is incorrect
                 $this->jsonResponse(['error' => 'Invalid credentials'], 401);

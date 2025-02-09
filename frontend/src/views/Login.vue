@@ -51,7 +51,9 @@ export default {
 
 
                 if (response.data.token) {
+                    console.log(response.data.userID)
                     localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('uaername', response.data.username)
                     const userRole = response.data.accessLevel;
                     if (userRole === 'admin') {
                         this.$router.push('/admin');

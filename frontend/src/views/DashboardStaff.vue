@@ -4,19 +4,27 @@
   </header>
   <div>
     <h2>Staff Dashboard</h2>
-    <CardGrid />
+    <CardGrid :username="username"/>
   </div>
 </template>
   
 <script>
-  import Nav from '../components/Nav.vue';
-  import CardGrid from '../components/CardGrid.vue';
+import Nav from '../components/Nav.vue';
+import CardGrid from '../components/CardGrid.vue';
 
-  export default {
-    components: {
-      Nav,
-      CardGrid
-    }
-  };
+export default {
+  components: {
+    Nav,
+    CardGrid
+  },
+  data() {
+    return {
+      username: null
+    };
+  },
+  mounted() {
+    this.username = localStorage.getItem('username'); // Corrected: Use userID
+    console.log("Retrieved userID:", this.username); // Corrected: Use this.userID
+  }
+};
 </script>
-  

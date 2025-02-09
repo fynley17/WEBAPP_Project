@@ -58,29 +58,40 @@
   </style>
   
   
-  <script>
-import api from '../services/api'; 
+<script>
+  import api from '../services/api'; 
   
   export default {
+    props: {
+      username: String // Accept username as a prop
+    },
     data() {
       return {
         courses: [],
-        userID: 1
       };
     },
-    mounted() {
-      this.fetchCourses();
+    watch: {
+      // Watch for changes to username and refetch courses if it updates
+      username: {
+        immediate: true, // Run this watcher immediately on component mount
+        handler(newusername) {
+          if (newusername) {
+            this.fetchCourses(newusername);
+          }
+        }
+      }
     },
     methods: {
-        async fetchCourses() {
-            try {
-            const response = await api.get(`/assignments/${this.userID}`);
-            console.log('API Response:', response.data); // Debugging
-            this.courses = Array.isArray(response.data) ? response.data : [response.data]; // Ensure it's an array
-            } catch (error) {
-            console.error('Error fetching courses:', error);
-            }
+      async fetchCourses(username) {
+        try {
+          console.log("Fetching courses for username:", username); // Debugging
+          const response = await api.get(`/assignments/${username}`);
+          console.log('API Response:', response.data);
+          this.courses = Array.isArray(response.data) ? response.data : [response.data]; 
+        } catch (error) {
+          console.error('Error fetching courses:', error);
         }
+      }
     }
   };
   </script>
