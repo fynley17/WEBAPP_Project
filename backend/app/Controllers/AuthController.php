@@ -46,7 +46,7 @@ class AuthController extends Controller
                     'user_id' => $user['username'],
                     'username' => $user['username'],
                     'access_level' => $user['accessLevel'],
-                    'username' => $username['username'],
+                    'username' => $user['username'],
                     'exp' => time() + 3600 // Expires in 1 hour
                 ];
 

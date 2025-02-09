@@ -90,16 +90,17 @@ class Assignment extends Model
                 courses ON courses.courseID = assignments.courseID 
             WHERE
                 users.username = :username");
-        $stmt->bindValue(':username', $username, \PDO::PARAM_INT);
+        $stmt->bindValue(':username', $username, \PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public static function create($data){
-        if (empty($data['userID']) || !preg_match("/\d+/", $data['userID'])){
+    public static function create($data)
+    {
+        if (empty($data['userID']) || !preg_match("/\d+/", $data['userID'])) {
             throw new \InvalidArgumentException('Invalid userID format');
         }
-        if (empty($data['courseID']) || !preg_match("/\d+/", $data['courseID'])){
+        if (empty($data['courseID']) || !preg_match("/\d+/", $data['courseID'])) {
             throw new \InvalidArgumentException('invalid courseID format');
         }
 
@@ -107,8 +108,8 @@ class Assignment extends Model
         $courseID = htmlspecialchars(trim($data['courseID']), ENT_QUOTES, 'utf-8');
 
         $stmt = self::getDB()->prepare("INSERT INTO `assignments`(`userID`, `courseID`) VALUES (:userID,:userID)");
-        $stmt->bindValue(':userID',$userID, \PDO::PARAM_INT);
-        $stmt->bindValue(':courseID',$courseID, \PDO::PARAM_INT);
+        $stmt->bindValue(':userID', $userID, \PDO::PARAM_INT);
+        $stmt->bindValue(':courseID', $courseID, \PDO::PARAM_INT);
         return $stmt->execute();
     }
 

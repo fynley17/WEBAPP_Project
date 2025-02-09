@@ -24,7 +24,7 @@ export default {
   },
   mounted() {
     this.username = localStorage.getItem('username'); // Corrected: Use userID
-    console.log("Retrieved userID:", this.username); // Corrected: Use this.userID
+    console.log("Retrieved username:", this.username); // Corrected: Use this.userID
   }
 };
 </script>
