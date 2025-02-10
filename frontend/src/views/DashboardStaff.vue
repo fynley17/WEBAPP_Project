@@ -5,7 +5,7 @@
   <div>
     <h2>Staff Dashboard</h2>
     <YourCoursesCardGrid :username="username"/>
-    <CoursesCardGird />
+    <CoursesCardGird v-if="userID" :userID="userID"/>
   </div>
 </template>
   
@@ -22,12 +22,17 @@ export default {
   },
   data() {
     return {
-      username: null
+      username: null,
+      userID: null
     };
   },
   mounted() {
-    this.username = localStorage.getItem('username'); // Corrected: Use userID
-    console.log("Retrieved username:", this.username); // Corrected: Use this.userID
+    this.username = localStorage.getItem('username') || ''; // Corrected: Use userID
+    this.userID = localStorage.getItem('userID') || '';
+    console.log("userID: ", this.userID);
+    this.$nextTick(() => {
+      console.log("userID after nextTick:", this.userID);
+    });
   }
 };
 </script>

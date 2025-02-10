@@ -24,7 +24,7 @@
           </div>
           <div class="card-footer p-2 d-flex justify-content-between">
             <button class="btn btn-sm btn-primary" @click="openModal(course)">View Details</button>
-            <button class="btn btn-sm btn-secondary">Register</button>
+            <button class="btn btn-sm btn-secondary" @click="Register(course.courseID)">Register</button>
           </div>
         </div>
       </div>
@@ -46,18 +46,18 @@
 
   export default {
     props: {
-      username: String
+      userID: String
     },
     data() {
       return {
         courses: [],
         showModal: false,
         modalMessage: '',
-        selectedCourse: null
+        selectedCourse: null,
       };
     },
     mounted() {
-      this.fetchCourses();  // Fetch courses when the component is mounted
+      this.fetchCourses();
     },
     methods: {
       async fetchCourses() {
@@ -73,6 +73,25 @@
       openModal(course) {
         this.selectedCourse = course;
         this.showModal = true;
+      },
+      async Register(courseID) {
+        console.log('userID: ',this.userID)
+        console.log('courseID: ',courseID)
+        try {
+          const response = await api.post("/assignments",{
+            userID: this.userID,
+            courseID: courseID,
+          },);
+
+          this.modalMessage = response.data.message;
+          this.selectedCourse = null;  // Ensure no course is selected when showing the delete message
+          this.showModal = true;
+        } catch(error) {
+          console.error('Error regerstering assignment:', error);
+          this.modalMessage = 'An error occurred while regerstering the assignment.';
+          this.selectedCourse = null;  // No course to show
+          this.showModal = true;
+        }
       }
     },
     components: {

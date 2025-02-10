@@ -10,6 +10,7 @@ class Course extends Model
     {
         $stmt = self::getDB()->query("
             SELECT 
+                courses.courseID,
                 courses.cTitle,
                 courses.cDate,
                 courses.cDuration,

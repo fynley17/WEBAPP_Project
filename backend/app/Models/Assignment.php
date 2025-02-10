@@ -114,10 +114,14 @@ class Assignment extends Model
 
         $userID = htmlspecialchars(trim($data['userID']), ENT_QUOTES, 'utf-8');
         $courseID = htmlspecialchars(trim($data['courseID']), ENT_QUOTES, 'utf-8');
+        $courseID = (int) $courseID;
+        $userID = (int) $userID;
 
-        $stmt = self::getDB()->prepare("INSERT INTO `assignments`(`userID`, `courseID`) VALUES (:userID,:userID)");
-        $stmt->bindValue(':userID', $userID, \PDO::PARAM_INT);
-        $stmt->bindValue(':courseID', $courseID, \PDO::PARAM_INT);
+
+        $query = "INSERT INTO assignments (courseID, userID) VALUES (:courseID, :userID)";
+        $stmt = self::getDB()->prepare($query);
+        $stmt->bindParam(':courseID', $courseID, \PDO::PARAM_INT);
+        $stmt->bindParam(':userID', $userID, \PDO::PARAM_INT);
         return $stmt->execute();
     }
 
