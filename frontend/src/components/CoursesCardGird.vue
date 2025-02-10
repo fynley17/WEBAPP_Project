@@ -8,7 +8,7 @@
             <!-- Title (top left) and Date (top right) -->
             <div class="d-flex justify-content-between">
               <h6 class="card-title mb-1">{{ course.cTitle }}</h6>
-              <p class="card-text text-end mb-1"><strong>Date:</strong> {{ course.cDate }}</p>
+              <p class="card-text text-end mb-1"><strong>{{ course.cDate }}</strong></p>
             </div>
             
             <!-- Duration (left) and Current Attendance / Max Attendees (right) -->

@@ -8,7 +8,18 @@ class Course extends Model
     // Fetch all courses
     public static function all()
     {
-        $stmt = self::getDB()->query("SELECT * FROM courses");
+        $stmt = self::getDB()->query("
+            SELECT 
+                courses.cTitle,
+                courses.cDate,
+                courses.cDuration,
+                courses.maxAttendees,
+                courses.cDescription,
+                (SELECT COUNT(DISTINCT assignments.userID) 
+                FROM assignments 
+                WHERE assignments.courseID = courses.courseID) AS currentAttendence
+            FROM
+                courses");
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
