@@ -117,6 +117,15 @@ class Assignment extends Model
         $courseID = (int) $courseID;
         $userID = (int) $userID;
 
+        $query = "SELECT COUNT(*) FROM assignments WHERE userID = :userID AND courseID = :courseID";
+        $stmt = self::getDB()->prepare($query);
+        $stmt->bindParam(':userID', $userID, \PDO::PARAM_INT);
+        $stmt->bindParam(':courseID', $courseID, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt->fetchColumn() > 0) {
+            throw new \Exception("User is already registered for this course.");
+        }
 
         $query = "INSERT INTO assignments (courseID, userID) VALUES (:courseID, :userID)";
         $stmt = self::getDB()->prepare($query);
