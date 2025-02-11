@@ -162,4 +162,16 @@
     height: 2em;  /* Height of the fading area */
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
   }
+
+  @media (max-width: 992px) {
+    .row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 576px) {
+    .row {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>

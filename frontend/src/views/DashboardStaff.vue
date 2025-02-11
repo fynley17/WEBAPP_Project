@@ -3,7 +3,6 @@
     <Nav />
   </header>
   <div>
-    <h2>Staff Dashboard</h2>
     <YourCoursesCardGrid :username="username" ref="yourCoursesGrid"/>
     <CoursesCardGird v-if="userID" :userID="userID" @course-registered="updateYourCourses"/>
   </div>
