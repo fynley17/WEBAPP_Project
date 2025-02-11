@@ -1,8 +1,8 @@
 <template>
   <div class="container mt-4">
     <h2 class="mb-4">Your Courses</h2>
-    <div class="row row-cols-1 row-cols-sm-3 row-cols-lg-5 g-1 p-3" style="background-color: lightgrey;">
-      <div class="col mt-0" v-for="course in courses" :key="course.assignmentID">
+    <div class="row p-3 rounded" style="background-color: #f4f4f4">
+      <div class="col" v-for="course in courses" :key="course.assignmentID">
         <div class="card h-100 small-card m-0">
           <div class="card-body">
             <!-- Title (top left) and Date (top right) -->
@@ -106,13 +106,14 @@
 
 <style scoped>
   .row {
-    gap: 5px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px; /* Adjust the gap as needed */
   }
 
   .col {
-    margin-bottom: 5px;
-    flex: 1 1 200px;
+    display: flex;
+    justify-content: center;
   }
 
   .card {

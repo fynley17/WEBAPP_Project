@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-4">
     <h2 class="mb-4">All Courses</h2>
-    <div class="row p-3" style="background-color: #f4f4f4">
+    <div class="row p-3 rounded" style="background-color: #f4f4f4">
       <div class="col" v-for="course in courses" :key="course.courseID">
         <div class="card h-100 small-card m-0">
           <div class="card-body">
