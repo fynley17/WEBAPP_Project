@@ -24,7 +24,7 @@
           </div>
           <div class="card-footer p-2 d-flex justify-content-between">
             <button class="btn btn-sm btn-primary" @click="openModal(course)">View Details</button>
-            <button class="btn btn-sm btn-secondary" @click="Register(course.courseID)">Register</button>
+            <button class="btn btn-sm btn-secondary" @click="Register(course.courseID)" :disabled="course.currentAttendence === course.maxAttendees">Register</button>
           </div>
         </div>
       </div>
