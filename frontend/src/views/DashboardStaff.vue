@@ -5,7 +5,7 @@
   <div>
     <h2>Staff Dashboard</h2>
     <YourCoursesCardGrid :username="username"/>
-    <CoursesCardGird v-if="userID" :userID="userID"/>
+    <CoursesCardGird v-if="userID" :userID="userID" @course-registered="updateYourCourses"/>
   </div>
 </template>
   
@@ -33,6 +33,11 @@ export default {
     this.$nextTick(() => {
       console.log("userID after nextTick:", this.userID);
     });
+  },
+  methods: {
+    updateYourCourses() {
+      this.$refs.YourCoursesCardGrid.fetchCourses(this.username);
+    }
   }
 };
 </script>
