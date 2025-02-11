@@ -4,7 +4,7 @@
   </header>
   <div>
     <h2>Staff Dashboard</h2>
-    <YourCoursesCardGrid :username="username"/>
+    <YourCoursesCardGrid :username="username" ref="yourCoursesGrid"/>
     <CoursesCardGird v-if="userID" :userID="userID" @course-registered="updateYourCourses"/>
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     updateYourCourses() {
-      this.$refs.YourCoursesCardGrid.fetchCourses(this.username);
+      this.$refs.yourCoursesGrid.fetchCourses(this.username);
     }
   }
 };

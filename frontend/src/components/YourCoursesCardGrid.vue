@@ -2,7 +2,7 @@
   <div class="container mt-4">
     <h2 class="mb-4">Your Courses</h2>
     <div class="row row-cols-1 row-cols-sm-3 row-cols-lg-5 g-1 p-3" style="background-color: lightgrey;">
-      <div class="col mt-0" v-for="course in courses" :key="course.courseID">
+      <div class="col mt-0" v-for="course in courses" :key="course.assignmentID">
         <div class="card h-100 small-card m-0">
           <div class="card-body">
             <!-- Title (top left) and Date (top right) -->
@@ -24,7 +24,7 @@
           </div>
           <div class="card-footer p-2 d-flex justify-content-between">
             <button class="btn btn-sm btn-primary" @click="openModal(course)">View Details</button>
-            <button class="btn btn-sm btn-secondary" @click="Delete(course.courseID)">Delete</button>
+            <button class="btn btn-sm btn-secondary" @click="Delete(course.assignmentID)">Delete</button>
           </div>
         </div>
       </div>

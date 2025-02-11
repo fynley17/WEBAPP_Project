@@ -75,20 +75,23 @@
         this.showModal = true;
       },
       async Register(courseID) {
-        console.log('userID: ',this.userID)
-        console.log('courseID: ',courseID)
+        console.log('userID: ', this.userID)
+        console.log('courseID: ', courseID)
         try {
-          const response = await api.post("/assignments",{
+          const response = await api.post("/assignments", {
             userID: this.userID,
             courseID: courseID,
-          },);
+          });
 
           this.modalMessage = response.data.message;
           this.selectedCourse = null;  // Ensure no course is selected when showing the delete message
           this.showModal = true;
-        } catch(error) {
-          console.error('Error regerstering assignment:', error);
-          this.modalMessage = 'An error occurred while regerstering the assignment.';
+
+          // Emit event after successful registration
+          this.$emit('course-registered');
+        } catch (error) {
+          console.error('Error registering assignment:', error);
+          this.modalMessage = 'An error occurred while registering the assignment.';
           this.selectedCourse = null;  // No course to show
           this.showModal = true;
         }
