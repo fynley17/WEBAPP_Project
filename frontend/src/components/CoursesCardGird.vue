@@ -8,7 +8,7 @@
             <!-- Title (top left) and Date (top right) -->
             <div class="d-flex justify-content-between">
               <h6 class="card-title mb-1">{{ course.cTitle }}</h6>
-              <p class="card-text text-end mb-1"><strong>{{ course.cDate }}</strong></p>
+              <p class="card-text text-end mb-1 nowrap"><strong>{{ course.cDate }}</strong></p>
             </div>
             
             <!-- Duration (left) and Current Attendance / Max Attendees (right) -->
@@ -89,6 +89,8 @@
 
           // Emit event after successful registration
           this.$emit('course-registered');
+
+          this.fetchCourses();  
         } catch (error) {
           console.error('Error registering assignment:', error);
           this.modalMessage = 'An error occurred while registering the assignment.';
@@ -142,6 +144,10 @@
 
   .card-title {
     font-size: 1rem;
+  }
+
+  .nowrap {
+    white-space: nowrap;
   }
 
   /* Add fading effect to overflowing text */

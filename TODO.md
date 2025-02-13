@@ -34,10 +34,11 @@
             - [x] select and enroll on course (create assignment for themselves)
             - [x] view courses they are on 
             - [x] remove their booking
-            - [ ] prevented on enrolling on a full course
+            - [x] prevented on enrolling on a full course
             - [ ] either dont show past corses or show them in a course history 
+            - [ ] remove option to register for course if already on one
     - admin
-        - [ ] give them s=the same functionality as staff
+        - [x] give them the same functionality as staff
         - [ ] user management page
             - [ ] show all users
             - [ ] be able to edit

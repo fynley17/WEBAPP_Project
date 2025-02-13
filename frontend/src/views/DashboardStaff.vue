@@ -36,6 +36,9 @@ export default {
   methods: {
     updateYourCourses() {
       this.$refs.yourCoursesGrid.fetchCourses(this.username);
+    },
+    updateAllCourses() {
+      this.$refs.coursesCardGrid.fetchCourses();
     }
   }
 };

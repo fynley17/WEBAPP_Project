@@ -83,7 +83,8 @@
           this.modalMessage = response.data.message;
           this.selectedCourse = null;  // Ensure no course is selected when showing the delete message
           this.showModal = true;
-
+          
+          this.$emit('course-deleted');
           // Remove the deleted course from the list
           this.courses = this.courses.filter(course => course.assignmentID !== assignmentID);
         } catch (error) {
