@@ -46,23 +46,26 @@ export default {
                 if (data.success) {
                     this.messageClass = "text-success";
                     alert("Login successful!");
-                    // Store session or redirect user here
                 }
 
 
                 if (response.data.token) {
-                    console.log(response.data.userID)
+
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('username', response.data.username);
                     localStorage.setItem('userID', response.data.userID);
-                    const userRole = response.data.accessLevel;
-                    if (userRole === 'admin') {
-                        this.$router.push('/admin');
-                    } else {
-                        this.$router.push('/staff');
-                    }
-                    }
+                    localStorage.setItem('user', JSON.stringify({ role: response.data.accessLevel }));
 
+                    const userRole = response.data.accessLevel;
+                    
+                    setTimeout(() => {
+                        if (userRole === 'admin') {
+                            this.$router.push('/admin');
+                        } else {
+                            this.$router.push('/staff');
+                        }
+                    }, 100);
+                }
             } catch (error) {
                 this.message = "Server error. Please try again.";
                 this.messageClass = "text-danger";
