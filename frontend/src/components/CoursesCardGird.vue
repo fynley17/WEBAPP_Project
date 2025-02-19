@@ -86,7 +86,7 @@
           this.fetchCourses();  // Refresh course data
         } catch (error) {
           console.error('Error registering assignment:', error);
-          this.modalMessage = 'An error occurred while registering the assignment.';
+          this.modalMessage = 'You are already assigned to this course.';
           this.showModal = true;
         }
       }
