@@ -27,10 +27,10 @@
               <td>
               <!-- Edit and Delete Buttons with Bootstrap spacing -->
               <button class="btn btn-warning btn-sm me-2" @click="editUser(user)">
-                <i class="fas fa-edit"></i> 
+                <i class="fas fa-edit"></i> Edit
               </button>
               <button class="btn btn-danger btn-sm" @click="deleteUser(user.userID)">
-                <i class="fas fa-trash"></i> 
+                <i class="fas fa-trash"></i> Delete
               </button>
             </td>
             </tr>
@@ -48,12 +48,12 @@
       @update:isAddingUser="isAddingUser = $event"
       :message="modalMessage" @user-added="fetchUsers()">
     </Modal>
-</template>
+  </template>
   
-<script>
+  <script>
   import api from '../services/api';
   import Modal from './Modal.vue';
-
+  
   export default {
     name: "UserManagement",
     data() {
@@ -81,28 +81,13 @@
       addUser() {
         this.isAddingUser = true; 
         this.showModal = true;
-      },
-      editUser(user) {
-        this.selectedCourse = user; // Pass the selected user to the modal for editing
-        this.isAddingUser = false;  // Set to false since we are editing
-        this.showModal = true;      // Show the modal for editing
-      },
-      async deleteUser(userID) {
-        try {
-          const response = await api.delete(`/users/${userID}`);
-          console.log('User deleted:', response.data);
-          this.fetchUsers(); // Refresh the user list after deletion
-        } catch (error) {
-          console.error('Error deleting user:', error);
-        }
       }
     },
     components: {
       Modal
     }
   };
-</script>
-
+  </script>
   
   <style scoped>
   .table {
@@ -113,8 +98,5 @@
     background-color: #f8f9fa;
     transition: 0.3s;
   }
-  .btn-sm {
-  margin-right: 5px;
-  }
-</style>
+  </style>
   
