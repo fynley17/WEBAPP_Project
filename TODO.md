@@ -16,7 +16,7 @@
         - [ ] show all courses they can enroll on
         - [ ] show all coures they are signed up to
     - [ ] admin desktop
-- [ ] login page
+- [x] login page
 - [ ] create page
     - [ ] user
     - [ ] courses
@@ -27,16 +27,18 @@
     - [ ] assignments
 - [ ] desktop page
     - staff
-        - [ ] course listing
-            - [ ] be able to see all courses and details about the course
-            - [ ] be able to see amount of people on course
+        - [x] course listing
+            - [x] be able to see all courses and details about the course
+            - [x] be able to see amount of people on course
         - [ ] course enrolement
-            - [ ] select and enroll on course (create assignment for themselves)
-            - [ ] view courses they are on 
-            - [ ] remove their booking
-            - [ ] prevented on enrolling on a full course
+            - [x] select and enroll on course (create assignment for themselves)
+            - [x] view courses they are on 
+            - [x] remove their booking
+            - [x] prevented on enrolling on a full course
+            - [ ] either dont show past corses or show them in a course history 
+            - [ ] remove option to register for course if already on one
     - admin
-        - [ ] give them s=the same functionality as staff
+        - [x] give them the same functionality as staff
         - [ ] user management page
             - [ ] show all users
             - [ ] be able to edit

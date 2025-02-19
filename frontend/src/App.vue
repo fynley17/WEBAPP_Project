@@ -1,31 +1,9 @@
-<!-- <script setup>
-import Login from './components/LoginForm.vue'
-import axios from 'axios'
-</script>
-
 <template>
-</template> -->
-<template>
-  <div v-for="user in users" :key="user.id">
-    <h2>{{ user.userID }} {{ user.username }}</h2>
-  </div>
+  <router-view />
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
-  data() {
-    return {
-      users: []
-    }
-  },
-  mounted() {
-    axios
-      .get('https://ws381211-wad.remote.ac/api/users')
-      .then((response) => {
-        this.users = response.data
-      })
-  }
-}
+  name: "App"
+};
 </script>

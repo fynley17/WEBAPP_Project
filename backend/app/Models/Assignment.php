@@ -15,7 +15,9 @@ class Assignment extends Model
                 courses.cDuration,
                 courses.maxAttendees,
                 courses.cDescription,
-                COUNT(assignments.userID) AS currentAttendence
+                (SELECT COUNT(DISTINCT assignments.userID) 
+                FROM assignments 
+                WHERE assignments.courseID = courses.courseID) AS currentAttendence
             FROM
                 assignments
             JOIN
@@ -23,9 +25,10 @@ class Assignment extends Model
             JOIN
                 courses ON courses.courseID = assignments.courseID
             GROUP BY
-                courses.courseID, users.username");
+                courses.courseID, users.userID");
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
 
     public static function delete($id)
     {
@@ -51,7 +54,9 @@ class Assignment extends Model
                 courses.cDuration,
                 courses.maxAttendees,
                 courses.cDescription,
-                COUNT(assignments.userID) AS currentAttendence
+                (SELECT COUNT(DISTINCT assignments.userID) 
+                FROM assignments 
+                WHERE assignments.courseID = courses.courseID) AS currentAttendence
             FROM
                 assignments
             JOIN
@@ -75,13 +80,16 @@ class Assignment extends Model
 
         $stmt = self::getDB()->prepare("
             SELECT
+                assignmentID,
                 users.username,
                 courses.cTitle,
                 courses.cDate,
                 courses.cDuration,
                 courses.maxAttendees,
                 courses.cDescription,
-                COUNT(assignments.userID) AS currentAttendence
+                (SELECT COUNT(DISTINCT assignments.userID) 
+                FROM assignments 
+                WHERE assignments.courseID = courses.courseID) AS currentAttendence
             FROM 
                 assignments 
             JOIN
@@ -90,25 +98,39 @@ class Assignment extends Model
                 courses ON courses.courseID = assignments.courseID 
             WHERE
                 users.username = :username");
-        $stmt->bindValue(':username', $username, \PDO::PARAM_INT);
+        $stmt->bindValue(':username', $username, \PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public static function create($data){
-        if (empty($data['userID']) || !preg_match("/\d+/", $data['userID'])){
+    public static function create($data)
+    {
+        if (empty($data['userID']) || !preg_match("/\d+/", $data['userID'])) {
             throw new \InvalidArgumentException('Invalid userID format');
         }
-        if (empty($data['courseID']) || !preg_match("/\d+/", $data['courseID'])){
+        if (empty($data['courseID']) || !preg_match("/\d+/", $data['courseID'])) {
             throw new \InvalidArgumentException('invalid courseID format');
         }
 
         $userID = htmlspecialchars(trim($data['userID']), ENT_QUOTES, 'utf-8');
         $courseID = htmlspecialchars(trim($data['courseID']), ENT_QUOTES, 'utf-8');
+        $courseID = (int) $courseID;
+        $userID = (int) $userID;
 
-        $stmt = self::getDB()->prepare("INSERT INTO `assignments`(`userID`, `courseID`) VALUES (:userID,:userID)");
-        $stmt->bindValue(':userID',$userID, \PDO::PARAM_INT);
-        $stmt->bindValue(':courseID',$courseID, \PDO::PARAM_INT);
+        $query = "SELECT COUNT(*) FROM assignments WHERE userID = :userID AND courseID = :courseID";
+        $stmt = self::getDB()->prepare($query);
+        $stmt->bindParam(':userID', $userID, \PDO::PARAM_INT);
+        $stmt->bindParam(':courseID', $courseID, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt->fetchColumn() > 0) {
+            throw new \Exception("User is already registered for this course.");
+        }
+
+        $query = "INSERT INTO assignments (courseID, userID) VALUES (:courseID, :userID)";
+        $stmt = self::getDB()->prepare($query);
+        $stmt->bindParam(':courseID', $courseID, \PDO::PARAM_INT);
+        $stmt->bindParam(':userID', $userID, \PDO::PARAM_INT);
         return $stmt->execute();
     }
 

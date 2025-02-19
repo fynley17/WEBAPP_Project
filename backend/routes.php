@@ -46,5 +46,7 @@ $router->addRoute('DELETE', '/^\\/api\\/assignments\\/(\\d+)$/', [new Assignment
 $router->addRoute('POST', '/^\\/api\\/assignments$/', [new AssignmentController(), 'createAssignment']);
 $router->addRoute('PATCH', '/^\\/api\\/assignments\\/(\\d+)$/', [new AssignmentController(), 'updateAssignment']);
 
+//authentication
+$router->addRoute('POST', '/^\\/api\\/login$/', [new AuthController(), 'login']);
 
 return $router;
