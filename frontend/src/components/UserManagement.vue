@@ -26,11 +26,11 @@
               <td>{{ user.accessLevel }}</td>
               <td>
               <!-- Edit and Delete Buttons with Bootstrap spacing -->
-              <button class="btn btn-warning btn-sm me-2" @click="editUser(user)">
-                <i class="fas fa-edit"></i> Edit
+              <button class="btn btn-sm" @click="editUser(user)">
+                <i class="fas fa-edit"></i>
               </button>
-              <button class="btn btn-danger btn-sm" @click="deleteUser(user.userID)">
-                <i class="fas fa-trash"></i> Delete
+              <button class="btn btn-sm" @click="deleteUser(user.userID)">
+                <i class="fas fa-trash"></i>
               </button>
             </td>
             </tr>
