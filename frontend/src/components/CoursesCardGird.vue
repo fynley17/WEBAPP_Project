@@ -62,9 +62,7 @@
     methods: {
       async fetchCourses() {
         try {
-          console.log("Fetching courses");
           const response = await api.get(`/courses`);
-          console.log('API Response:', response.data);
           this.courses = Array.isArray(response.data) ? response.data : [response.data];
         } catch (error) {
           console.error('Error fetching courses:', error);
@@ -75,8 +73,6 @@
         this.showModal = true;
       },
       async Register(courseID) {
-        console.log('userID: ', this.userID)
-        console.log('courseID: ', courseID)
         try {
           const response = await api.post("/assignments", {
             userID: this.userID,
@@ -84,17 +80,13 @@
           });
 
           this.modalMessage = response.data.message;
-          this.selectedCourse = null;  // Ensure no course is selected when showing the delete message
           this.showModal = true;
 
-          // Emit event after successful registration
-          this.$emit('course-registered');
-
-          this.fetchCourses();  
+          this.$emit('course-registered'); // Emit event
+          this.fetchCourses();  // Refresh course data
         } catch (error) {
           console.error('Error registering assignment:', error);
           this.modalMessage = 'An error occurred while registering the assignment.';
-          this.selectedCourse = null;  // No course to show
           this.showModal = true;
         }
       }

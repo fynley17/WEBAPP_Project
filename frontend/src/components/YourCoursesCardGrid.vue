@@ -81,16 +81,16 @@
         try {
           const response = await api.delete(`/assignments/${assignmentID}`);
           this.modalMessage = response.data.message;
-          this.selectedCourse = null;  // Ensure no course is selected when showing the delete message
           this.showModal = true;
           
-          this.$emit('course-deleted');
           // Remove the deleted course from the list
           this.courses = this.courses.filter(course => course.assignmentID !== assignmentID);
+
+          // Emit an event to notify the parent component
+          this.$emit('course-unregistered');
         } catch (error) {
           console.error('Error deleting assignment:', error);
           this.modalMessage = 'An error occurred while deleting the assignment.';
-          this.selectedCourse = null;  // No course to show
           this.showModal = true;
         }
       },

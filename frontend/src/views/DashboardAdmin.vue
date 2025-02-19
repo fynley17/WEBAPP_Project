@@ -5,8 +5,8 @@
   
   <div class="container fluid">
     <template v-if="selectedTab === 'yourCourses'">
-      <YourCoursesCardGrid :username="username" ref="yourCoursesGrid" />
-      <CoursesCardGird v-if="userID" :userID="userID" @course-registered="updateYourCourses" />
+      <YourCoursesCardGrid :username="username" ref="yourCoursesGrid" @course-unregistered="updateAllCourses" />
+      <CoursesCardGird v-if="userID" :userID="userID" ref="allCoursesGrid" @course-registered="updateYourCourses" />
     </template>
 
     <template v-else-if="selectedTab === 'userManagement'">
@@ -48,6 +48,9 @@ export default {
   methods: {
     updateYourCourses() {
       this.$refs.yourCoursesGrid.fetchCourses(this.username);
+    },
+    updateAllCourses() {
+      this.$refs.allCoursesGrid.fetchCourses();
     }
   }
 };
