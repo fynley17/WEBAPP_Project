@@ -81,7 +81,16 @@
       addUser() {
         this.isAddingUser = true; 
         this.showModal = true;
+      },
+      async deleteUser(userID) {
+      try {
+        const response = await api.delete(`/users/${userID}`);
+        console.log('User deleted:', response.data);
+        this.fetchUsers(); // Refresh the user list after deletion
+      } catch (error) {
+        console.error('Error deleting user:', error);
       }
+    }
     },
     components: {
       Modal
