@@ -12,6 +12,7 @@
               <th>Last Name</th>
               <th>Job</th>
               <th>Access Level</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -23,6 +24,15 @@
               <td>{{ user.lastName }}</td>
               <td>{{ user.jobTitle }}</td>
               <td>{{ user.accessLevel }}</td>
+              <td>
+              <!-- Edit and Delete Buttons with Bootstrap spacing -->
+              <button class="btn btn-warning btn-sm me-2" @click="editUser(user)">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="btn btn-danger btn-sm" @click="deleteUser(user.userID)">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </td>
             </tr>
           </tbody>
         </table>
