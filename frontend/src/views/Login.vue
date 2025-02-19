@@ -3,7 +3,7 @@
         <div class="row mt-5">
             <div class="col">
                 <form class="p-5 rounded border border-black shadow-lg form-container" @submit.prevent="login">
-                    <h1 class="text-center mb-4">Vortech</h1>
+                    <h1 class="text-center mb-4">MinimalTech</h1>
                     <div class="form-floating mb-4">
                         <input type="text" v-model="username" class="form-control form-control-lg" id="username" placeholder="Username">
                         <label for="username">Username</label>
