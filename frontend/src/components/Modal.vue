@@ -124,6 +124,7 @@ export default {
           accessLevel: ''
         };
         this.$emit('update:showModal', false);
+        this.$emit('user-added');
       } catch (error) {
         console.error('Error adding user:', error);
       }
