@@ -46,6 +46,9 @@
       :selectedCourse="selectedCourse" 
       :isAddingUser="isAddingUser" 
       @update:isAddingUser="isAddingUser = $event"
+      :selectedUser="selectedUser"
+      :isEditingUser="isEditingUser" 
+      @update:isEditingUser="isEditingUser = $event"
       :message="modalMessage" @user-added="fetchUsers()">
     </Modal>
   </template>
@@ -62,7 +65,9 @@
         showModal: false,
         modalMessage: '',
         selectedCourse: null,
-        isAddingUser: false
+        isAddingUser: false,
+        isEditingUser: false,
+        selectedUser: null
       };
     },
     mounted() {
@@ -80,6 +85,11 @@
       },
       addUser() {
         this.isAddingUser = true; 
+        this.showModal = true;
+      },
+      editUser(user) {
+        this.isEditingUser = true;
+        this.selectedUser = user;
         this.showModal = true;
       },
       async deleteUser(userID) {
