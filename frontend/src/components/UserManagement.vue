@@ -36,7 +36,7 @@
       :selectedCourse="selectedCourse" 
       :isAddingUser="isAddingUser" 
       @update:isAddingUser="isAddingUser = $event"
-      :message="modalMessage">
+      :message="modalMessage" @user-added="fetchUsers()">
     </Modal>
   </template>
   
