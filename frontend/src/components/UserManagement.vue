@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-4">
+    <div class="container mt-4 rounded border border-black shadow-lg">
       <h2 class="mb-4"> User Management</h2>
       <div class="table-responsive">
         <table class="table table-hover table-bordered align-middle">
@@ -27,17 +27,32 @@
           </tbody>
         </table>
       </div>
+      <button class="btn btn-primary p-1 mb-2" @click="addUser">Add User</button>
     </div>
+
+    <Modal 
+      :showModal="showModal" 
+      @update:showModal="showModal = $event" 
+      :selectedCourse="selectedCourse" 
+      :isAddingUser="isAddingUser" 
+      @update:isAddingUser="isAddingUser = $event"
+      :message="modalMessage">
+    </Modal>
   </template>
   
   <script>
   import api from '../services/api';
+  import Modal from './Modal.vue';
   
   export default {
     name: "UserManagement",
     data() {
       return {
         users: [],
+        showModal: false,
+        modalMessage: '',
+        selectedCourse: null,
+        isAddingUser: false
       };
     },
     mounted() {
@@ -53,7 +68,14 @@
           console.error('Error fetching users:', error);
         }
       },
+      addUser() {
+        this.isAddingUser = true; 
+        this.showModal = true;
+      }
     },
+    components: {
+      Modal
+    }
   };
   </script>
   
