@@ -269,6 +269,9 @@ export default {
       this.$emit('update:isEditingUser', false);
       this.$emit('update:isAddingCourse', false);
       this.$emit('update:isEditingCourse', false);
+      this.$emit('update:selectedCourse',null);
+      this.$emit('update:selectedUser',null);
+      this.$emit('viewCourse',false);
       this.formData = {
         firstName: '',
         lastName: '',
