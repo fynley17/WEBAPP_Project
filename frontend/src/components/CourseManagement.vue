@@ -37,7 +37,7 @@
           </tbody>
         </table>
       </div>
-      <button class="btn btn-primary p-1 mb-2" @click="addCourse">Add Course</button>
+      <button class="btn btn-primary p-1 mb-2" @click="addCourse()">Add Course</button>
     </div>
 
     <Modal 
@@ -53,12 +53,15 @@
       :selectedUser="selectedUser"
       :isEditingUser="isEditingUser" 
       @update:isEditingUser="isEditingUser = $event"
-      :message="modalMessage" @course-added="fetchCourses()">
+      :message="modalMessage"
+      @course-added="fetchCourses()">
     </Modal>
+
   </template>
   
   <script>
   import api from '../services/api';
+  import Modal from './Modal.vue';
   
   export default {
     name: "courseManagement",
@@ -89,25 +92,27 @@
         }
       },
       addCourse() {
-        this.isAddingCouse = true; 
+        this.isAddingCourse = true; 
         this.showModal = true;
       },
-      editUser(course) {
-        console.log(course);
+      editCourse(course) {
         this.isEditingCourse = true;
-        this.selectedCourse = course;
+        this.selectedCourse = course; // Fix: Correct the variable name here
         this.showModal = true;
       },
       async deleteCourse(courseID) {
         try {
           const response = await api.delete(`/courses/${courseID}`);
-          console.log('Course deleted:', response.data);
-          this.fetchCourses(); // Refresh the user list after deletion
+          console.log('course deleted:', response.data);
+          this.fetchCourses(); // Refresh the course list after deletion
         } catch (error) {
-          console.error('Error deleting user:', error);
+          console.error('Error deleting course:', error);
         }
       }
     },
+    components: {
+      Modal
+    }
   };
   </script>
   
@@ -128,7 +133,6 @@
     vertical-align: middle;
   }
   
-  /* ✅ Ensures the Date column has more space and fits in one line */
   .date-column {
     min-width: 150px; /* Adjust width as needed */
     white-space: nowrap; /* Prevents wrapping */
