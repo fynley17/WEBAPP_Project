@@ -12,6 +12,7 @@
               <th>Max Attendance</th>
               <th>Current Attendance</th>
               <th>Description</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -23,11 +24,37 @@
               <td>{{ course.maxAttendees }}</td>
               <td>{{ course.currentAttendence }}</td>
               <td>{{ course.cDescription }}</td>
+              <td>
+              <!-- Edit and Delete Buttons with Bootstrap spacing -->
+              <button class="btn btn-sm" @click="editCourse(course)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm" @click="deleteCourse(course.courseID)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
             </tr>
           </tbody>
         </table>
       </div>
+      <button class="btn btn-primary p-1 mb-2" @click="addCourse">Add Course</button>
     </div>
+
+    <Modal 
+      :showModal="showModal" 
+      @update:showModal="showModal = $event" 
+      :selectedCourse="selectedCourse"
+      :isAddingCourse="isAddingCourse" 
+      @update:isAddingCourse="isAddingCourse = $event"
+      :isEditingCourse="isEditingCourse" 
+      @update:isEditingCourse="isEditingCourse = $event"
+      :isAddingUser="isAddingUser" 
+      @update:isAddingUser="isAddingUser = $event"
+      :selectedUser="selectedUser"
+      :isEditingUser="isEditingUser" 
+      @update:isEditingUser="isEditingUser = $event"
+      :message="modalMessage" @course-added="fetchCourses()">
+    </Modal>
   </template>
   
   <script>
@@ -38,6 +65,14 @@
     data() {
       return {
         courses: [],
+        showModal: false,
+        modalMessage: '',
+        selectedCourse: null,
+        isAddingCourse: false,
+        isEditingCourse: false,
+        selectedUser: null,
+        isAddingUser: false,
+        isEditingUser: false
       };
     },
     mounted() {
@@ -53,6 +88,25 @@
           console.error('Error fetching courses:', error);
         }
       },
+      addCourse() {
+        this.isAddingCouse = true; 
+        this.showModal = true;
+      },
+      editUser(course) {
+        console.log(course);
+        this.isEditingCourse = true;
+        this.selectedCourse = course;
+        this.showModal = true;
+      },
+      async deleteCourse(courseID) {
+        try {
+          const response = await api.delete(`/courses/${courseID}`);
+          console.log('Course deleted:', response.data);
+          this.fetchCourses(); // Refresh the user list after deletion
+        } catch (error) {
+          console.error('Error deleting user:', error);
+        }
+      }
     },
   };
   </script>

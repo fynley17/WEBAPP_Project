@@ -9,7 +9,7 @@ use App\Router;
 // Allow requests from the frontend origin
 header("Access-Control-Allow-Origin: http://127.0.0.1:5174");
 // Allow specific HTTP methods
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, OPTIONS");
 // Allow specific headers
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 

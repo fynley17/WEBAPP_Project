@@ -36,6 +36,7 @@
     :showModal="showModal" 
     @update:showModal="showModal = $event" 
     :selectedCourse="selectedCourse" 
+    :viewCourse="viewCourse"
     :message="modalMessage">
   </Modal>
 </template>
@@ -54,6 +55,7 @@
         showModal: false,
         modalMessage: '',
         selectedCourse: null,
+        viewCourse: false
       };
     },
     mounted() {
@@ -70,6 +72,7 @@
       },
       openModal(course) {
         this.selectedCourse = course;
+        this.viewCourse = true;
         this.showModal = true;
       },
       async Register(courseID) {

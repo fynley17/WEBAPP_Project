@@ -5,7 +5,6 @@
     :class="{ 'show': showModal }" 
     :style="{ display: showModal ? 'block' : 'none' }" 
     aria-hidden="!showModal"
-    @click.self="closeModal"
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -15,7 +14,7 @@
         </div>
         <div class="modal-body">
           <!-- Check if selectedCourse is null -->
-          <div v-if="selectedCourse">
+          <div v-if="viewCourse">
             <p><strong>Date:</strong> {{ selectedCourse.cDate }}</p>
             <p><strong>Duration:</strong> {{ selectedCourse.cDuration }} days</p>
             <p><strong>Attendees:</strong> {{ selectedCourse.currentAttendence }} / {{ selectedCourse.maxAttendees }}</p>
@@ -108,6 +107,7 @@ export default {
   props: {
     showModal: Boolean,
     message: String,
+    viewCourse: Boolean,
     selectedCourse: Object,
     isAddingUser: Boolean,
     isEditingUser: Boolean,
@@ -128,15 +128,25 @@ export default {
   data() {
     return {
       formData: {
-        firstName: this.selectedUser ? this.selectedUser.firstName : '',
-        lastName: this.selectedUser ? this.selectedUser.lastName : '',
-        email: this.selectedUser ? this.selectedUser.email : '',
-        username: this.selectedUser ? this.selectedUser.username : '',
-        jobTitle: this.selectedUser ? this.selectedUser.jobTitle : '',
-        accessLevel: this.selectedUser ? this.selectedUser.accessLevel : ''
+        firstName: '',
+        lastName: '',
+        email: '',
+        username: '',
+        jobTitle: '',
+        accessLevel: ''
       },
       isPasswordVisible: false 
     };
+  },
+  watch: {
+    selectedUser: {
+      handler(newUser) {
+        if (newUser) {
+          this.formData = { ...newUser };
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
     togglePasswordVisibility() {
@@ -165,7 +175,7 @@ export default {
         return;
       }
       try {
-        await api.patch(`/users/${this.selectedUser.id}`, this.formData);
+        await api.patch(`/users/${this.selectedUser.userID}`, this.formData);
         console.log('User updated successfully');
 
         this.closeModal();

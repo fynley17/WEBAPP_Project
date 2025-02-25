@@ -35,6 +35,7 @@
   <Modal 
     :showModal="showModal" 
     @update:showModal="showModal = $event" 
+    :viewCourse="viewCourse"
     :selectedCourse="selectedCourse" 
     :message="modalMessage">
   </Modal>
@@ -53,7 +54,8 @@
         courses: [],
         showModal: false,
         modalMessage: '',
-        selectedCourse: null
+        selectedCourse: null,
+        viewCourse: false
       };
     },
     watch: {
@@ -96,6 +98,7 @@
       },
       openModal(course) {
         this.selectedCourse = course;
+        this.viewCourse = true;
         this.showModal = true;
       }
     },

@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-4 rounded border border-black shadow-lg">
+    <div class="container mt-4 rounded">
       <h2 class="mb-4"> User Management</h2>
       <div class="table-responsive">
         <table class="table table-hover table-bordered align-middle">
@@ -88,19 +88,20 @@
         this.showModal = true;
       },
       editUser(user) {
+        console.log(user);
         this.isEditingUser = true;
         this.selectedUser = user;
         this.showModal = true;
       },
       async deleteUser(userID) {
-      try {
-        const response = await api.delete(`/users/${userID}`);
-        console.log('User deleted:', response.data);
-        this.fetchUsers(); // Refresh the user list after deletion
-      } catch (error) {
-        console.error('Error deleting user:', error);
+        try {
+          const response = await api.delete(`/users/${userID}`);
+          console.log('User deleted:', response.data);
+          this.fetchUsers(); // Refresh the user list after deletion
+        } catch (error) {
+          console.error('Error deleting user:', error);
+        }
       }
-    }
     },
     components: {
       Modal
