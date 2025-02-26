@@ -16,6 +16,10 @@
     <template v-else-if="selectedTab === 'courseManagement'">
       <CourseManagement />
     </template>
+
+    <template v-else-if="selectedTab === 'assignmentManagement'">
+      <AssignmentManagement />
+    </template>
   </div>
 </template>
 
@@ -25,6 +29,7 @@ import YourCoursesCardGrid from '../components/YourCoursesCardGrid.vue';
 import CoursesCardGrid from '../components/CoursesCardGrid.vue';
 import UserManagement from '../components/UserManagement.vue';
 import CourseManagement from '../components/CourseManagement.vue';
+import AssignmentManagement from '../components/AssignmentManagement.vue';
 
 export default {
   components: {
@@ -32,7 +37,8 @@ export default {
     YourCoursesCardGrid,
     CoursesCardGrid,
     UserManagement,
-    CourseManagement
+    CourseManagement,
+    AssignmentManagement
   },
   data() {
     return {

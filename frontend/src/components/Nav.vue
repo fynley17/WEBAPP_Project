@@ -16,6 +16,9 @@
             <li class="nav-item">
               <button class="nav-link btn" @click="$emit('change-tab', 'courseManagement')">Course Management</button>
             </li>
+            <li class="nav-item">
+              <button class="nav-link btn" @click="$emit('change-tab', 'assignmentManagement')">Assignment Management</button>
+            </li>
           </ul>
         </div>
         <button class="d-flex btn btn-outline-danger" @click="logout()">Log Out</button>
