@@ -236,6 +236,14 @@ export default {
         }
       },
       immediate: true // This ensures it runs immediately when the component is created or selectedCourse changes
+    },
+    selectedAssignment: {
+      handler(newAssignment) {
+        if (newAssignment) {
+          this.assignmentFormData = { ...newAssignment }; // This will copy the selected course details into courseFormData
+        }
+      },
+      immediate: true // This ensures it runs immediately when the component is created or selectedCourse changes
     }
   },
   methods: {
@@ -280,6 +288,9 @@ export default {
       this.$emit('update:isEditingUser', false);
       this.$emit('update:isAddingCourse', false);
       this.$emit('update:isEditingCourse', false);
+      rhis.$emit('update:isAddingAssignment', false);
+      this.$emit('update:isEditingAssignment', false);
+      this.$emit('update:selectedAssignment', null);
       this.$emit('update:selectedCourse',null);
       this.$emit('update:selectedUser',null);
       this.$emit('viewCourse',false);
@@ -297,6 +308,10 @@ export default {
         cDuration: '',
         maxAttendees: '',
         cDescription: ''
+      };
+      this.assignmentFormData = {
+        userID: '',
+        courseID: ''
       };
     },
     async submitCourseForm() {
@@ -317,6 +332,26 @@ export default {
         this.$emit("course-added");
       } catch (error) {
         console.error("Error adding course:", error);
+      }
+    },
+    async submitAssignmentForm() {
+      console.log(this.assignmentFormData)
+      try {
+        await api.post("/assignments", this.assignmentFormData);
+        this.closeModal();
+        this.$emit("assignment-added");
+      } catch (error) {
+        console.error("Error adding assignment:", error);
+      }
+    },
+    async submitEditAssignmentForm() {
+      console.log(this.assignmentFormData)
+      try {
+        await api.patch(`/assignments/${this.selectedAssignment.assignmentID}`, this.assignmentFormData);
+        this.closeModal();
+        this.$emit("assignment-added");
+      } catch (error) {
+        console.error("Error adding assignment:", error);
       }
     }
   }
