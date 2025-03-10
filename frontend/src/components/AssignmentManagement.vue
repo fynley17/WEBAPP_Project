@@ -17,10 +17,7 @@
               <td>{{ assignment.username }}</td>
               <td>{{ assignment.cTitle }}</td>
               <td>
-              <!-- Edit and Delete Buttons with Bootstrap spacing -->
-              <button class="btn btn-sm" @click="editAssignment(assignment)">
-                <i class="fas fa-edit"></i>
-              </button>
+
               <button class="btn btn-sm" @click="deleteAssignment(assignment.assignmentID)">
                 <i class="fas fa-trash"></i>
               </button>
@@ -77,8 +74,8 @@
       async fetchAssignments() {
         try {
           const response = await api.get(`/assignments`);
-          console.log('API Response:', response.data);
-          this.assignments = Array.isArray(response.data) ? response.data : [response.data];
+          this.assignments = (Array.isArray(response.data) ? response.data : [response.data])
+          .sort((a, b) => a.assignmentID - b.assignmentID);
         } catch (error) {
           console.error('Error fetching assignments:', error);
         }

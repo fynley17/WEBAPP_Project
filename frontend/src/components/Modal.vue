@@ -4,7 +4,7 @@
     tabindex="-1" 
     :class="{ 'show': showModal }" 
     :style="{ display: showModal ? 'block' : 'none' }" 
-    aria-hidden="!showModal"
+    :aria-hidden="!showModal.toString()"
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -145,6 +145,29 @@
                 <button type="submit" class="btn btn-secondary w-100">Save Changes</button>
               </form>
           </div>
+          <div v-else-if="isAddingAssignment">
+            <h3 class="text-center">Add Assignment</h3>
+            <form @submit.prevent="submitAssignmentForm">
+              <div class="mb-3">
+                <select class="form-select" v-model="assignmentFormData.userID">
+                  <option selected disabled value="">Select User</option>
+                  <option v-for="user in users" :key="user.userID" :value="user.userID">
+                    {{ user.username }}
+                  </option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <select class="form-select" v-model="assignmentFormData.courseID">
+                  <option selected disabled value="">Select Course</option>
+                  <option v-for="course in courses" :key="course.courseID" :value="course.courseID">
+                    {{ course.cTitle }}
+                  </option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-secondary w-100">Submit</button>
+            </form>
+
+          </div>
           <!-- If selectedCourse is null, show the delete message -->
           <div v-else>
             <p>{{ message }}</p> <!-- Show the message instead of course details -->
@@ -217,7 +240,9 @@ export default {
         userID: '',
         courseID: '',
       },
-      isPasswordVisible: false 
+      isPasswordVisible: false,
+      users: [],
+      courses: []
     };
   },
   watch: {
@@ -283,12 +308,13 @@ export default {
       }
     },
     closeModal() {
+      this.isPasswordVisible = false;
       this.$emit('update:showModal', false);
       this.$emit('update:isAddingUser', false);
       this.$emit('update:isEditingUser', false);
       this.$emit('update:isAddingCourse', false);
       this.$emit('update:isEditingCourse', false);
-      rhis.$emit('update:isAddingAssignment', false);
+      this.$emit('update:isAddingAssignment', false);
       this.$emit('update:isEditingAssignment', false);
       this.$emit('update:selectedAssignment', null);
       this.$emit('update:selectedCourse',null);
@@ -335,7 +361,10 @@ export default {
       }
     },
     async submitAssignmentForm() {
-      console.log(this.assignmentFormData)
+      if (!this.assignmentFormData.userID || !this.assignmentFormData.courseID) {
+        console.error("User or Course ID is missing.");
+        return;
+      }
       try {
         await api.post("/assignments", this.assignmentFormData);
         this.closeModal();
@@ -353,6 +382,31 @@ export default {
       } catch (error) {
         console.error("Error adding assignment:", error);
       }
+    },
+    async fetchUsers() {
+      try{
+        const response = await api.get("/users");
+        const data = await response.data;
+        this.users = data;
+      } catch {
+        console.error('error fetching users',error);
+      }
+    },
+    async fetchCourses() {
+      try{
+        const response = await api.get("/courses");
+        const data = await response.data;
+        this.courses = data;
+      } catch {
+        console.error('error fetching courses',error);
+      }
+    }
+  },
+  async mounted() {
+    try {
+      await Promise.all([this.fetchUsers(), this.fetchCourses()]);
+    } catch (error) {
+      console.error("Error loading initial data:", error);
     }
   }
 }
