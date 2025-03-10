@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-4">
-      <h2 class="mb-4">Course Management</h2>
+      <h2 class="mb-4">Assignment Management</h2>
       <div class="table-responsive">
         <table class="table table-hover table-bordered align-middle text-center">
           <thead class="table-dark">
@@ -18,10 +18,10 @@
               <td>{{ assignment.cTitle }}</td>
               <td>
               <!-- Edit and Delete Buttons with Bootstrap spacing -->
-              <button class="btn btn-sm" @click="editCourse(assignment)">
+              <button class="btn btn-sm" @click="editAssignment(assignment)">
                 <i class="fas fa-edit"></i>
               </button>
-              <button class="btn btn-sm" @click="deleteCourse(assignment.assignmentID)">
+              <button class="btn btn-sm" @click="deleteAssignment(assignment.assignmentID)">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
@@ -29,17 +29,17 @@
           </tbody>
         </table>
       </div>
-      <button class="btn btn-primary p-1 mb-2" @click="addCourse()">Add Course</button>
+      <button class="btn btn-primary p-1 mb-2" @click="addAssignment()">Add Assignment</button>
     </div>
 
     <Modal 
       :showModal="showModal" 
       @update:showModal="showModal = $event" 
-      :selectedCourse="selectedCourse"
-      :isAddingCourse="isAddingCourse" 
-      @update:isAddingCourse="isAddingCourse = $event"
-      :isEditingCourse="isEditingCourse" 
-      @update:isEditingCourse="isEditingCourse = $event"
+      :selectedAssignment="selectedAssignment"
+      :isAddingAssignment="isAddingAssignment" 
+      @update:isAddingAssignment="isAddingAssignment = $event"
+      :isEditingAssignment="isEditingAssignment" 
+      @update:isEditingAssignment="isEditingAssignment = $event"
       :isAddingUser="isAddingUser" 
       @update:isAddingUser="isAddingUser = $event"
       :selectedUser="selectedUser"
@@ -62,9 +62,9 @@
         assignments: [],
         showModal: false,
         modalMessage: '',
-        selectedCourse: null,
-        isAddingCourse: false,
-        isEditingCourse: false,
+        selectedAssignment: null,
+        isAddingAssignment: false,
+        isEditingAssignment: false,
         selectedUser: null,
         isAddingUser: false,
         isEditingUser: false
@@ -83,16 +83,16 @@
           console.error('Error fetching assignments:', error);
         }
       },
-      addCourse() {
-        this.isAddingCourse = true; 
+      addAssignment() {
+        this.isAddingAssignment = true; 
         this.showModal = true;
       },
-      editCourse(assignment) {
-        this.isEditingCourse = true;
-        this.selectedCourse = assignment; // Fix: Correct the variable name here
+      editAssignment(assignment) {
+        this.isEditingAssignment = true;
+        this.selectedAssignment = assignment; // Fix: Correct the variable name here
         this.showModal = true;
       },
-      async deleteCourse(assignmentID) {
+      async deleteAssignment(assignmentID) {
         try {
           const response = await api.delete(`/assignments/${assignmentID}`);
           console.log('assignment deleted:', response.data);

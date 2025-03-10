@@ -102,8 +102,8 @@
                         v-model="formData.password"
                     >
                     <button type="button" @click="togglePasswordVisibility" class="password-toggle">
-                        <i :class="isPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'" style="color: grey;"></i>
-                    </button>
+                      {{ isPasswordVisible ? 'Hide' : 'Show' }}
+                  </button>
                 </div>
                 <div class="mb-3">
                     <input type="text" class="form-control" placeholder="Job title" v-model="formData.jobTitle">
@@ -171,7 +171,10 @@ export default {
     selectedCourse: Object,
     isAddingUser: Boolean,
     isEditingUser: Boolean,
-    selectedUser: Object
+    selectedUser: Object,
+    isAddingAssignment: Boolean,
+    isEditingAssignment: Boolean,
+    selectedAssignment: Object
   },
   computed: {
     modalTitle() {
@@ -185,6 +188,10 @@ export default {
         return 'Create Account'; 
       } else if (this.isEditingUser) {
         return 'Edit Account'; 
+      } else if (this.isAddingAssignment) {
+        return 'Create Assignment'; 
+      } else if (this.isEditingAssignment) {
+        return 'Edit Assignment'; 
       }
       return 'Action Status';
     }
@@ -205,6 +212,10 @@ export default {
         cDuration: '',
         maxAttendees: '',
         cDescription: ''
+      },
+      assignmentFormData: {
+        userID: '',
+        courseID: '',
       },
       isPasswordVisible: false 
     };
