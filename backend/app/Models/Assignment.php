@@ -9,6 +9,7 @@ class Assignment extends Model
     {
         $stmt = self::getDB()->query("
             SELECT 
+                assignments.assignmentID,
                 users.username,
                 courses.cTitle,
                 courses.cDate,
