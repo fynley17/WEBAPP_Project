@@ -16,15 +16,15 @@
     - [x] show all coures they are signed up to
   - [ ] admin desktop
 - [x] login page
-- [ ] create page
+- [x] create page
   - [x] user
   - [x] courses
-  - [ ] assignments
-- [ ] edit page
+  - [x] assignments
+- [x] edit page
   - [x] user
   - [x] courses
-  - [ ] assignments
 - [ ] desktop page
+
   - staff
     - [x] course listing
       - [x] be able to see all courses and details about the course
@@ -50,5 +50,7 @@
       - [x] edit
       - [ ] be able to look at course participants
         - [ ] remove course participante if needed
+
+- [ ] styling improvements
 
 will need later to show users on course "SELECT users.username FROM `assignments` JOIN users ON users.userID = assignments.userID WHERE courseID = 1;"
