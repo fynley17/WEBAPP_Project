@@ -2,54 +2,51 @@
 
 - [ ] Authentication
 
-
 <h2>frontend</h2>
 
 - [ ] create wire frames
-    - [x] login page
-    - [x] create account
-    - [x] create course
-    - [x] edit account
-    - [x] edit course
-    - [ ] staff desktop
-        - [ ] course info page
-        - [ ] show all courses they can enroll on
-        - [ ] show all coures they are signed up to
-    - [ ] admin desktop
+  - [x] login page
+  - [x] create account
+  - [x] create course
+  - [x] edit account
+  - [x] edit course
+  - [x] staff desktop
+    - [x] course info page
+    - [x] show all courses they can enroll on
+    - [x] show all coures they are signed up to
+  - [ ] admin desktop
 - [x] login page
 - [ ] create page
-    - [ ] user
-    - [ ] courses
-    - [ ] assignments
+  - [x] user
+  - [x] courses
+  - [ ] assignments
 - [ ] edit page
-    - [ ] user
-    - [ ] courses
-    - [ ] assignments
+  - [x] user
+  - [x] courses
+  - [ ] assignments
 - [ ] desktop page
-    - staff
-        - [x] course listing
-            - [x] be able to see all courses and details about the course
-            - [x] be able to see amount of people on course
-        - [ ] course enrolement
-            - [x] select and enroll on course (create assignment for themselves)
-            - [x] view courses they are on 
-            - [x] remove their booking
-            - [x] prevented on enrolling on a full course
-            - [ ] either dont show past corses or show them in a course history 
-            - [ ] remove option to register for course if already on one
-    - admin
-        - [x] give them the same functionality as staff
-        - [ ] user management page
-            - [ ] show all users
-            - [ ] be able to edit
-            - [ ] remove
-            - [ ] add
-        - [ ] course admin page
-            - [ ] show all courses
-            - [ ] add
-            - [ ] remove
-            - [ ] edit
-            - [ ] be able to look at course participants
-                - [ ] remove course participante if needed 
-
-
+  - staff
+    - [x] course listing
+      - [x] be able to see all courses and details about the course
+      - [x] be able to see amount of people on course
+    - [ ] course enrolement
+      - [x] select and enroll on course (create assignment for themselves)
+      - [x] view courses they are on
+      - [x] remove their booking
+      - [x] prevented on enrolling on a full course
+      - [ ] either dont show past corses or show them in a course history
+      - [x] remove option to register for course if already on one
+  - admin
+    - [x] give them the same functionality as staff
+    - [x] user management page
+      - [x] show all users
+      - [x] be able to edit
+      - [x] remove
+      - [x] add
+    - [ ] course admin page
+      - [x] show all courses
+      - [x] add
+      - [x] remove
+      - [x] edit
+      - [ ] be able to look at course participants
+        - [ ] remove course participante if needed
