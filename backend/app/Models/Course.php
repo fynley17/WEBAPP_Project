@@ -172,7 +172,7 @@ class Course extends Model
             throw new \InvalidArgumentException('invalid course ID');
         }
         $stmt = self::getDB()->prepare("
-            SELECT users.userID, users.username 
+            SELECT users.userID, users.username, assignmentID
             FROM `assignments` 
             JOIN users ON users.userID = assignments.userID 
             WHERE courseID = :id;

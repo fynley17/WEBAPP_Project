@@ -46,12 +46,18 @@
                       <tr>
                         <th>User ID</th>
                         <th>Username</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="user in course.assignedUsers" :key="user.userID">
                         <td>{{ user.userID }}</td>
                         <td>{{ user.username }}</td>
+                        <td>
+                          <button class="btn btn-sm" @click.stop="deleteUser(user.assignmentID)">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </td>
                       </tr>
                       <tr v-if="course.assignedUsers.length === 0">
                         <td colspan="2">No users assigned</td>
@@ -136,6 +142,21 @@
           this.fetchCourses(); // Refresh the course list after deletion
         } catch (error) {
           console.error('Error deleting course:', error);
+        }
+      },
+      async deleteUser(assignmentID) {
+        try {
+          const response = await api.delete(`/assignments/${assignmentID}`);
+          console.log('Assignment deleted:', response.data);
+          
+          // Fetch the course and manually update its users after deletion
+          const course = this.courses.find(c => c.assignedUsers.some(u => u.assignmentID === assignmentID));
+          if (course) {
+            // Remove the user from the course's assignedUsers array
+            course.assignedUsers = course.assignedUsers.filter(user => user.assignmentID !== assignmentID);
+          }
+        } catch (error) {
+          console.error('Error deleting assignment:', error);
         }
       },
       async toggleRow(courseID) {
