@@ -37,6 +37,7 @@ $router->addRoute('GET', '/^\\/api\\/courses\\/([^\\/]+)$/', [new CourseControll
 $router->addRoute('DELETE', '/^\\/api\\/courses\\/(\\d+)$/', [new CourseController(), 'deleteCourse']);
 $router->addRoute('POST', '/^\\/api\\/courses$/', [new CourseController(), 'createCourse']);
 $router->addRoute('PATCH', '/^\\/api\\/courses\\/(\\d+)$/', [new CourseController(), 'updateCourse']);
+$router->addRoute('GET', '/^\\/api\\/assignedUsers\\/(\\d+)$/', [new CourseController(), 'assignedUsers']);
 
 // Assignment routes
 $router->addRoute('GET', '/^\\/api\\/assignments$/', [new AssignmentController(), 'getAssignments']);
