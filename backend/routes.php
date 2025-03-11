@@ -9,7 +9,7 @@ use App\Router;
 // Allow requests from the frontend origin
 header("Access-Control-Allow-Origin: https://ws381211-wad.remote.ac/");
 // Allow specific HTTP methods
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PATCH, DELETE, OPTIONS");
 // Allow specific headers
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
@@ -37,6 +37,7 @@ $router->addRoute('GET', '/^\\/api\\/courses\\/([^\\/]+)$/', [new CourseControll
 $router->addRoute('DELETE', '/^\\/api\\/courses\\/(\\d+)$/', [new CourseController(), 'deleteCourse']);
 $router->addRoute('POST', '/^\\/api\\/courses$/', [new CourseController(), 'createCourse']);
 $router->addRoute('PATCH', '/^\\/api\\/courses\\/(\\d+)$/', [new CourseController(), 'updateCourse']);
+$router->addRoute('GET', '/^\\/api\\/assignedUsers\\/(\\d+)$/', [new CourseController(), 'assignedUsers']);
 
 // Assignment routes
 $router->addRoute('GET', '/^\\/api\\/assignments$/', [new AssignmentController(), 'getAssignments']);

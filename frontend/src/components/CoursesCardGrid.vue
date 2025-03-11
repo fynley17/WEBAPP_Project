@@ -36,6 +36,7 @@
     :showModal="showModal" 
     @update:showModal="showModal = $event" 
     :selectedCourse="selectedCourse" 
+    :viewCourse="viewCourse"
     :message="modalMessage">
   </Modal>
 </template>
@@ -54,6 +55,7 @@
         showModal: false,
         modalMessage: '',
         selectedCourse: null,
+        viewCourse: false
       };
     },
     mounted() {
@@ -70,6 +72,7 @@
       },
       openModal(course) {
         this.selectedCourse = course;
+        this.viewCourse = true;
         this.showModal = true;
       },
       async Register(courseID) {
@@ -80,6 +83,11 @@
           });
 
           this.modalMessage = response.data.message;
+
+          // Reset course details before showing the modal
+          this.viewCourse = false; 
+          this.selectedCourse = null;
+
           this.showModal = true;
 
           this.$emit('course-registered'); // Emit event
@@ -87,6 +95,11 @@
         } catch (error) {
           console.error('Error registering assignment:', error);
           this.modalMessage = 'You are already assigned to this course.';
+
+          // Reset course details before showing the modal
+          this.viewCourse = false; 
+          this.selectedCourse = null;
+
           this.showModal = true;
         }
       }

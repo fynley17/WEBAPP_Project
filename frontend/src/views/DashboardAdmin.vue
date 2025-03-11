@@ -6,7 +6,7 @@
   <div class="container fluid">
     <template v-if="selectedTab === 'yourCourses'">
       <YourCoursesCardGrid :username="username" ref="yourCoursesGrid" @course-unregistered="updateAllCourses" />
-      <CoursesCardGird v-if="userID" :userID="userID" ref="allCoursesGrid" @course-registered="updateYourCourses" />
+      <CoursesCardGrid v-if="userID" :userID="userID" ref="allCoursesGrid" @course-registered="updateYourCourses" />
     </template>
 
     <template v-else-if="selectedTab === 'userManagement'">
@@ -16,23 +16,29 @@
     <template v-else-if="selectedTab === 'courseManagement'">
       <CourseManagement />
     </template>
+
+    <template v-else-if="selectedTab === 'assignmentManagement'">
+      <AssignmentManagement />
+    </template>
   </div>
 </template>
 
 <script>
 import Nav from '../components/Nav.vue';
 import YourCoursesCardGrid from '../components/YourCoursesCardGrid.vue';
-import CoursesCardGird from '../components/CoursesCardGird.vue';
+import CoursesCardGrid from '../components/CoursesCardGrid.vue';
 import UserManagement from '../components/UserManagement.vue';
 import CourseManagement from '../components/CourseManagement.vue';
+import AssignmentManagement from '../components/AssignmentManagement.vue';
 
 export default {
   components: {
     Nav,
     YourCoursesCardGrid,
-    CoursesCardGird,
+    CoursesCardGrid,
     UserManagement,
-    CourseManagement
+    CourseManagement,
+    AssignmentManagement
   },
   data() {
     return {

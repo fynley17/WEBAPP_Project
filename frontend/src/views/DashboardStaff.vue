@@ -3,21 +3,21 @@
     <Nav />
   </header>
   <div>
-    <YourCoursesCardGrid :username="username" ref="yourCoursesGrid"/>
-    <CoursesCardGird v-if="userID" :userID="userID" @course-registered="updateYourCourses"/>
+    <YourCoursesCardGrid :username="username" ref="yourCoursesGrid" @course-unregistered="updateAllCourses" />
+    <CoursesCardGrid v-show="userID" :userID="userID" ref="coursesCardGrid" @course-registered="updateYourCourses" />
   </div>
 </template>
   
 <script>
 import Nav from '../components/Nav.vue';
 import YourCoursesCardGrid from '../components/YourCoursesCardGrid.vue';
-import CoursesCardGird from '../components/CoursesCardGird.vue';
+import CoursesCardGrid from '../components/CoursesCardGrid.vue';
 
 export default {
   components: {
     Nav,
     YourCoursesCardGrid,
-    CoursesCardGird
+    CoursesCardGrid
   },
   data() {
     return {
@@ -28,10 +28,6 @@ export default {
   mounted() {
     this.username = localStorage.getItem('username') || ''; // Corrected: Use userID
     this.userID = localStorage.getItem('userID') || '';
-    console.log("userID: ", this.userID);
-    this.$nextTick(() => {
-      console.log("userID after nextTick:", this.userID);
-    });
   },
   methods: {
     updateYourCourses() {

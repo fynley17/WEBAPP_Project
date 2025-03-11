@@ -35,6 +35,7 @@
   <Modal 
     :showModal="showModal" 
     @update:showModal="showModal = $event" 
+    :viewCourse="viewCourse"
     :selectedCourse="selectedCourse" 
     :message="modalMessage">
   </Modal>
@@ -53,7 +54,8 @@
         courses: [],
         showModal: false,
         modalMessage: '',
-        selectedCourse: null
+        selectedCourse: null,
+        viewCourse: false
       };
     },
     watch: {
@@ -80,22 +82,25 @@
       async Delete(assignmentID) {
         try {
           const response = await api.delete(`/assignments/${assignmentID}`);
-          this.modalMessage = response.data.message;
-          this.showModal = true;
-          
-          // Remove the deleted course from the list
-          this.courses = this.courses.filter(course => course.assignmentID !== assignmentID);
 
-          // Emit an event to notify the parent component
+          this.modalMessage = response.data.message;
+          this.viewCourse = false;  
+          this.selectedCourse = null;  
+          this.showModal = true;
+
+          this.courses = this.courses.filter(course => course.assignmentID !== assignmentID);
           this.$emit('course-unregistered');
         } catch (error) {
-          console.error('Error deleting assignment:', error);
-          this.modalMessage = 'An error occurred while deleting the assignment.';
+          console.error("Error deleting assignment:", error);
+          this.modalMessage = "Error deleting the assignment.";
+          this.viewCourse = false;
+          this.selectedCourse = null;
           this.showModal = true;
         }
       },
       openModal(course) {
         this.selectedCourse = course;
+        this.viewCourse = true;
         this.showModal = true;
       }
     },

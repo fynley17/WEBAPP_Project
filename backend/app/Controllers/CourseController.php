@@ -74,4 +74,13 @@ class CourseController extends Controller
             $this->jsonResponse(['error' => 'Failed to delete course'], 500);
         }
     }
+
+    public function assignedUsers($id){
+        $users = Course::findAssignedUsers($id);
+        if ($users) {
+            $this->jsonResponse($users);
+        } else {
+            $this->jsonResponse(['error' => 'course not found'], 404);
+        }
+    }
 }

@@ -167,6 +167,25 @@ class Course extends Model
         return $stmt->execute();
     }
 
+    public static function findAssignedUsers($id){
+        if (!is_numeric($id) || $id <= 0){
+            throw new \InvalidArgumentException('invalid course ID');
+        }
+        $stmt = self::getDB()->prepare("
+            SELECT users.userID, users.username, assignmentID
+            FROM `assignments` 
+            JOIN users ON users.userID = assignments.userID 
+            WHERE courseID = :id;
+        ");
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    
+        return $users ?: null; 
+    }
+    
+
     // Healpers
     public static function validTitle($title)
     {
