@@ -2,7 +2,7 @@
   <div class="container mt-4">
     <h2 class="mb-4">Your Courses</h2>
     <div class="row p-3 rounded" style="background-color: #f4f4f4">
-      <div class="col" v-for="course in courses" :key="course.assignmentID">
+      <div class="col" v-for="course in courses.filter(course => new Date(course.cDate) >= new Date())" :key="course.assignmentID">
         <div class="card h-100 small-card m-0">
           <div class="card-body">
             <!-- Title (top left) and Date (top right) -->
@@ -25,6 +25,34 @@
           <div class="card-footer p-2 d-flex justify-content-between">
             <button class="btn btn-sm btn-primary" @click="openModal(course)">View Details</button>
             <button class="btn btn-sm btn-secondary" @click="Delete(course.assignmentID)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2 class="mb-4">Past Courses</h2>
+    <div class="row p-3 rounded" style="background-color: #f4f4f4">
+      <div class="col" v-for="course in courses.filter(course => new Date(course.cDate) <= new Date())" :key="course.assignmentID">
+        <div class="card h-100 small-card m-0">
+          <div class="card-body">
+            <!-- Title (top left) and Date (top right) -->
+            <div class="d-flex justify-content-between">
+              <h6 class="card-title mb-1">{{ course.cTitle }}</h6>
+              <p class="card-text text-end mb-1"><strong>{{ course.cDate }}</strong></p>
+            </div>
+            
+            <!-- Duration (left) and Current Attendance / Max Attendees (right) -->
+            <div class="d-flex justify-content-between">
+              <p class="card-text mb-1"><strong>Duration:</strong> {{ course.cDuration }} days</p>
+              <p class="card-text text-end mb-1">
+                <strong>{{ course.currentAttendence }} / {{ course.maxAttendees }}</strong>
+              </p>
+            </div>
+
+            <!-- Description with fade effect for overflow -->
+            <p class="card-text truncate-text" :title="course.cDescription">{{ course.cDescription }}</p>
+          </div>
+          <div class="card-footer p-2 d-flex justify-content-between">
+            <button class="btn btn-sm btn-primary" @click="openModal(course)">View Details</button>
           </div>
         </div>
       </div>

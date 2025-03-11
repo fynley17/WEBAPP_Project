@@ -43,7 +43,7 @@
       - [x] be able to edit
       - [x] remove
       - [x] add
-    - [ ] course admin page
+    - [x] course admin page
       - [x] show all courses
       - [x] add
       - [x] remove
@@ -52,4 +52,3 @@
         - [x] remove course participante if needed
 
 - [ ] styling improvements
-
