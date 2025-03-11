@@ -48,9 +48,8 @@
       - [x] add
       - [x] remove
       - [x] edit
-      - [ ] be able to look at course participants
-        - [ ] remove course participante if needed
+      - [x] be able to look at course participants
+        - [x] remove course participante if needed
 
 - [ ] styling improvements
 
-will need later to show users on course "SELECT users.username FROM `assignments` JOIN users ON users.userID = assignments.userID WHERE courseID = 1;"
