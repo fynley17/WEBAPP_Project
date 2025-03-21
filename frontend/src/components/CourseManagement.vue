@@ -1,6 +1,7 @@
 <template>
   <div class="container mt-4">
-    <h2 class="mb-4">Course Management</h2>
+    <h2 class="mb-2">Course Management</h2>
+    <p>Click on the course to show people attending</p>
     <div class="table-responsive">
       <table class="table table-hover table-bordered align-middle text-center">
         <thead class="table-dark">
@@ -194,6 +195,10 @@
 
   
   <style scoped>
+  p{
+    font-size: small;
+  }
+
   .table {
     border-radius: 8px;
     overflow: hidden;
