@@ -112,7 +112,7 @@ class User extends Model
         // Validate and sanitize input
         $username = isset($data['username']) ? htmlspecialchars(trim($data['username']), ENT_QUOTES, 'UTF-8') : null;
         $email = isset($data['email']) ? htmlspecialchars(trim($data['email']), ENT_QUOTES, 'UTF-8') : null;
-        $password = isset($data['password']) ? htmlspecialchars(password_hash(trim($data['password']), PASSWORD_BCRYPT)) : null;
+        $password = isset($data['password']) ? password_hash(trim($data['password']), PASSWORD_BCRYPT) : null; // Ensure password is hashed
         $firstname = isset($data['firstName']) ? htmlspecialchars($data['firstName'], ENT_QUOTES, 'UTF-8') : null;
         $lastname = isset($data['lastName']) ? htmlspecialchars($data['lastName'], ENT_QUOTES, 'UTF-8') : null;
         $job_title = isset($data['jobTitle']) ? htmlspecialchars($data['jobTitle'], ENT_QUOTES, 'UTF-8') : null;
@@ -168,15 +168,15 @@ class User extends Model
             $params['jobTitle'] = $job_title;
         }
         if ($access_level) {
-            $fields[] = "accessLevel =:accessLevel";
+            $fields[] = "accessLevel = :accessLevel";
             $params['accessLevel'] = $access_level;
         }
-        if ($reset_token) {
-            $fields[] = "reset_token =:reset_token";
+        if ($reset_token !== null) {
+            $fields[] = "reset_token = :reset_token";
             $params['reset_token'] = $reset_token;
         }
-        if ($token_expiration) {
-            $fields[] = "token_expiration =:token_expiration";
+        if ($token_expiration !== null) {
+            $fields[] = "token_expiration = :token_expiration";
             $params['token_expiration'] = $token_expiration;
         }
         if (empty($fields)) {

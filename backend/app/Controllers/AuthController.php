@@ -157,7 +157,7 @@ class AuthController extends Controller
         try {
             $data = json_decode(file_get_contents("php://input"), true);
 
-            error_log("Forgot Password API called");
+            error_log("Reset Password API called");
             error_log(print_r($data, true));
             error_log("Request data: " . json_encode($data)); // Log request data to error log
 
@@ -177,12 +177,13 @@ class AuthController extends Controller
             }
 
             // Update the user's password
-            $user['password'] =  password_hash(trim($password), PASSWORD_BCRYPT);
+            $user['password'] = $password; // Ensure the password is hashed
             $user['reset_token'] = null; // Clear the reset token
             $user['token_expiration'] = null; // Clear the token expiration
-            User::update($user['userID'], $user);
+            $updateResult = User::update($user['userID'], $user);
+            error_log("Update Result: " . json_encode($updateResult)); // Log the update result
 
-            $this->jsonResponse(['message' => `Password has been reset successfully`, 'passwordcheck' => $password]);
+            $this->jsonResponse(['message' => 'Password has been reset successfully']);
         } catch (\Exception $e) {
             $this->jsonResponse(['error' => 'An error occurred while processing the request', 'details' => $e->getMessage()], 500);
         }
