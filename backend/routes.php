@@ -49,5 +49,7 @@ $router->addRoute('PATCH', '/^\\/api\\/assignments\\/(\\d+)$/', [new AssignmentC
 
 //authentication
 $router->addRoute('POST', '/^\\/api\\/login$/', [new AuthController(), 'login']);
+$router->addRoute('POST', '/^\\/api\\/forgot-password$/', [new AuthController(), 'forgotPassword']);
+$router->addRoute('POST', '/^\\/api\\/reset-password$/', [new AuthController(), 'resetPassword']);
 
 return $router;

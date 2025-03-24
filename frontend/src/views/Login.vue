@@ -37,6 +37,9 @@
                         Login
                     </button>
                     <p v-if="message" :class="messageClass" class="mt-3 text-white">{{ message }}</p>
+                    <p class="mt-3 text-center">
+                        <a href="#" @click.prevent="forgotPassword" class="text-white">Forgot Password?</a>
+                    </p>
                 </form>
             </div>
         </div>
@@ -93,6 +96,22 @@ export default {
                 this.message = "Server error. Please try again.";
                 this.messageClass = "text-danger";
                 console.error('Login failed', error);
+            }
+        },
+        async forgotPassword() {
+            const promptUsername = prompt("Please enter your username:");
+            console.log('Prompted username:', promptUsername); // Log the prompted username
+            if (promptUsername) {
+                try {
+                    const response = await api.post("/forgot-password", { username: promptUsername });
+                    console.log('API response:', response); // Log the API response
+                    this.message = response.data.message;
+                    this.messageClass = "text-success";
+                } catch (error) {
+                    this.message = "Failed to send password reset username. Please try again.";
+                    this.messageClass = "text-danger";
+                    console.error('Forgot Password failed', error);
+                }
             }
         }
     }
