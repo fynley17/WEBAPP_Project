@@ -2,11 +2,17 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../views/Login.vue';
 import Admin from '../views/DashboardAdmin.vue';
 import Staff from '../views/DashboardStaff.vue';
+import PasswordReset from '../views/PasswordReset.vue';
 
 const routes = [
   { path: '/', component: Login },
   { path: '/admin', component: Admin, meta: { requiresAuth: true, role: 'admin' } },
-  { path: '/staff', component: Staff, meta: { requiresAuth: true, role: 'staff' } }
+  { path: '/staff', component: Staff, meta: { requiresAuth: true, role: 'staff' } },
+  { 
+    path: '/password-reset', 
+    component: PasswordReset,
+    props: route => ({ token: route.query.token }) // Pass token as prop
+  }
 ];
 
 const router = createRouter({

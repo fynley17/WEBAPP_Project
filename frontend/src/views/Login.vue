@@ -1,19 +1,45 @@
 <template>
-    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh; background: linear-gradient(to right, #4e2a84, #ff6a00);">
         <div class="row mt-5">
             <div class="col">
-                <form class="p-5 rounded border border-black shadow-lg form-container" @submit.prevent="login">
-                    <h1 class="text-center mb-4">MinimalTech</h1>
+                <form class="p-5 rounded shadow-lg form-container" @submit.prevent="login" 
+                    style="
+                        background: rgba(255, 255, 255, 0.1);
+                        backdrop-filter: blur(10px);
+                        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+                    ">
+                    <h1 class="text-center mb-4 text-white">MinimalTech</h1>
                     <div class="form-floating mb-4">
-                        <input type="text" v-model="username" class="form-control form-control-lg" id="username" placeholder="Username">
-                        <label for="username">Username</label>
+                        <input type="text" v-model="username" class="form-control form-control-lg" id="username" placeholder="Username" 
+                            style="
+                                background: rgba(255, 255, 255, 0.3);
+                                color: white; border-radius: 10px;
+                            ">
+                        <label for="username" class="text-dark">Username</label>
                     </div>
                     <div class="form-floating mb-4">
-                        <input type="password" v-model="password" class="form-control form-control-lg" id="password" placeholder="Password">
-                        <label for="password">Password</label>
+                        <input type="password" v-model="password" class="form-control form-control-lg" id="password" placeholder="Password" 
+                            style="
+                                background: rgba(255, 255, 255, 0.3);
+                                color: white;
+                                border-radius: 10px;
+                            ">
+                        <label for="password" class="text-dark">Password</label>
                     </div>
-                    <button class="btn btn-primary form-control btn-lg" type="submit">Login</button>
-                    <p v-if="message" :class="messageClass" class="mt-3">{{ message }}</p>
+                    <button
+                        class="btn btn-lg form-control" type="submit" 
+                        style="
+                            background: linear-gradient(45deg, #8e2de2, #ff6a00);
+                            color: white; border: none;
+                            border-radius: 10px;
+                        "
+                    >
+                        Login
+                    </button>
+                    <p v-if="message" :class="messageClass" class="mt-3 text-white">{{ message }}</p>
+                    <p class="mt-3 text-center">
+                        <a href="#" @click.prevent="forgotPassword" class="text-white">Forgot Password?</a>
+                    </p>
                 </form>
             </div>
         </div>
@@ -70,6 +96,22 @@ export default {
                 this.message = "Server error. Please try again.";
                 this.messageClass = "text-danger";
                 console.error('Login failed', error);
+            }
+        },
+        async forgotPassword() {
+            const promptUsername = prompt("Please enter your username:");
+            console.log('Prompted username:', promptUsername); // Log the prompted username
+            if (promptUsername) {
+                try {
+                    const response = await api.post("/forgot-password", { username: promptUsername });
+                    console.log('API response:', response); // Log the API response
+                    this.message = response.data.message;
+                    this.messageClass = "text-success";
+                } catch (error) {
+                    this.message = "Failed to send password reset username. Please try again.";
+                    this.messageClass = "text-danger";
+                    console.error('Forgot Password failed', error);
+                }
             }
         }
     }

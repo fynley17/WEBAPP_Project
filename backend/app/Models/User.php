@@ -39,6 +39,21 @@ class User extends Model
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    public static function findByResetToken($token)
+    {
+        $stmt = self::getDB()->prepare('SELECT * FROM users WHERE reset_token = :token');
+        $stmt->bindParam(':token', $token, \PDO::PARAM_STR);
+        $stmt->execute();
+
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        // DEBUG: Check if user was found
+        error_log("User found by token: " . json_encode($user));
+
+        return $user;
+    }
+
+
     // Create a new user
     public static function create($data)
     {
@@ -88,7 +103,8 @@ class User extends Model
     }
 
     // Update user info
-    public static function update($id, $data) {
+    public static function update($id, $data)
+    {
         // Validate ID
         if (!is_numeric($id) || $id <= 0) {
             throw new \InvalidArgumentException('Invalid user ID');
@@ -96,11 +112,13 @@ class User extends Model
         // Validate and sanitize input
         $username = isset($data['username']) ? htmlspecialchars(trim($data['username']), ENT_QUOTES, 'UTF-8') : null;
         $email = isset($data['email']) ? htmlspecialchars(trim($data['email']), ENT_QUOTES, 'UTF-8') : null;
-        $password = isset($data['password']) ? htmlspecialchars(password_hash(trim($data['password']), PASSWORD_BCRYPT)) : null;
+        $password = isset($data['password']) ? password_hash(trim($data['password']), PASSWORD_BCRYPT) : null; // Ensure password is hashed
         $firstname = isset($data['firstName']) ? htmlspecialchars($data['firstName'], ENT_QUOTES, 'UTF-8') : null;
         $lastname = isset($data['lastName']) ? htmlspecialchars($data['lastName'], ENT_QUOTES, 'UTF-8') : null;
         $job_title = isset($data['jobTitle']) ? htmlspecialchars($data['jobTitle'], ENT_QUOTES, 'UTF-8') : null;
         $access_level = isset($data['accessLevel']) ? htmlspecialchars($data['accessLevel'], ENT_QUOTES, 'UTF-8') : null;
+        $reset_token = isset($data['reset_token']) ? htmlspecialchars($data['reset_token'], ENT_QUOTES, 'UTF-8') : null;
+        $token_expiration = isset($data['token_expiration']) ? htmlspecialchars($data['token_expiration'], ENT_QUOTES, 'UTF-8') : null;
         if ($email && !self::ValidEmail($email)) {
             throw new \InvalidArgumentException('Invalid email format');
         }
@@ -121,7 +139,7 @@ class User extends Model
         }
         if ($access_level && ($access_level != "staff" && $access_level != "admin")) {
             throw new \InvalidArgumentException('not valid access level');
-        }        
+        }
         // Build dynamic query
         $fields = [];
         $params = ['id' => $id];
@@ -145,13 +163,21 @@ class User extends Model
             $fields[] = "lastName = :lastName";
             $params['lastName'] = $lastname;
         }
-        if ($job_title) { 
+        if ($job_title) {
             $fields[] = "jobTitle = :jobTitle";
             $params['jobTitle'] = $job_title;
         }
         if ($access_level) {
-            $fields[] ="accessLevel =:accessLevel";
+            $fields[] = "accessLevel = :accessLevel";
             $params['accessLevel'] = $access_level;
+        }
+        if ($reset_token !== null) {
+            $fields[] = "reset_token = :reset_token";
+            $params['reset_token'] = $reset_token;
+        }
+        if ($token_expiration !== null) {
+            $fields[] = "token_expiration = :token_expiration";
+            $params['token_expiration'] = $token_expiration;
         }
         if (empty($fields)) {
             throw new \InvalidArgumentException('No valid fields to update');
@@ -174,7 +200,6 @@ class User extends Model
         $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
         return $stmt->execute();
     }
-
 
     // Helpers
     public static function names($name)
