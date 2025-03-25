@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\Assignment;
 
+require_once __DIR__ . '/../helpers/Email.php';
+
 class AssignmentController extends Controller
 {
     public function getAssignments()
@@ -41,11 +43,11 @@ class AssignmentController extends Controller
             $data = json_decode(file_get_contents("php://input"), true);
             $result = Assignment::create($data);
             if ($result) {
+                \App\Helpers\Email::Enroll($data['userID'], $data['courseID']);
                 $this->jsonResponse(['message' => 'Assignment created successfully'], 201);
             } else {
                 $this->jsonResponse(['error' => 'Failed to create assignment'], 400);
             }
-            Email::Enroll($data['userID'],$data['courseID']);
         } catch (\Exception $e) {
             $this->jsonResponse(['error' => $e->getMessage()], 500);
         }
