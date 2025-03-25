@@ -74,6 +74,7 @@
         this.selectedCourse = course;
         this.viewCourse = true;
         this.showModal = true;
+        console.log('Selected course:', course);
       },
       async Register(courseID) {
         try {

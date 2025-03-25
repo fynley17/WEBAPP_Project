@@ -257,10 +257,11 @@ export default {
     selectedCourse: {
       handler(newCourse) {
         if (newCourse) {
-          this.courseFormData = { ...newCourse }; // This will copy the selected course details into courseFormData
+          this.courseFormData = { ...newCourse };
         }
       },
-      immediate: true // This ensures it runs immediately when the component is created or selectedCourse changes
+      deep: true,
+      immediate: true
     },
     selectedAssignment: {
       handler(newAssignment) {
@@ -317,9 +318,25 @@ export default {
       this.$emit('update:isAddingAssignment', false);
       this.$emit('update:isEditingAssignment', false);
       this.$emit('update:selectedAssignment', null);
-      this.$emit('update:selectedCourse',null);
-      this.$emit('update:selectedUser',null);
-      this.$emit('viewCourse',false);
+      this.$emit('update:selectedUser', null);
+      this.$emit('viewCourse', false);
+
+      // Only reset if there is no selected course (prevents erasing pre-filled data)
+      if (!this.selectedCourse) {
+        this.courseFormData = {
+          cTitle: '',
+          cDate: '',
+          cDuration: '',
+          maxAttendees: '',
+          cDescription: ''
+        };
+      }
+
+      this.assignmentFormData = {
+        userID: '',
+        courseID: ''
+      };
+
       this.formData = {
         firstName: '',
         lastName: '',
@@ -327,17 +344,6 @@ export default {
         username: '',
         jobTitle: '',
         accessLevel: ''
-      };
-      this.courseFormData = {
-        cTitle: '',
-        cDate: '',
-        cDuration: '',
-        maxAttendees: '',
-        cDescription: ''
-      };
-      this.assignmentFormData = {
-        userID: '',
-        courseID: ''
       };
     },
     async submitCourseForm() {
