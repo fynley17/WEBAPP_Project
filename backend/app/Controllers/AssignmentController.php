@@ -45,6 +45,7 @@ class AssignmentController extends Controller
             } else {
                 $this->jsonResponse(['error' => 'Failed to create assignment'], 400);
             }
+            Email::Enroll($data['userID'],$data['courseID']);
         } catch (\Exception $e) {
             $this->jsonResponse(['error' => $e->getMessage()], 500);
         }

@@ -143,16 +143,7 @@ class AuthController extends Controller
             // Generate the password reset URL
             $resetUrl = "http://127.0.0.1:5174/password-reset?token=$token";
 
-            // Send the reset URL to the user's email
-            $to = $user['email'];
-            $subject = 'Password Reset Link';
-            $message = "Click the link below to reset your password:\n$resetUrl";
-
-            if (mail($to, $subject, $message)) {
-                return json_encode("Email sent successfully!");
-            } else {
-                return json_encode("Failed to send email.");
-            }
+            Email::Reset($user['email'],$resetUrl);
 
             $this->jsonResponse(['message' => 'Password reset link has been sent to your email', $user['email']]);
         } catch (\Exception $e) {
