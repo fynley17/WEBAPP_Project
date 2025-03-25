@@ -1,8 +1,14 @@
 <?php
+
 namespace App\Helpers;
 
-class Email{
-    public static function Enroll($userID,$courseID){
+use App\Models\Course;
+use App\Models\User;
+
+class Email
+{
+    public static function Enroll($userID, $courseID)
+    {
         $user = User::findByID($userID);
         $course = Course::findByID($courseID);
         $courseName = $course['cTitle'];
@@ -10,7 +16,8 @@ class Email{
 
         $to = $user['email'];
         $subject = "Course enrollment";
-        $message = "You have a new enrollment: ${courseName}\n This will occur on ${courseDate}";
+        $message = "You have a new enrollment: {$courseName}\n This will occur on {$courseDate}";
+
 
         if (mail($to, $subject, $message)) {
             return json_encode("Email sent successfully!");
@@ -19,11 +26,12 @@ class Email{
         }
     }
 
-    public static function Reset($email,$resetUrl){
+    public static function Reset($email, $resetUrl)
+    {
         // Send the reset URL to the user's email
         $to = $email;
         $subject = 'Password Reset Link';
-        $message = "Click the link below to reset your password:\n$resetUrl";
+        $message = "Click the link below to reset your password:\n{$resetUrl}";
 
         if (mail($to, $subject, $message)) {
             return json_encode("Email sent successfully!");
