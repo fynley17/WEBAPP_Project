@@ -31,4 +31,4 @@ class Email{
             return json_encode("Failed to send email.");
         }
     }
-}
+} 
