@@ -75,7 +75,7 @@
                         token: token,
                         password: this.password
                     });
-                    this.message = response.data.passwordcheck;
+                    this.message = response.data.message;
                     this.messageClass = "text-success";
                 }catch (error) {
                     console.error("Reset Password Error:", error.response?.data || error.message);
