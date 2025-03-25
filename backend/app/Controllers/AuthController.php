@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\User;
 
 require_once __DIR__ . '/../helpers/Jwt.php'; // Adjust path if needed
+require_once __DIR__ . '/../helpers/Email.php';
+
 
 class AuthController extends Controller
 {
@@ -141,9 +143,9 @@ class AuthController extends Controller
             User::update($user['userID'], $user);
 
             // Generate the password reset URL
-            $resetUrl = "http://127.0.0.1:5174/password-reset?token=$token";
+            $resetUrl = "https://ws381211-wad.remote.ac/password-reset?token=$token";
 
-            Email::Reset($user['email'],$resetUrl);
+            \App\Helpers\Email::Reset($user['email'], $resetUrl);
 
             $this->jsonResponse(['message' => 'Password reset link has been sent to your email', $user['email']]);
         } catch (\Exception $e) {
