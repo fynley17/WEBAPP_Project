@@ -24,7 +24,7 @@
             <td>{{ user.lastName }}</td>
             <td>{{ user.jobTitle }}</td>
             <td>{{ user.accessLevel }}</td>
-            <td class="d-flex justify-content-around">
+            <td class="actions-cell">
               <!-- Edit and Delete Buttons -->
               <button class="btn" id="action" @click="editUser(user)">
                 <i class="fas fa-edit"></i>
@@ -127,7 +127,7 @@ export default {
   .custom-table th, .custom-table td {
     border: 1px solid #000000;
     padding: 8px;
-    text-align: left;
+    text-align: center; /* Center align text in table cells */
   }
 
   .custom-table th {
@@ -144,22 +144,21 @@ export default {
     transition: 0.3s;
   }
 
+  .actions-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   #action {
     color: #E59934;
-    border-color: #E59934;
+    border: none;
+    background: none;
     cursor: pointer;
   }
 
-  .btn:hover {
+  #action:hover {
     background-color: #493111;
-  }
-
-  .btn-primary {
-    background-color: #753188;
-  }
-
-  .btn-primary:hover {
-    background-color: #5a2566;
   }
 
   #add {
