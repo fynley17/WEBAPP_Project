@@ -10,7 +10,6 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ modalTitle }}</h5>
-          <button type="button" class="btn-close" @click="closeModal"></button>
         </div>
         <div class="modal-body">
           <!-- Check if selectedCourse is null -->
@@ -23,7 +22,6 @@
           </div>
 
           <div v-else-if="isAddingCourse">
-            <h3 class="text-center">Add New Course</h3>
             <form @submit.prevent="submitCourseForm">
               <div class="mb-3">
                   <label for="title" class="form-label">Course Title</label>
@@ -47,12 +45,11 @@
                   <label for="description" class="form-label">Description</label>
                   <textarea class="form-control" id="description" v-model="courseFormData.cDescription" rows="3"></textarea>
               </div>
-              <button type="submit" class="btn btn-secondary w-100">Submit</button>
+              <button type="submit" class="btn w-100" id="submit">Submit</button>
             </form>
           </div>
 
           <div v-else-if="isEditingCourse">
-            <h3 class="text-center">Edit Course</h3>
             <form @submit.prevent="submitEditCourseForm">
               <div class="mb-3">
                   <label for="title" class="form-label">Course Title</label>
@@ -76,13 +73,12 @@
                   <label for="description" class="form-label">Description</label>
                   <textarea class="form-control" id="description" v-model="courseFormData.cDescription" rows="3"></textarea>
               </div>
-              <button type="submit" class="btn btn-secondary w-100">Submit</button>
+              <button type="submit" class="btn w-100" id="submit">Submit</button>
             </form>
           </div>
 
           <!-- Check if creating a user -->
           <div v-else-if="isAddingUser">
-              <h3 class="text-center">Create Account</h3>
               <form @submit.prevent="submitForm">
                 <div class="mb-3 d-flex gap-2">
                     <input type="text" class="form-control" placeholder="Firstname" v-model="formData.firstName">
@@ -115,12 +111,11 @@
                     <option value="staff">staff</option>
                   </select>
                 </div>
-                <button type="submit" class="btn btn-secondary w-100">Submit</button>
+                <button type="submit" class="btn w-100" id="submit">Submit</button>
               </form>
           </div>
           <!-- Check if editing a user -->
           <div v-else-if="isEditingUser">
-              <h3 class="text-center">Edit Account</h3>
               <form @submit.prevent="submitEditForm">
                 <div class="mb-3 d-flex gap-2">
                     <input type="text" class="form-control" placeholder="Firstname" v-model="formData.firstName">
@@ -142,11 +137,10 @@
                     <option value="staff">staff</option>
                   </select>
                 </div>
-                <button type="submit" class="btn btn-secondary w-100">Save Changes</button>
+                <button type="submit" class="btn w-100" id="submit">Save Changes</button>
               </form>
           </div>
           <div v-else-if="isAddingAssignment">
-            <h3 class="text-center">Add Assignment</h3>
             <form @submit.prevent="submitAssignmentForm">
               <div class="mb-3">
                 <select class="form-select" v-model="assignmentFormData.userID">
@@ -164,7 +158,7 @@
                   </option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-secondary w-100">Submit</button>
+              <button type="submit" class="btn w-100" id="submit">Submit</button>
             </form>
 
           </div>
@@ -173,8 +167,8 @@
             <p>{{ message }}</p> <!-- Show the message instead of course details -->
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
+        <div class="modal-footer d-felx justify-content-center">
+          <button type="button" class="btn" id="close"@click="closeModal">Close</button>
         </div>
       </div>
     </div>
@@ -436,5 +430,43 @@ export default {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+.modal-content {
+  background-color: #2C272E;
+}
+
+.modal-title {
+  font-size: 35px;
+}
+
+#submit {
+  color: white;
+  background-color: #753188;
+  font-family: 'Roboto', sans-serif;
+}
+
+#submit:hover {
+  background-color: #4b1f57;
+}
+
+#close{
+  color: #E59934;
+  border-color: #E59934;
+  font-family: 'Roboto', sans-serif;
+}
+
+#close:hover{
+  color: #2C272E;
+  background-color: #E59934;
+}
+
+/* Add the color: black; property to input, textarea, and select elements */
+#title,
+input.form-control,
+textarea.form-control,
+select.form-select {
+  color: black;
+  font-weight: 500;
 }
 </style>

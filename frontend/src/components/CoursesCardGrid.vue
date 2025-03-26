@@ -184,10 +184,21 @@
     color: white; /* Set the text color to white */
   }
 
+  #view:hover {
+    background-color: #4b1f57; /* Change the background color on hover */
+  }
+
   #delete {
     color: #E59934;
     border-color: #E59934;
   }
+
+  #delete:hover{
+    color: #2C272E;
+    background-color: #E59934;
+  }
+
+  
 
   @media (max-width: 992px) {
     .row {

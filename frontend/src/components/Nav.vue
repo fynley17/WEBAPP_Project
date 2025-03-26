@@ -8,16 +8,16 @@
       <div :class="{'collapse navbar-collapse': $route.path === '/admin', 'navbar-collapse': $route.path !== '/admin'}" id="navbarSupportedContent">
         <ul v-if="$route.path === '/admin'" class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <button class="nav-link btn" :class="{ active: activeTab === 'yourCourses' }" id="nav-item1" @click="setActiveTab('yourCourses')">Your Courses</button>
+            <button class="nav-link btn" :class="{ active: activeTab === 'yourCourses' }" id="nav-item1" @click="handleTabClick('yourCourses')">Your Courses</button>
           </li>
           <li class="nav-item">
-            <button class="nav-link btn" :class="{ active: activeTab === 'userManagement' }" id="nav-item2" @click="setActiveTab('userManagement')">User Management</button>
+            <button class="nav-link btn" :class="{ active: activeTab === 'userManagement' }" id="nav-item2" @click="handleTabClick('userManagement')">User Management</button>
           </li>
           <li class="nav-item">
-            <button class="nav-link btn" :class="{ active: activeTab === 'courseManagement' }" id="nav-item3" @click="setActiveTab('courseManagement')">Course Management</button>
+            <button class="nav-link btn" :class="{ active: activeTab === 'courseManagement' }" id="nav-item3" @click="handleTabClick('courseManagement')">Course Management</button>
           </li>
           <li class="nav-item">
-            <button class="nav-link btn" :class="{ active: activeTab === 'assignmentManagement' }" id="nav-item4" @click="setActiveTab('assignmentManagement')">Assignment Management</button>
+            <button class="nav-link btn" :class="{ active: activeTab === 'assignmentManagement' }" id="nav-item4" @click="handleTabClick('assignmentManagement')">Assignment Management</button>
           </li>
         </ul>
         <button v-if="$route.path === '/admin'" class="nav-link btn" id="logout" @click="logout()">Log Out</button>
@@ -38,6 +38,19 @@ export default {
     setActiveTab(tab) {
       this.activeTab = tab;
       this.$emit('change-tab', tab);
+    },
+    handleTabClick(tab) {
+      this.setActiveTab(tab);
+      this.collapseNavbar();
+    },
+    collapseNavbar() {
+      const navbar = document.getElementById('navbarSupportedContent');
+      if (navbar.classList.contains('show')) {
+        const bsCollapse = new bootstrap.Collapse(navbar, {
+          toggle: true
+        });
+        bsCollapse.hide();
+      }
     },
     logout() {
       localStorage.removeItem('token');
@@ -79,6 +92,12 @@ export default {
     padding: 10px;
   }
 
+  #logout:hover {
+    background-color: #4b1f57;
+    color: white;
+    border-radius: 4px;
+  }
+
   .logout-top-right {
     position: absolute;
     top: 10px;
@@ -98,6 +117,10 @@ export default {
     .nav-link.btn{
       padding: 5px;
       margin-bottom: 5px;
+    }
+    #logout {
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
   }
 </style>

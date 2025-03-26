@@ -126,7 +126,8 @@ export default {
 
   .custom-table th, .custom-table td {
     border: 1px solid #302835;
-    padding: 0px;
+    padding-left: 4px;
+    padding-right: 4px;
     text-align: center; /* Center align text in table cells */
   }
 
