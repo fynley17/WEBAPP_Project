@@ -1,26 +1,25 @@
 <template>
   <header>
     <Nav @change-tab="selectedTab = $event" />
-  </header>
-  
-  <div class="container fluid">
-    <template v-if="selectedTab === 'yourCourses'">
-      <YourCoursesCardGrid :username="username" ref="yourCoursesGrid" @course-unregistered="updateAllCourses" />
-      <CoursesCardGrid v-if="userID" :userID="userID" ref="allCoursesGrid" @course-registered="updateYourCourses" />
-    </template>
+  </header>>
+    <div class="container fluid" id="dashboard">
+      <template v-if="selectedTab === 'yourCourses'">
+        <YourCoursesCardGrid :username="username" ref="yourCoursesGrid" @course-unregistered="updateAllCourses" />
+        <CoursesCardGrid v-if="userID" :userID="userID" ref="allCoursesGrid" @course-registered="updateYourCourses" />
+      </template>
 
-    <template v-else-if="selectedTab === 'userManagement'">
-      <UserManagement />
-    </template>
+      <template v-else-if="selectedTab === 'userManagement'">
+        <UserManagement />
+      </template>
 
-    <template v-else-if="selectedTab === 'courseManagement'">
-      <CourseManagement />
-    </template>
+      <template v-else-if="selectedTab === 'courseManagement'">
+        <CourseManagement />
+      </template>
 
-    <template v-else-if="selectedTab === 'assignmentManagement'">
-      <AssignmentManagement />
-    </template>
-  </div>
+      <template v-else-if="selectedTab === 'assignmentManagement'">
+        <AssignmentManagement />
+      </template>
+    </div>
 </template>
 
 <script>
