@@ -28,17 +28,9 @@
                     </div>
                     <div class="d-flex justify-content-center align-items-center">
                         <button
-                            class="btn px-5" type="submit" 
-                            style="
-                                background-color: white;
-                                color: #4e2a84;
-                                border: none;
-                                text-transform: uppercase;
-                                border-radius: 50px;
-                                font-size: large;
-                            "
+                            class="btn px-5" type="submit" id="login"
                         >
-                            <b>Login</b>
+                            Sign In
                         </button>
                     </div>
                     <p v-if="message" :class="messageClass" class="mt-3 text-white">{{ message }}</p>
@@ -130,4 +122,25 @@ export default {
     background-color: white;
     font-family: popins;
 }
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+#login {
+    background-color: white;
+    color: #4e2a84;
+    border: none;
+    border-radius: 50px;
+    font-size: large;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@media screen and (max-width: 600px){
+        .form-container {
+            width: 300px;
+        }
+    }
 </style>

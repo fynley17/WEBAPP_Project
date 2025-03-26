@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
         <p id="title">MinimalTech</p>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +48,7 @@
   
 <style>
   #title {
+    color: white;
     font-size: x-large;
     font-weight: bolder;
     margin-top: 10px;
@@ -55,22 +56,40 @@
   }
 
   .nav-link.btn {
-    color: #000000;
+    color: White;
+  }
+
+  .nav-link.btn:hover {
+    background-color: #E59934;
+    color: white;
+    border-radius: 4px;
   }
 
   .nav-link.btn.active{
-    background-color: #facf41;
-    color: black;
+    background-color: #E59934;
+    color: white;
     border-radius: 4px;
   }
 
   #logout {
     color: white;
     border-radius: 5px;
-    background-color: #4e2a84;
+    background-color: #753188;
   }
 
   nav {
     font-family: Sofia Pro;
+    background: #2C272E;
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+
+  @media screen and (max-width: 768px) {
+    .nav-link.btn{
+      padding: 5px;
+    }
+    
   }
 </style>
