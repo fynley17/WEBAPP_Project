@@ -1,7 +1,7 @@
 <template>
-  <header>
+  <div id="navbar">
     <Nav />
-  </header>
+  </div>
   <div>
     <YourCoursesCardGrid :username="username" ref="yourCoursesGrid" @course-unregistered="updateAllCourses" />
     <CoursesCardGrid v-show="userID" :userID="userID" ref="coursesCardGrid" @course-registered="updateYourCourses" />
@@ -39,3 +39,10 @@ export default {
   }
 };
 </script>
+
+<style>
+#navbar{
+  position:sticky;
+  top:0;
+}
+</style>

@@ -29,7 +29,7 @@
     - [x] course listing
       - [x] be able to see all courses and details about the course
       - [x] be able to see amount of people on course
-    - [ ] course enrolement
+    - [x] course enrolement
       - [x] select and enroll on course (create assignment for themselves)
       - [x] view courses they are on
       - [x] remove their booking

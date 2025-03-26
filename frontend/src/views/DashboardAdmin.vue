@@ -1,9 +1,8 @@
 <template>
-  <header>
+  <div id="navbar">
     <Nav @change-tab="selectedTab = $event" />
-  </header>
-  
-  <div class="container fluid">
+  </div>
+  <div class="container fluid" id="dashboard">
     <template v-if="selectedTab === 'yourCourses'">
       <YourCoursesCardGrid :username="username" ref="yourCoursesGrid" @course-unregistered="updateAllCourses" />
       <CoursesCardGrid v-if="userID" :userID="userID" ref="allCoursesGrid" @course-registered="updateYourCourses" />
@@ -61,3 +60,11 @@ export default {
   }
 };
 </script>
+
+<style>
+#navbar{
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+</style>

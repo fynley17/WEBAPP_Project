@@ -1,7 +1,7 @@
 <template>
-  <div class="container mt-4">
+  <div class="container mt-4 mb-4">
     <h2 class="mb-4">All Courses</h2>
-    <div class="row p-3 rounded" style="background-color: #f4f4f4">
+    <div class="row p-3 rounded" style="background-color: #2d212f">
       <div class="col" v-for="course in courses.filter(course => new Date(course.cDate) >= new Date())" :key="course.courseID">
         <div class="card h-100 small-card m-0">
           <div class="card-body">
@@ -23,8 +23,8 @@
             <p class="card-text truncate-text" :title="course.cDescription">{{ course.cDescription }}</p>
           </div>
           <div class="card-footer p-2 d-flex justify-content-between">
-            <button class="btn btn-sm btn-primary" @click="openModal(course)">View Details</button>
-            <button class="btn btn-sm btn-secondary" @click="Register(course.courseID)" :disabled="course.currentAttendence === course.maxAttendees">Register</button>
+            <button class="btn btn-sm" id="view" @click="openModal(course)">View Details</button>
+            <button class="btn btn-sm" id="delete" @click="Register(course.courseID)" :disabled="course.currentAttendence === course.maxAttendees">Register</button>
           </div>
         </div>
       </div>
@@ -125,6 +125,8 @@
 
   .card {
     margin-bottom: 0;
+    background-color: #4b3f52; /* Set the background color of the card */
+    color: white; /* Set the text color to white */
   }
 
   .small-card {
@@ -136,6 +138,8 @@
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
+    background-color: #4b3f52; /* Set the background color of the small card */
+    color: white; /* Set the text color to white */
   }
 
   .card-body {
@@ -150,10 +154,6 @@
 
   .card-title {
     font-size: 1rem;
-  }
-
-  .nowrap {
-    white-space: nowrap;
   }
 
   /* Add fading effect to overflowing text */
@@ -172,8 +172,33 @@
     left: 0;
     width: 100%;
     height: 2em;  /* Height of the fading area */
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+    background: linear-gradient(to bottom, rgba(75, 63, 82, 0), rgba(75, 63, 82, 1)); /* Adjust gradient to match card background */
   }
+
+  .card-footer {
+    background-color: #2C272E; /* Set the background color of the card footer */
+  }
+
+  #view {
+    background-color: #753188; /* Set the background color of the View Details button */
+    color: white; /* Set the text color to white */
+  }
+
+  #view:hover {
+    background-color: #4b1f57; /* Change the background color on hover */
+  }
+
+  #delete {
+    color: #E59934;
+    border-color: #E59934;
+  }
+
+  #delete:hover{
+    color: #2C272E;
+    background-color: #E59934;
+  }
+
+  
 
   @media (max-width: 992px) {
     .row {
