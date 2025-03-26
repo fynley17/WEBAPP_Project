@@ -51,4 +51,4 @@
       - [x] be able to look at course participants
         - [x] remove course participante if needed
 
-- [ ] styling improvements
+- [x] styling improvements
