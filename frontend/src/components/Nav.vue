@@ -1,51 +1,52 @@
 <template>
-    <nav class="navbar navbar-expand-lg p-0">
-      <div class="container-fluid">
-        <p id="title">MinimalTech</p>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul v-if="$route.path === '/admin'" class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <button class="nav-link btn" :class="{ active: activeTab === 'yourCourses' }" id="nav-item1" @click="setActiveTab('yourCourses')">Your Courses</button>
-            </li>
-            <li class="nav-item">
-              <button class="nav-link btn" :class="{ active: activeTab === 'userManagement' }" id="nav-item2" @click="setActiveTab('userManagement')">User Management</button>
-            </li>
-            <li class="nav-item">
-              <button class="nav-link btn" :class="{ active: activeTab === 'courseManagement' }" id="nav-item3" @click="setActiveTab('courseManagement')">Course Management</button>
-            </li>
-            <li class="nav-item">
-              <button class="nav-link btn" :class="{ active: activeTab === 'assignmentManagement' }" id="nav-item4" @click="setActiveTab('assignmentManagement')">Assignment Management</button>
-            </li>
-          </ul>
-          <button class="btn" id="logout" @click="logout()">Log Out</button>
-        </div>
+  <nav class="navbar navbar-expand-lg p-0">
+    <div class="container-fluid position-relative">
+      <p id="title">MinimalTech</p>
+      <button v-if="$route.path === '/admin'" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div :class="{'collapse navbar-collapse': $route.path === '/admin', 'navbar-collapse': $route.path !== '/admin'}" id="navbarSupportedContent">
+        <ul v-if="$route.path === '/admin'" class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <button class="nav-link btn" :class="{ active: activeTab === 'yourCourses' }" id="nav-item1" @click="setActiveTab('yourCourses')">Your Courses</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link btn" :class="{ active: activeTab === 'userManagement' }" id="nav-item2" @click="setActiveTab('userManagement')">User Management</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link btn" :class="{ active: activeTab === 'courseManagement' }" id="nav-item3" @click="setActiveTab('courseManagement')">Course Management</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link btn" :class="{ active: activeTab === 'assignmentManagement' }" id="nav-item4" @click="setActiveTab('assignmentManagement')">Assignment Management</button>
+          </li>
+        </ul>
+        <button v-if="$route.path === '/admin'" class="nav-link btn" id="logout" @click="logout()">Log Out</button>
       </div>
-    </nav>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        activeTab: 'yourCourses' // Default active tab
-      };
+      <button v-if="$route.path !== '/admin'" class="btn logout-top-right" id="logout" @click="logout()">Log Out</button>
+    </div>
+  </nav>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      activeTab: 'yourCourses' // Default active tab
+    };
+  },
+  methods: {
+    setActiveTab(tab) {
+      this.activeTab = tab;
+      this.$emit('change-tab', tab);
     },
-    methods: {
-      setActiveTab(tab) {
-        this.activeTab = tab;
-        this.$emit('change-tab', tab);
-      },
-      logout() {
-        localStorage.removeItem('token');
-        this.$router.push('/');
-      }
+    logout() {
+      localStorage.removeItem('token');
+      this.$router.push('/');
     }
-  };
-  </script>
-  
+  }
+};
+</script>
+
 <style>
   #title {
     color: white;
@@ -75,6 +76,13 @@
     color: white;
     border-radius: 5px;
     background-color: #753188;
+    padding: 10px;
+  }
+
+  .logout-top-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
   }
 
   nav {
@@ -89,7 +97,7 @@
   @media screen and (max-width: 768px) {
     .nav-link.btn{
       padding: 5px;
+      margin-bottom: 5px;
     }
-    
   }
 </style>
