@@ -1,7 +1,7 @@
 <template>
   <header>
     <Nav @change-tab="selectedTab = $event" />
-  </header>>
+  </header>
     <div class="container fluid" id="dashboard">
       <template v-if="selectedTab === 'yourCourses'">
         <YourCoursesCardGrid :username="username" ref="yourCoursesGrid" @course-unregistered="updateAllCourses" />

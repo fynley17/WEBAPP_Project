@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-4">
     <h2 class="mb-4">Your Courses</h2>
-    <div class="row p-3 rounded" style="background-color: #f4f4f4">
+    <div class="row p-3 rounded mb-4" style="background-color: #4a374f">
       <div class="col" v-for="course in courses.filter(course => new Date(course.cDate) >= new Date())" :key="course.assignmentID">
         <div class="card h-100 small-card m-0">
           <div class="card-body">
@@ -30,7 +30,7 @@
       </div>
     </div>
     <h2 class="mb-4">Your Past Courses</h2>
-    <div class="row p-3 rounded" style="background-color: #f4f4f4">
+    <div class="row p-3 rounded" style="background-color: #4a374f">
       <div class="col" v-for="course in courses.filter(course => new Date(course.cDate) <= new Date())" :key="course.assignmentID">
         <div class="card h-100 small-card m-0">
           <div class="card-body">
