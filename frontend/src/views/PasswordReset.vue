@@ -101,6 +101,6 @@
     width: 400px;
     max-width: 100%;
     background-color: white;
-    font-family: Poppins;
+    font-family: Sofia Pro;
 }
 </style>
