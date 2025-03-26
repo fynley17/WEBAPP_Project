@@ -27,16 +27,21 @@
                             ">
                         <label for="password2" class="text-dark">Verify password</label>
                     </div>
-                    <button
-                        class="btn btn-lg form-control" type="submit" 
-                        style="
-                            background: linear-gradient(45deg, #8e2de2, #ff6a00);
-                            color: white; border: none;
-                            border-radius: 10px;
-                        "
-                    >
-                        Reset Password
-                    </button>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <button
+                            class="btn px5" type="submit" 
+                            style="
+                                background-color: white;
+                                color: #4e2a84;
+                                border: none;
+                                text-transform: uppercase;
+                                border-radius: 50px;
+                                font-size: large;
+                            "
+                        >
+                            <b class="m-4">Reset</b>
+                        </button>
+                    </div>
                     <p v-if="message" :class="messageClass" class="mt-3">{{ message }}</p>
                 </form>
             </div>
@@ -90,3 +95,12 @@
         }
     }
 </script>
+
+<style scoped>
+.form-container {
+    width: 400px;
+    max-width: 100%;
+    background-color: white;
+    font-family: Poppins;
+}
+</style>
