@@ -194,7 +194,7 @@ export default {
 
 <style scoped>
 .container {
-  background-color: #2C272E;
+  background-color: #302835;
   padding: 20px;
   border-radius: 8px;
 }
@@ -203,27 +203,28 @@ export default {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
 }
 
 .custom-table th, .custom-table td {
-  border: 1px solid #000000;
-  padding: 8px;
+  border: 1px solid #2C272E;
+  padding-left: 8px;
+  padding-right: 8px;
   text-align: center; /* Center align text in table cells */
 }
 
 .custom-table th {
-  background-color: #753188;
+  background-color: #2C272E;
   color: white;
 }
 
-.custom-table tbody tr:nth-child(even) {
-  background-color: #2C272E;
+.custom-table tbody tr {
+  background-color: #4b3f52;
 }
 
 .custom-table tbody tr:hover {
-  background-color: #4b3f52;
+  background-color: #3e3444;
   transition: 0.3s;
 }
 
