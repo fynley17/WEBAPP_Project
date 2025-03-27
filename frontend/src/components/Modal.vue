@@ -315,16 +315,17 @@ export default {
       this.$emit('update:selectedUser', null);
       this.$emit('viewCourse', false);
 
-      // Only reset if there is no selected course (prevents erasing pre-filled data)
-      if (!this.selectedCourse) {
-        this.courseFormData = {
-          cTitle: '',
-          cDate: '',
-          cDuration: '',
-          maxAttendees: '',
-          cDescription: ''
-        };
-      }
+      // Emit an event to reset the selected course
+      this.$emit('reset-selected-course');
+
+      // Reset courseFormData when the modal is closed
+      this.courseFormData = {
+        cTitle: '',
+        cDate: '',
+        cDuration: '',
+        maxAttendees: '',
+        cDescription: ''
+      };
 
       this.assignmentFormData = {
         userID: '',

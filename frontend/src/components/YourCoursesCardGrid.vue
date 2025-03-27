@@ -65,7 +65,8 @@
     @update:showModal="showModal = $event" 
     :viewCourse="viewCourse"
     :selectedCourse="selectedCourse" 
-    :message="modalMessage">
+    :message="modalMessage"
+    @reset-selected-course="resetSelectedCourse">
   </Modal>
 </template>
 
@@ -130,7 +131,11 @@
         this.selectedCourse = course;
         this.viewCourse = true;
         this.showModal = true;
-      }
+      },
+      resetSelectedCourse() {
+        this.selectedCourse = null;
+        this.viewCourse = false;
+      },
     },
     components: {
       Modal

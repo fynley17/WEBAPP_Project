@@ -37,7 +37,8 @@
     @update:showModal="showModal = $event" 
     :selectedCourse="selectedCourse" 
     :viewCourse="viewCourse"
-    :message="modalMessage">
+    :message="modalMessage"
+    @reset-selected-course="resetSelectedCourse">
   </Modal>
 </template>
 
@@ -74,7 +75,10 @@
         this.selectedCourse = course;
         this.viewCourse = true;
         this.showModal = true;
-        console.log('Selected course:', course);
+      },
+      resetSelectedCourse() {
+        this.selectedCourse = null;
+        this.viewCourse = false;
       },
       async Register(courseID) {
         try {
@@ -84,10 +88,6 @@
           });
 
           this.modalMessage = response.data.message;
-
-          // Reset course details before showing the modal
-          this.viewCourse = false; 
-          this.selectedCourse = null;
 
           this.showModal = true;
 

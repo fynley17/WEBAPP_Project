@@ -128,6 +128,7 @@ export default {
     },
     addCourse() {
       this.isAddingCourse = true; 
+      this.selectedCourse = null;
       this.showModal = true;
     },
     editCourse(course) {
