@@ -43,7 +43,7 @@
               </div>
               <div class="mb-3">
                   <label for="description" class="form-label">Description</label>
-                  <textarea class="form-control" id="description" v-model="courseFormData.cDescription" rows="3"></textarea>
+                  <textarea class="form-control" id="description" v-model="courseFormData.cDescription" rows="3" required></textarea>
               </div>
               <button type="submit" class="btn w-100" id="submit">Submit</button>
             </form>
@@ -71,7 +71,7 @@
               </div>
               <div class="mb-3">
                   <label for="description" class="form-label">Description</label>
-                  <textarea class="form-control" id="description" v-model="courseFormData.cDescription" rows="3"></textarea>
+                  <textarea class="form-control" id="description" v-model="courseFormData.cDescription" rows="3" required></textarea>
               </div>
               <button type="submit" class="btn w-100" id="submit">Submit</button>
             </form>
@@ -341,7 +341,6 @@ export default {
       };
     },
     async submitCourseForm() {
-      console.log(this.courseFormData)
       try {
         await api.post("/courses", this.courseFormData);
         this.closeModal();
@@ -351,13 +350,12 @@ export default {
       }
     },
     async submitEditCourseForm() {
-      console.log(this.courseFormData)
       try {
         await api.patch(`/courses/${this.selectedCourse.courseID}`, this.courseFormData);
         this.closeModal();
         this.$emit("course-added");
       } catch (error) {
-        console.error("Error adding course:", error);
+        console.error("Error editing course:", error);
       }
     },
     async submitAssignmentForm() {
