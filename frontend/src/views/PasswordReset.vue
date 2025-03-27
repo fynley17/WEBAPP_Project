@@ -51,6 +51,7 @@
 
 <script>
     import api from '../services/api';
+
     export default {
         props: {
             token: {
@@ -82,6 +83,7 @@
                     });
                     this.message = response.data.message;
                     this.messageClass = "text-success";
+                    this.$router.push('/');
                 }catch (error) {
                     console.error("Reset Password Error:", error.response?.data || error.message);
                     if (error.response && error.response.data) {
