@@ -14,7 +14,7 @@
       />
     </div>
 
-    <button class="btn" @click="addCourse()">Add Course</button>
+    <button class="btn" id="add" @click="addCourse()">Add Course</button>
 
     <!-- Upcoming Courses Table -->
     <h3>Upcoming Courses</h3>
@@ -378,9 +378,6 @@ export default {
   background-color: #753188;
   color: white;
   border-radius: 5px;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
 }
 
 #add:hover {
