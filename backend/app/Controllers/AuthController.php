@@ -27,13 +27,13 @@ class AuthController extends Controller
             $user = User::findByUsername($username);
 
             if (!$user) {
-                $this->jsonResponse(['error' => 'User not found'], 404);
+                $this->jsonResponse(['error' => 'Incorrect username or password'], 401);
                 return;
             }
 
             // Check if the user is locked out
             if (User::isLockedOut($user['userID'])) {
-                $this->jsonResponse(['error' => 'Account is locked. Try again later.'], 403);
+                $this->jsonResponse(['error' => 'Your account is locked due to too many failed login attempts. Please try again in 5 minutes.'], 403);
                 return;
             }
 
@@ -51,7 +51,7 @@ class AuthController extends Controller
 
                 $token = \App\Helpers\Jwt::generate_jwt($payload);
 
-                $this->jsonResponse(['message' => 'Login successful', 'token' => $token, 'accessLevel' => $user['accessLevel'], 'username' => $user['username'], 'userID' => $user['userID']]);
+                $this->jsonResponse(['success' => true, 'message' => 'Login successful', 'token' => $token, 'accessLevel' => $user['accessLevel'], 'username' => $user['username'], 'userID' => $user['userID']]);
             } else {
                 // Increment failed attempts
                 User::incrementFailedAttempts($user['userID']);
@@ -59,13 +59,13 @@ class AuthController extends Controller
                 // Lock the user if failed attempts reach 3
                 if ($user['failed_attempts'] + 1 >= 3) {
                     User::lockUser($user['userID']);
-                    $this->jsonResponse(['error' => 'Account locked due to too many failed attempts. Try again in 5 minutes.'], 403);
+                    $this->jsonResponse(['error' => 'Your account is locked due to too many failed login attempts. Please try again in 5 minutes.'], 403);
                 } else {
-                    $this->jsonResponse(['error' => 'Invalid credentials'], 401);
+                    $this->jsonResponse(['error' => 'Incorrect username or password'], 401);
                 }
             }
         } catch (\Exception $e) {
-            $this->jsonResponse(['error' => 'An error occurred while processing the request', 'details' => $e->getMessage()], 500);
+            $this->jsonResponse(['error' => 'An unexpected error occurred. Please try again later.'], 500);
         }
     }
 
