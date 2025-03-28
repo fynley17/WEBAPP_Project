@@ -13,6 +13,8 @@
       />
     </div>
 
+    <button class="btn p-1 mb-2" id="add" @click="addUser">Add User</button>
+
     <div class="table-responsive">
       <table class="custom-table">
         <thead id="table-header">
@@ -63,8 +65,6 @@
         </tbody>
       </table>
     </div>
-
-    <button class="btn p-1 mb-2" id="add" @click="addUser">Add User</button>
 
     <Modal 
       :showModal="showModal" 

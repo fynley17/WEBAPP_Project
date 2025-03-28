@@ -14,6 +14,8 @@
       />
     </div>
 
+    <button class="btn" id="add" @click="addCourse()">Add Course</button>
+
     <!-- Upcoming Courses Table -->
     <h3>Upcoming Courses</h3>
     <div class="table-responsive">
@@ -156,8 +158,6 @@
         </tbody>
       </table>
     </div>
-
-    <button class="btn" id="add" @click="addCourse()">Add Course</button>
 
     <Modal 
       :showModal="showModal" 

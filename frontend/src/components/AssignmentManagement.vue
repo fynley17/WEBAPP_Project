@@ -12,6 +12,8 @@
         @input="filterAssignments"
       />
     </div>
+    
+    <button class="btn p-1 mb-2" id="add" @click="addAssignment">Add Assignment</button>
 
     <!-- Upcoming Assignments Table -->
     <h3>Upcoming Assignments</h3>
@@ -86,7 +88,6 @@
     </div>
 
     <!-- Button to add a new assignment -->
-    <button class="btn p-1 mb-2" id="add" @click="addAssignment">Add Assignment</button>
   </div>
 
   <!-- Modal component for managing assignments -->
