@@ -1,22 +1,48 @@
 <template>
   <div class="container mt-4 rounded">
     <h2 class="mb-4">User Management</h2>
+
+    <!-- Search input -->
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by username, email, or name"
+        v-model="searchQuery"
+        @input="filterUsers"
+      />
+    </div>
+
     <div class="table-responsive">
       <table class="custom-table">
         <thead id="table-header">
           <tr>
-            <th>#</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Job</th>
-            <th>Access Level</th>
+            <th @click="sortBy('userID')" class="sortable">
+              # <span v-if="sortKey === 'userID'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
+            </th>
+            <th @click="sortBy('username')" class="sortable">
+              Username <span v-if="sortKey === 'username'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
+            </th>
+            <th @click="sortBy('email')" class="sortable">
+              Email <span v-if="sortKey === 'email'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
+            </th>
+            <th @click="sortBy('firstName')" class="sortable">
+              First Name <span v-if="sortKey === 'firstName'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
+            </th>
+            <th @click="sortBy('lastName')" class="sortable">
+              Last Name <span v-if="sortKey === 'lastName'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
+            </th>
+            <th @click="sortBy('jobTitle')" class="sortable">
+              Job <span v-if="sortKey === 'jobTitle'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
+            </th>
+            <th @click="sortBy('accessLevel')" class="sortable">
+              Access Level <span v-if="sortKey === 'accessLevel'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody id="table-body">
-          <tr v-for="user in users" :key="user.userID">
+          <tr v-for="user in filteredUsers" :key="user.userID">
             <td>{{ user.userID }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
@@ -37,20 +63,21 @@
         </tbody>
       </table>
     </div>
-    <button class="btn p-1 mb-2" id="add" @click="addUser">Add User</button>
-  </div>
 
-  <Modal 
-    :showModal="showModal" 
-    @update:showModal="showModal = $event" 
-    :selectedCourse="selectedCourse" 
-    :isAddingUser="isAddingUser" 
-    @update:isAddingUser="isAddingUser = $event"
-    :selectedUser="selectedUser"
-    :isEditingUser="isEditingUser" 
-    @update:isEditingUser="isEditingUser = $event"
-    :message="modalMessage" @user-added="fetchUsers()">
-  </Modal>
+    <button class="btn p-1 mb-2" id="add" @click="addUser">Add User</button>
+
+    <Modal 
+      :showModal="showModal" 
+      @update:showModal="showModal = $event" 
+      :selectedCourse="selectedCourse" 
+      :isAddingUser="isAddingUser" 
+      @update:isAddingUser="isAddingUser = $event"
+      :selectedUser="selectedUser"
+      :isEditingUser="isEditingUser" 
+      @update:isEditingUser="isEditingUser = $event"
+      :message="modalMessage" @user-added="fetchUsers()">
+    </Modal>
+  </div>
 </template>
 
 <script>
@@ -61,7 +88,11 @@ export default {
   name: "UserManagement",
   data() {
     return {
-      users: [],
+      users: [], // List of all users
+      filteredUsers: [], // Filtered and sorted users
+      searchQuery: "", // Search query for filtering
+      sortKey: "", // Key to sort by
+      sortOrder: 1, // Sort order: 1 for ascending, -1 for descending
       showModal: false,
       modalMessage: '',
       selectedCourse: null,
@@ -74,25 +105,40 @@ export default {
     this.fetchUsers(); 
   },
   methods: {
+    /**
+     * Fetch the list of users from the API.
+     */
     async fetchUsers() {
       try {
         const response = await api.get(`/users`);
         console.log('API Response:', response.data);
         this.users = Array.isArray(response.data) ? response.data : [response.data];
+        this.filteredUsers = this.users; // Initialize filtered users
       } catch (error) {
         console.error('Error fetching users:', error);
       }
     },
+    /**
+     * Open the modal to add a new user.
+     */
     addUser() {
       this.isAddingUser = true; 
       this.showModal = true;
     },
+    /**
+     * Open the modal to edit an existing user.
+     * @param {Object} user - The user to edit.
+     */
     editUser(user) {
       console.log(user);
       this.isEditingUser = true;
       this.selectedUser = user;
       this.showModal = true;
     },
+    /**
+     * Delete a user by their ID.
+     * @param {number} userID - The ID of the user to delete.
+     */
     async deleteUser(userID) {
       try {
         const response = await api.delete(`/users/${userID}`);
@@ -101,6 +147,40 @@ export default {
       } catch (error) {
         console.error('Error deleting user:', error);
       }
+    },
+    /**
+     * Filter users based on the search query.
+     */
+    filterUsers() {
+      const query = this.searchQuery.toLowerCase();
+      this.filteredUsers = this.users.filter(
+        (user) =>
+          user.username.toLowerCase().includes(query) ||
+          user.email.toLowerCase().includes(query) ||
+          user.firstName.toLowerCase().includes(query) ||
+          user.lastName.toLowerCase().includes(query) ||
+          user.jobTitle.toLowerCase().includes(query) ||
+          user.accessLevel.toString().toLowerCase().includes(query)
+      );
+    },
+    /**
+     * Sort users by a given key.
+     * @param {string} key - The key to sort by (e.g., 'username', 'email').
+     */
+    sortBy(key) {
+      if (this.sortKey === key) {
+        // If already sorting by this key, toggle the sort order
+        this.sortOrder *= -1;
+      } else {
+        // Otherwise, set the new sort key and default to ascending order
+        this.sortKey = key;
+        this.sortOrder = 1;
+      }
+      this.filteredUsers.sort((a, b) => {
+        if (a[key] < b[key]) return -1 * this.sortOrder;
+        if (a[key] > b[key]) return 1 * this.sortOrder;
+        return 0;
+      });
     }
   },
   components: {
@@ -110,59 +190,86 @@ export default {
 </script>
 
 <style scoped>
-  .container {
-    background-color: #2d212f;
-    padding: 20px;
-    border-radius: 8px;
-  }
+/* Container styling */
+.container {
+  background-color: #2d212f;
+  padding: 20px;
+  border-radius: 8px;
+}
 
-  .custom-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-  }
+/* Table styling */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
 
-  .custom-table th, .custom-table td {
-    border: 1px solid #302835;
-    padding-left: 4px;
-    padding-right: 4px;
-    text-align: center; /* Center align text in table cells */
-  }
+.custom-table th, .custom-table td {
+  border: 1px solid #302835;
+  padding-left: 4px;
+  padding-right: 4px;
+  text-align: center; /* Center align text in table cells */
+}
 
-  .custom-table th {
-    background-color: #2C272E;
-    color: white;
-  }
+.custom-table th {
+  background-color: #2C272E;
+  color: white;
+}
 
-  .custom-table tbody tr {
-    background-color: #4b3f52;
-  }
+.custom-table tbody tr {
+  background-color: #4b3f52;
+}
 
-  .custom-table tbody tr:hover {
-    background-color: #3e3444;
-    transition: 0.3s;
-  }
+.custom-table tbody tr:hover {
+  background-color: #3e3444;
+  transition: 0.3s;
+}
 
-  #action {
-    color: #E59934;
-    border: none;
-    background: none;
-    cursor: pointer;
-  }
+/* Delete button styling */
+#action {
+  color: #E59934;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
 
-  #action:hover {
-    background-color: #493111;
-  }
+#action:hover {
+  background-color: #493111;
+}
 
-  #add {
-    background-color: #753188;
-    color: white;
-    border-radius: 5px;
-  }
+/* Add button styling */
+#add {
+  background-color: #753188;
+  color: white;
+  border-radius: 5px;
+}
 
-  #add:hover {
-    background-color: #5a2566;
-  }
+#add:hover {
+  background-color: #5a2566;
+}
+
+/* Styling for sortable table headers */
+.sortable {
+  cursor: pointer;
+  position: relative;
+}
+
+.sortable::after {
+  content: "⇅"; /* Default indicator for sortable columns */
+  font-size: 0.8rem;
+  margin-left: 5px;
+  color: #ccc;
+}
+
+.sortable.asc::after {
+  content: "↑"; /* Ascending order indicator */
+  color: #000;
+}
+
+sortable.desc::after {
+  content: "↓"; /* Descending order indicator */
+  color: #000;
+}
 </style>
