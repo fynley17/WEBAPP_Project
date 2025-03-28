@@ -17,24 +17,31 @@
       <table class="custom-table">
         <thead id="table-header">
           <tr>
+            <!-- Sortable column for User ID -->
             <th @click="sortBy('userID')" class="sortable">
               # <span v-if="sortKey === 'userID'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
             </th>
+            <!-- Sortable column for Username -->
             <th @click="sortBy('username')" class="sortable">
               Username <span v-if="sortKey === 'username'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
             </th>
+            <!-- Sortable column for Email -->
             <th @click="sortBy('email')" class="sortable">
               Email <span v-if="sortKey === 'email'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
             </th>
+            <!-- Sortable column for First Name -->
             <th @click="sortBy('firstName')" class="sortable">
               First Name <span v-if="sortKey === 'firstName'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
             </th>
+            <!-- Sortable column for Last Name -->
             <th @click="sortBy('lastName')" class="sortable">
               Last Name <span v-if="sortKey === 'lastName'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
             </th>
+            <!-- Sortable column for Job Title -->
             <th @click="sortBy('jobTitle')" class="sortable">
               Job <span v-if="sortKey === 'jobTitle'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
             </th>
+            <!-- Sortable column for Access Level -->
             <th @click="sortBy('accessLevel')" class="sortable">
               Access Level <span v-if="sortKey === 'accessLevel'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
             </th>
@@ -42,6 +49,7 @@
           </tr>
         </thead>
         <tbody id="table-body">
+          <!-- Loop through filtered users and display them -->
           <tr v-for="user in filteredUsers" :key="user.userID">
             <td>{{ user.userID }}</td>
             <td>{{ user.username }}</td>
@@ -64,8 +72,10 @@
       </table>
     </div>
 
+    <!-- Button to add a new user -->
     <button class="btn p-1 mb-2" id="add" @click="addUser">Add User</button>
 
+    <!-- Modal component for managing users -->
     <Modal 
       :showModal="showModal" 
       @update:showModal="showModal = $event" 
@@ -93,16 +103,16 @@ export default {
       searchQuery: "", // Search query for filtering
       sortKey: "", // Key to sort by
       sortOrder: 1, // Sort order: 1 for ascending, -1 for descending
-      showModal: false,
-      modalMessage: '',
-      selectedCourse: null,
-      isAddingUser: false,
-      isEditingUser: false,
-      selectedUser: null
+      showModal: false, // Controls the visibility of the modal
+      modalMessage: '', // Message to display in the modal
+      selectedCourse: null, // Currently selected course
+      isAddingUser: false, // Indicates if a new user is being added
+      isEditingUser: false, // Indicates if a user is being edited
+      selectedUser: null // Currently selected user
     };
   },
   mounted() {
-    this.fetchUsers(); 
+    this.fetchUsers(); // Fetch users when the component is mounted
   },
   methods: {
     /**
@@ -113,7 +123,7 @@ export default {
         const response = await api.get(`/users`);
         console.log('API Response:', response.data);
         this.users = Array.isArray(response.data) ? response.data : [response.data];
-        this.filteredUsers = this.users; // Initialize filtered users
+        this.filteredUsers = this.users; // Initialise filtered users
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -192,7 +202,7 @@ export default {
 <style scoped>
 /* Container styling */
 .container {
-  background-color: #2d212f;
+  background-color: #2d212f; /* Set the background color of the container */
   padding: 20px;
   border-radius: 8px;
 }
@@ -210,20 +220,20 @@ export default {
   border: 1px solid #302835;
   padding-left: 4px;
   padding-right: 4px;
-  text-align: center; /* Center align text in table cells */
+  text-align: center; /* center align text in table cells */
 }
 
 .custom-table th {
-  background-color: #2C272E;
-  color: white;
+  background-color: #2C272E; /* Set the background color of table headers */
+  color: white; /* Set the text color to white */
 }
 
 .custom-table tbody tr {
-  background-color: #4b3f52;
+  background-color: #4b3f52; /* Set the background color of table rows */
 }
 
 .custom-table tbody tr:hover {
-  background-color: #3e3444;
+  background-color: #3e3444; /* Change the background color on hover */
   transition: 0.3s;
 }
 
@@ -268,7 +278,7 @@ export default {
   color: #000;
 }
 
-sortable.desc::after {
+.sortable.desc::after {
   content: "↓"; /* Descending order indicator */
   color: #000;
 }

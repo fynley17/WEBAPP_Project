@@ -1,17 +1,19 @@
 <template>
   <div class="container mt-4">
     <h2 class="mb-4">Your Courses</h2>
+    <!-- Container for upcoming courses -->
     <div class="row p-3 rounded mb-4" style="background-color: #2d212f">
+      <!-- Loop through and display only upcoming courses -->
       <div class="col" v-for="course in courses.filter(course => new Date(course.cDate) >= new Date())" :key="course.assignmentID">
         <div class="card h-100 small-card m-0">
           <div class="card-body">
-            <!-- Title (top left) and Date (top right) -->
+            <!-- Display course title (left) and date (right) -->
             <div class="d-flex justify-content-between">
               <h6 class="card-title mb-1">{{ course.cTitle }}</h6>
               <p class="card-text text-end mb-1"><strong>{{ course.cDate }}</strong></p>
             </div>
             
-            <!-- Duration (left) and Current Attendance / Max Attendees (right) -->
+            <!-- Display course duration and attendance -->
             <div class="d-flex justify-content-between">
               <p class="card-text mb-1"><strong>Duration:</strong> {{ course.cDuration }} days</p>
               <p class="card-text text-end mb-1">
@@ -19,28 +21,33 @@
               </p>
             </div>
 
-            <!-- Description with fade effect for overflow -->
+            <!-- Display course description with truncation for overflow -->
             <p class="card-text truncate-text" :title="course.cDescription">{{ course.cDescription }}</p>
           </div>
           <div class="card-footer p-2 d-flex justify-content-between">
+            <!-- Button to view course details -->
             <button class="btn btn-sm" id="view" @click="openModal(course)">View Details</button>
+            <!-- Button to delete the course -->
             <button class="btn btn-sm" id="delete" @click="Delete(course.assignmentID)">Delete</button>
           </div>
         </div>
       </div>
     </div>
+
     <h2 class="mb-4">Your Past Courses</h2>
+    <!-- Container for past courses -->
     <div class="row p-3 rounded" style="background-color: #2d212f">
+      <!-- Loop through and display only past courses -->
       <div class="col" v-for="course in courses.filter(course => new Date(course.cDate) <= new Date())" :key="course.assignmentID">
         <div class="card h-100 small-card m-0">
           <div class="card-body">
-            <!-- Title (top left) and Date (top right) -->
+            <!-- Display course title (left) and date (right) -->
             <div class="d-flex justify-content-between">
               <h6 class="card-title mb-1">{{ course.cTitle }}</h6>
               <p class="card-text text-end mb-1"><strong>{{ course.cDate }}</strong></p>
             </div>
             
-            <!-- Duration (left) and Current Attendance / Max Attendees (right) -->
+            <!-- Display course duration and attendance -->
             <div class="d-flex justify-content-between">
               <p class="card-text mb-1"><strong>Duration:</strong> {{ course.cDuration }} days</p>
               <p class="card-text text-end mb-1">
@@ -48,10 +55,11 @@
               </p>
             </div>
 
-            <!-- Description with fade effect for overflow -->
+            <!-- Display course description with truncation for overflow -->
             <p class="card-text truncate-text" :title="course.cDescription">{{ course.cDescription }}</p>
           </div>
           <div class="card-footer p-2 d-flex justify-content-between">
+            <!-- Button to view course details -->
             <button class="btn btn-sm" id="view" @click="openModal(course)">View Details</button>
           </div>
         </div>
@@ -76,15 +84,15 @@
 
   export default {
     props: {
-      username: String
+      username: String // Username passed as a prop
     },
     data() {
       return {
-        courses: [],
-        showModal: false,
-        modalMessage: '',
-        selectedCourse: null,
-        viewCourse: false
+        courses: [], // List of courses
+        showModal: false, // Controls the visibility of the modal
+        modalMessage: '', // Message to display in the modal
+        selectedCourse: null, // Currently selected course
+        viewCourse: false // Indicates whether the modal is in view mode
       };
     },
     watch: {
@@ -92,12 +100,16 @@
         immediate: true,
         handler(newusername) {
           if (newusername) {
-            this.fetchCourses(newusername);
+            this.fetchCourses(newusername); // Fetch courses when username changes
           }
         }
       }
     },
     methods: {
+      /**
+       * Fetch the list of courses for the given username.
+       * @param {string} username - The username to fetch courses for.
+       */
       async fetchCourses(username) {
         try {
           console.log("Fetching courses for username:", username);
@@ -108,17 +120,22 @@
           console.error('Error fetching courses:', error);
         }
       },
+      /**
+       * Delete a course assignment by its ID.
+       * @param {number} assignmentID - The ID of the assignment to delete.
+       */
       async Delete(assignmentID) {
         try {
           const response = await api.delete(`/assignments/${assignmentID}`);
 
-          this.modalMessage = response.data.message;
+          this.modalMessage = response.data.message; // Display success message
           this.viewCourse = false;  
           this.selectedCourse = null;  
           this.showModal = true;
 
+          // Remove the deleted course from the list
           this.courses = this.courses.filter(course => course.assignmentID !== assignmentID);
-          this.$emit('course-unregistered');
+          this.$emit('course-unregistered'); // Notify parent component
         } catch (error) {
           console.error("Error deleting assignment:", error);
           this.modalMessage = "Error deleting the assignment.";
@@ -127,23 +144,31 @@
           this.showModal = true;
         }
       },
+      /**
+       * Open the modal to view course details.
+       * @param {Object} course - The course to view.
+       */
       openModal(course) {
         this.selectedCourse = course;
         this.viewCourse = true;
         this.showModal = true;
       },
+      /**
+       * Reset the selected course and close the modal.
+       */
       resetSelectedCourse() {
         this.selectedCourse = null;
         this.viewCourse = false;
       },
     },
     components: {
-      Modal
+      Modal // Register the Modal component
     }
   };
 </script>
 
 <style scoped>
+  /* Grid layout for courses */
   .row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -152,9 +177,10 @@
 
   .col {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* center align the cards */
   }
 
+  /* Card styling */
   .card {
     margin-bottom: 0;
     background-color: #4b3f52; /* Set the background color of the card */
@@ -207,10 +233,12 @@
     background: linear-gradient(to bottom, rgba(75, 63, 82, 0), rgba(75, 63, 82, 1)); /* Adjust gradient to match card background */
   }
 
+  /* Footer styling */
   .card-footer {
     background-color: #2C272E; /* Set the background color of the card footer */
   }
 
+  /* View Details button styling */
   #view {
     background-color: #753188; /* Set the background color of the View Details button */
     color: white; /* Set the text color to white */
@@ -220,16 +248,18 @@
     background-color: #4b1f57; /* Change the background color on hover */
   }
 
+  /* Delete button styling */
   #delete {
     color: #E59934;
     border-color: #E59934;
   }
 
-  #delete:hover{
+  #delete:hover {
     color: #2C272E;
     background-color: #E59934;
   }
 
+  /* Responsive design for smaller screens */
   @media (max-width: 992px) {
     .row {
       grid-template-columns: repeat(2, 1fr);

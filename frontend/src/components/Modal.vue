@@ -12,7 +12,7 @@
           <h5 class="modal-title">{{ modalTitle }}</h5>
         </div>
         <div class="modal-body">
-          <!-- Check if selectedCourse is null -->
+          <!-- Display course details if in view mode -->
           <div v-if="viewCourse">
             <p><strong>Date:</strong> {{ courseFormData.cDate }}</p>
             <p><strong>Duration:</strong> {{ courseFormData.cDuration }} days</p>
@@ -21,6 +21,7 @@
             <p>{{ courseFormData.cDescription }}</p>
           </div>
 
+          <!-- Form for adding a new course -->
           <div v-else-if="isAddingCourse">
             <form @submit.prevent="submitCourseForm">
               <div class="mb-3">
@@ -49,6 +50,7 @@
             </form>
           </div>
 
+          <!-- Form for editing an existing course -->
           <div v-else-if="isEditingCourse">
             <form @submit.prevent="submitEditCourseForm">
               <div class="mb-3">
@@ -77,7 +79,7 @@
             </form>
           </div>
 
-          <!-- Check if creating a user -->
+          <!-- Form for creating a new user -->
           <div v-else-if="isAddingUser">
               <form @submit.prevent="submitForm">
                 <div class="mb-3 d-flex gap-2">
@@ -114,7 +116,8 @@
                 <button type="submit" class="btn w-100" id="submit">Submit</button>
               </form>
           </div>
-          <!-- Check if editing a user -->
+
+          <!-- Form for editing an existing user -->
           <div v-else-if="isEditingUser">
               <form @submit.prevent="submitEditForm">
                 <div class="mb-3 d-flex gap-2">
@@ -164,11 +167,11 @@
           </div>
           <!-- If selectedCourse is null, show the delete message -->
           <div v-else>
-            <p>{{ message }}</p> <!-- Show the message instead of course details -->
+            <p>{{ message }}</p>
           </div>
         </div>
-        <div class="modal-footer d-felx justify-content-center">
-          <button type="button" class="btn" id="close"@click="closeModal">Close</button>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn" id="close" @click="closeModal">Close</button>
         </div>
       </div>
     </div>

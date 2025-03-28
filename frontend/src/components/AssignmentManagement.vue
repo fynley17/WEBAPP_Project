@@ -251,7 +251,7 @@ export default {
   border: 1px solid #302835;
   padding-left: 8px;
   padding-right: 8px;
-  text-align: center; /* Centre align text in table cells */
+  text-align: center; /* center align text in table cells */
 }
 
 .custom-table th {

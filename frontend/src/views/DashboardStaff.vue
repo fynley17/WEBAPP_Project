@@ -1,10 +1,22 @@
 <template>
   <div id="navbar">
+    <!-- Navigation bar component -->
     <Nav />
   </div>
   <div>
-    <YourCoursesCardGrid :username="username" ref="yourCoursesGrid" @course-unregistered="updateAllCourses" />
-    <CoursesCardGrid v-show="userID" :userID="userID" ref="coursesCardGrid" @course-registered="updateYourCourses" />
+    <!-- Grid for the user's courses -->
+    <YourCoursesCardGrid 
+      :username="username" 
+      ref="yourCoursesGrid" 
+      @course-unregistered="updateAllCourses" 
+    />
+    <!-- Grid for all available courses -->
+    <CoursesCardGrid 
+      v-show="userID" 
+      :userID="userID" 
+      ref="coursesCardGrid" 
+      @course-registered="updateYourCourses" 
+    />
   </div>
 </template>
   
@@ -15,24 +27,31 @@ import CoursesCardGrid from '../components/CoursesCardGrid.vue';
 
 export default {
   components: {
-    Nav,
-    YourCoursesCardGrid,
-    CoursesCardGrid
+    Nav, // Navigation bar component
+    YourCoursesCardGrid, // Component for displaying the user's courses
+    CoursesCardGrid // Component for displaying all available courses
   },
   data() {
     return {
-      username: null,
-      userID: null
+      username: null, // Username of the logged-in user
+      userID: null // User ID of the logged-in user
     };
   },
   mounted() {
-    this.username = localStorage.getItem('username') || ''; // Corrected: Use userID
+    // Retrieve the username and user ID from local storage when the component is mounted
+    this.username = localStorage.getItem('username') || ''; 
     this.userID = localStorage.getItem('userID') || '';
   },
   methods: {
+    /**
+     * Update the user's courses grid by fetching the latest data.
+     */
     updateYourCourses() {
       this.$refs.yourCoursesGrid.fetchCourses(this.username);
     },
+    /**
+     * Update the grid for all courses by fetching the latest data.
+     */
     updateAllCourses() {
       this.$refs.coursesCardGrid.fetchCourses();
     }
@@ -41,8 +60,8 @@ export default {
 </script>
 
 <style>
-#navbar{
-  position:sticky;
-  top:0;
+#navbar {
+  position: sticky; /* Keep the navbar fixed at the top */
+  top: 0; /* Align it to the top of the page */
 }
 </style>

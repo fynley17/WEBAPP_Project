@@ -1,7 +1,9 @@
 <template>
   <div class="container mt-4 mb-4">
     <h2 class="mb-4">All Courses</h2>
+    <!-- Course grid container -->
     <div class="row p-3 rounded" style="background-color: #2d212f">
+      <!-- Loop through courses and display only upcoming ones -->
       <div class="col" v-for="course in courses.filter(course => new Date(course.cDate) >= new Date())" :key="course.courseID">
         <div class="card h-100 small-card m-0">
           <div class="card-body">
@@ -23,7 +25,9 @@
             <p class="card-text truncate-text" :title="course.cDescription">{{ course.cDescription }}</p>
           </div>
           <div class="card-footer p-2 d-flex justify-content-between">
+            <!-- Button to view course details -->
             <button class="btn btn-sm" id="view" @click="openModal(course)">View Details</button>
+            <!-- Button to register for the course -->
             <button class="btn btn-sm" id="delete" @click="Register(course.courseID)" :disabled="course.currentAttendence === course.maxAttendees">Register</button>
           </div>
         </div>
@@ -31,7 +35,7 @@
     </div>
   </div>
 
-  <!-- Modal to show full course information or delete message -->
+  <!-- Modal to show full course information or registration message -->
   <Modal 
     :showModal="showModal" 
     @update:showModal="showModal = $event" 
@@ -48,38 +52,52 @@
 
   export default {
     props: {
-      userID: String
+      userID: String // User ID passed as a prop
     },
     data() {
       return {
-        courses: [],
-        showModal: false,
-        modalMessage: '',
-        selectedCourse: null,
-        viewCourse: false
+        courses: [], // List of all courses
+        showModal: false, // Controls the visibility of the modal
+        modalMessage: '', // Message to display in the modal
+        selectedCourse: null, // Currently selected course
+        viewCourse: false // Indicates whether the modal is in view mode
       };
     },
     mounted() {
-      this.fetchCourses();
+      this.fetchCourses(); // Fetch courses when the component is mounted
     },
     methods: {
+      /**
+       * Fetch the list of courses from the API.
+       */
       async fetchCourses() {
         try {
           const response = await api.get(`/courses`);
           this.courses = Array.isArray(response.data) ? response.data : [response.data];
         } catch (error) {
-          console.error('Error fetching courses:', error);
+          console.error('Error fetching courses:', error); // Log any errors
         }
       },
+      /**
+       * Open the modal to view course details.
+       * @param {Object} course - The course to view.
+       */
       openModal(course) {
         this.selectedCourse = course;
         this.viewCourse = true;
         this.showModal = true;
       },
+      /**
+       * Reset the selected course and close the modal.
+       */
       resetSelectedCourse() {
         this.selectedCourse = null;
         this.viewCourse = false;
       },
+      /**
+       * Register the user for a course.
+       * @param {number} courseID - The ID of the course to register for.
+       */
       async Register(courseID) {
         try {
           const response = await api.post("/assignments", {
@@ -87,14 +105,13 @@
             courseID: courseID,
           });
 
-          this.modalMessage = response.data.message;
-
+          this.modalMessage = response.data.message; // Display success message
           this.showModal = true;
 
-          this.$emit('course-registered'); // Emit event
-          this.fetchCourses();  // Refresh course data
+          this.$emit('course-registered'); // Emit event to notify parent component
+          this.fetchCourses(); // Refresh course data
         } catch (error) {
-          console.error('Error registering assignment:', error);
+          console.error('Error registering assignment:', error); // Log any errors
           this.modalMessage = 'You are already assigned to this course.';
 
           // Reset course details before showing the modal
@@ -106,12 +123,13 @@
       }
     },
     components: {
-      Modal
+      Modal // Register the Modal component
     }
   };
 </script>
 
 <style scoped>
+  /* Grid layout for courses */
   .row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -123,6 +141,7 @@
     justify-content: center;
   }
 
+  /* Card styling */
   .card {
     margin-bottom: 0;
     background-color: #4b3f52; /* Set the background color of the card */
@@ -175,10 +194,12 @@
     background: linear-gradient(to bottom, rgba(75, 63, 82, 0), rgba(75, 63, 82, 1)); /* Adjust gradient to match card background */
   }
 
+  /* Footer styling */
   .card-footer {
     background-color: #2C272E; /* Set the background color of the card footer */
   }
 
+  /* View Details button styling */
   #view {
     background-color: #753188; /* Set the background color of the View Details button */
     color: white; /* Set the text color to white */
@@ -188,6 +209,7 @@
     background-color: #4b1f57; /* Change the background color on hover */
   }
 
+  /* Register button styling */
   #delete {
     color: #E59934;
     border-color: #E59934;
@@ -198,8 +220,7 @@
     background-color: #E59934;
   }
 
-  
-
+  /* Responsive design for smaller screens */
   @media (max-width: 992px) {
     .row {
       grid-template-columns: repeat(2, 1fr);

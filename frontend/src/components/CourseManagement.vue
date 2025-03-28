@@ -20,6 +20,7 @@
       <table class="custom-table">
         <thead id="table-header">
           <tr>
+            <!-- Sortable columns for upcoming courses -->
             <th @click="sortBy('courseID', 'upcoming')" class="sortable">
               # <span v-if="sortKey === 'courseID' && sortTarget === 'upcoming'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
             </th>
@@ -48,6 +49,7 @@
               <td>{{ course.currentAttendence }}</td>
               <td>{{ course.cDescription }}</td>
               <td>
+                <!-- Edit and delete buttons for upcoming courses -->
                 <button class="btn" id="action" @click.stop="editCourse(course)">
                   <i class="fas fa-edit"></i>
                 </button>
@@ -75,6 +77,7 @@
                         <td>{{ user.userID }}</td>
                         <td>{{ user.username }}</td>
                         <td>
+                          <!-- Delete button for enrolled users -->
                           <button class="btn" id="action" @click.stop="deleteUser(user.assignmentID)">
                             <i class="fas fa-trash"></i>
                           </button>
@@ -99,6 +102,7 @@
       <table class="custom-table">
         <thead id="table-header">
           <tr>
+            <!-- Sortable columns for past courses -->
             <th @click="sortBy('courseID', 'past')" class="sortable">
               #<span v-if="sortKey === 'courseID' && sortTarget === 'past'" :class="sortOrder === 1 ? 'asc' : 'desc'"></span>
             </th>
@@ -157,6 +161,7 @@
       </table>
     </div>
 
+    <!-- Button to add a new course -->
     <button class="btn" id="add" @click="addCourse()">Add Course</button>
 
     <Modal 
