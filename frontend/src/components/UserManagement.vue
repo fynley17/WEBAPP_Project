@@ -13,6 +13,8 @@
       />
     </div>
 
+    <button class="btn p-1 mb-2" id="add" @click="addUser">Add User</button>
+
     <div class="table-responsive">
       <table class="custom-table">
         <thead id="table-header">
@@ -71,9 +73,6 @@
         </tbody>
       </table>
     </div>
-
-    <!-- Button to add a new user -->
-    <button class="btn p-1 mb-2" id="add" @click="addUser">Add User</button>
 
     <!-- Modal component for managing users -->
     <Modal 
