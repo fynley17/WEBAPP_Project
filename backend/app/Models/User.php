@@ -201,6 +201,42 @@ class User extends Model
         return $stmt->execute();
     }
 
+    public static function incrementFailedAttempts($id)
+    {
+        $stmt = self::getDB()->prepare("UPDATE users SET failed_attempts = failed_attempts + 1 WHERE userID = :id");
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    public static function resetFailedAttempts($id)
+    {
+        $stmt = self::getDB()->prepare("UPDATE users SET failed_attempts = 0, lockout_until = NULL WHERE userID = :id");
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    public static function lockUser($id)
+    {
+        $lockoutTime = date('Y-m-d H:i:s', strtotime('+5 minutes'));
+        $stmt = self::getDB()->prepare("UPDATE users SET lockout_until = :lockoutTime WHERE userID = :id");
+        $stmt->bindValue(':lockoutTime', $lockoutTime, \PDO::PARAM_STR);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    public static function isLockedOut($id)
+    {
+        $stmt = self::getDB()->prepare("SELECT lockout_until FROM users WHERE userID = :id");
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if ($result && $result['lockout_until'] && strtotime($result['lockout_until']) > time()) {
+            return true;
+        }
+        return false;
+    }
+
     // Helpers
     public static function names($name)
     {

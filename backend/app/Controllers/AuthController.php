@@ -14,60 +14,58 @@ class AuthController extends Controller
     public function login()
     {
         try {
-            // Get the input data (username and password)
             $data = json_decode(file_get_contents("php://input"), true);
 
-            // Check if data is valid
-            if (!$data) {
-                $this->jsonResponse(['error' => 'Invalid JSON input'], 400);
-                return;
-            }
-
-            if (!isset($data['username']) || !isset($data['password'])) {
+            if (!$data || !isset($data['username']) || !isset($data['password'])) {
                 $this->jsonResponse(['error' => 'Username and password are required'], 400);
                 return;
             }
 
-            $username = $data['username'] ?? '';
-            $password = $data['password'] ?? '';
+            $username = $data['username'];
+            $password = $data['password'];
 
-            // Check if username and password are provided
-            if (empty($username) || empty($password)) {
-                $this->jsonResponse(['error' => 'Username and password are required'], 400);
-                return;
-            }
-
-            // Fetch user by username
             $user = User::findByUsername($username);
 
-            // If user not found
             if (!$user) {
-                $this->jsonResponse(['error' => 'User not found'], 404);
+                $this->jsonResponse(['error' => 'Incorrect username or password'], 401);
                 return;
             }
 
-            // Validate user and password
+            // Check if the user is locked out
+            if (User::isLockedOut($user['userID'])) {
+                $this->jsonResponse(['error' => 'Your account is locked due to too many failed login attempts. Please try again in 5 minutes.'], 403);
+                return;
+            }
+
+            // Validate password
             if (password_verify($password, $user['password'])) {
-                // Create JWT payload with user details
+                // Reset failed attempts on successful login
+                User::resetFailedAttempts($user['userID']);
+
                 $payload = [
                     'access_level' => $user['accessLevel'],
                     'username' => $user['username'],
                     'userID' => $user['userID'],
-                    'exp' => time() + 3600 // Expires in 1 hour
+                    'exp' => time() + 3600
                 ];
 
-                // Generate JWT token
                 $token = \App\Helpers\Jwt::generate_jwt($payload);
 
-                // Return the token to the client
-                $this->jsonResponse(['message' => 'Login successful', 'token' => $token, 'accessLevel' => $user['accessLevel'], 'username' => $user['username'], 'userID' => $user['userID']]);
+                $this->jsonResponse(['success' => true, 'message' => 'Login successful', 'token' => $token, 'accessLevel' => $user['accessLevel'], 'username' => $user['username'], 'userID' => $user['userID']]);
             } else {
-                // If password is incorrect
-                $this->jsonResponse(['error' => 'Invalid credentials'], 401);
+                // Increment failed attempts
+                User::incrementFailedAttempts($user['userID']);
+
+                // Lock the user if failed attempts reach 3
+                if ($user['failed_attempts'] + 1 >= 3) {
+                    User::lockUser($user['userID']);
+                    $this->jsonResponse(['error' => 'Your account is locked due to too many failed login attempts. Please try again in 5 minutes.'], 403);
+                } else {
+                    $this->jsonResponse(['error' => 'Incorrect username or password'], 401);
+                }
             }
         } catch (\Exception $e) {
-            // Handle any exceptions that occur during the login process
-            $this->jsonResponse(['error' => 'An error occurred while processing the request', 'details' => $e->getMessage()], 500);
+            $this->jsonResponse(['error' => 'An unexpected error occurred. Please try again later.'], 500);
         }
     }
 

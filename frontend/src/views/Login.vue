@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import api from '../services/api'; 
+import api from '../services/api';
 
 export default {
     data() {
@@ -64,23 +64,19 @@ export default {
                 });
 
                 const data = response.data;
-                this.message = data.message;
 
                 if (data.success) {
+                    this.message = data.message;
                     this.messageClass = "text-success";
-                    alert("Login successful!");
-                }
 
+                    // Store token and user data in localStorage
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('username', data.username);
+                    localStorage.setItem('userID', data.userID);
+                    localStorage.setItem('user', JSON.stringify({ role: data.accessLevel }));
 
-                if (response.data.token) {
-
-                    localStorage.setItem('token', response.data.token);
-                    localStorage.setItem('username', response.data.username);
-                    localStorage.setItem('userID', response.data.userID);
-                    localStorage.setItem('user', JSON.stringify({ role: response.data.accessLevel }));
-
-                    const userRole = response.data.accessLevel;
-                    
+                    // Redirect based on user role
+                    const userRole = data.accessLevel;
                     setTimeout(() => {
                         if (userRole === 'admin') {
                             this.$router.push('/admin');
@@ -90,22 +86,25 @@ export default {
                     }, 100);
                 }
             } catch (error) {
-                this.message = "Server error. Please try again.";
+                // Handle specific error messages from the backend
+                if (error.response && error.response.data && error.response.data.error) {
+                    this.message = error.response.data.error;
+                } else {
+                    this.message = "An unexpected error occurred. Please try again.";
+                }
                 this.messageClass = "text-danger";
                 console.error('Login failed', error);
             }
         },
         async forgotPassword() {
             const promptUsername = prompt("Please enter your username:");
-            console.log('Prompted username:', promptUsername); // Log the prompted username
             if (promptUsername) {
                 try {
                     const response = await api.post("/forgot-password", { username: promptUsername });
-                    console.log('API response:', response); // Log the API response
                     this.message = response.data.message;
                     this.messageClass = "text-success";
                 } catch (error) {
-                    this.message = "Failed to send password reset username. Please try again.";
+                    this.message = "Failed to send password reset email. Please try again.";
                     this.messageClass = "text-danger";
                     console.error('Forgot Password failed', error);
                 }
