@@ -5,14 +5,24 @@ namespace App\Models;
 class User extends Model
 {
 
-    // Fetch all users
+    /**
+     * Fetch all users from the database.
+     *
+     * @return array An array of all users.
+     */
     public static function all()
     {
         $stmt = self::getDB()->query("SELECT * FROM users");
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    // Fetch user by id
+    /**
+     * Fetch a user by their ID.
+     *
+     * @param int $id The ID of the user.
+     * @return array|null The user data as an associative array, or null if not found.
+     * @throws \InvalidArgumentException If the ID is invalid.
+     */
     public static function findByID($id)
     {
         if (!is_numeric($id) || $id <= 0) {
@@ -25,20 +35,36 @@ class User extends Model
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    // Fetch user by username
+    /**
+     * Fetch a user by their username.
+     *
+     * @param string $username The username of the user.
+     * @return array|null The user data as an associative array, or null if not found.
+     * @throws \InvalidArgumentException If the username format is invalid.
+     */
     public static function findByUsername($username)
     {
-        // Validation
+        // Validate the username format
         if (!self::validUsername($username)) {
             throw new \InvalidArgumentException('Invalid username format');
         }
+
+        // Sanitize the username
         $username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
+
+        // Prepare and execute the query
         $stmt = self::getDB()->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
         $stmt->bindValue(':username', $username, \PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Fetch a user by their password reset token.
+     *
+     * @param string $token The reset token.
+     * @return array|null The user data as an associative array, or null if not found.
+     */
     public static function findByResetToken($token)
     {
         $stmt = self::getDB()->prepare('SELECT * FROM users WHERE reset_token = :token');
@@ -47,17 +73,22 @@ class User extends Model
 
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        // DEBUG: Check if user was found
+        // Log the result for debugging purposes
         error_log("User found by token: " . json_encode($user));
 
         return $user;
     }
 
-
-    // Create a new user
+    /**
+     * Create a new user.
+     *
+     * @param array $data The user data to insert.
+     * @return bool True if the user was successfully created.
+     * @throws \InvalidArgumentException If any of the input data is invalid.
+     */
     public static function create($data)
     {
-        // Validate and sanitize input
+        // Validate and sanitise input
         if (empty($data['email']) || !self::ValidEmail($data['email'])) {
             throw new \InvalidArgumentException('Invalid email format');
         }
@@ -68,19 +99,19 @@ class User extends Model
             throw new \InvalidArgumentException('Password must be at least 8 characters long');
         }
         if (empty($data['firstName']) || !self::names($data['firstName'])) {
-            throw new \InvalidArgumentException('not valid first name');
+            throw new \InvalidArgumentException('Invalid first name');
         }
         if (empty($data['lastName']) || !self::names($data['lastName'])) {
-            throw new \InvalidArgumentException('not valid last name');
+            throw new \InvalidArgumentException('Invalid last name');
         }
         if (empty($data['jobTitle']) || !preg_match("/^[a-zA-Z\s'-]{2,100}$/", $data['jobTitle'])) {
             throw new \InvalidArgumentException('Invalid job title format');
         }
         if (empty($data['accessLevel']) || ($data['accessLevel'] != "staff" && $data['accessLevel'] != "admin")) {
-            throw new \InvalidArgumentException('not valid access level');
+            throw new \InvalidArgumentException('Invalid access level');
         }
 
-
+        // Sanitise input data
         $username = htmlspecialchars(trim($data['username']), ENT_QUOTES, 'UTF-8');
         $email = htmlspecialchars(trim($data['email']), ENT_QUOTES, 'UTF-8');
         $password = htmlspecialchars(password_hash(trim($data['password']), PASSWORD_BCRYPT));
@@ -89,9 +120,8 @@ class User extends Model
         $job_title = htmlspecialchars($data['jobTitle'], ENT_QUOTES, 'UTF-8');
         $access_level = htmlspecialchars($data['accessLevel'], ENT_QUOTES, 'UTF-8');
 
-
-        // Insert into database
-        $stmt = self::getDB()->prepare("INSERT INTO users (email, username, password,firstName,lastName,jobTitle,accessLevel) VALUES (:email, :username, :password,:firstname,:lastname,:job_title,:access_level)");
+        // Insert into the database
+        $stmt = self::getDB()->prepare("INSERT INTO users (email, username, password, firstName, lastName, jobTitle, accessLevel) VALUES (:email, :username, :password, :firstname, :lastname, :job_title, :access_level)");
         $stmt->bindValue(':email', $email, \PDO::PARAM_STR);
         $stmt->bindValue(':username', $username, \PDO::PARAM_STR);
         $stmt->bindValue(':password', $password, \PDO::PARAM_STR);
@@ -102,14 +132,22 @@ class User extends Model
         return $stmt->execute();
     }
 
-    // Update user info
+    /**
+     * Update an existing user's information.
+     *
+     * @param int $id The ID of the user to update.
+     * @param array $data The updated user data.
+     * @return bool True if the update was successful.
+     * @throws \InvalidArgumentException If the ID or input data is invalid.
+     */
     public static function update($id, $data)
     {
-        // Validate ID
+        // Validate the user ID
         if (!is_numeric($id) || $id <= 0) {
             throw new \InvalidArgumentException('Invalid user ID');
         }
-        // Validate and sanitize input
+
+        // Validate and sanitise input fields
         $username = isset($data['username']) ? htmlspecialchars(trim($data['username']), ENT_QUOTES, 'UTF-8') : null;
         $email = isset($data['email']) ? htmlspecialchars(trim($data['email']), ENT_QUOTES, 'UTF-8') : null;
         $password = isset($data['password']) ? password_hash(trim($data['password']), PASSWORD_BCRYPT) : null; // Ensure password is hashed
@@ -129,16 +167,16 @@ class User extends Model
             throw new \InvalidArgumentException('Password must be at least 8 characters long');
         }
         if ($firstname && !self::names($firstname)) {
-            throw new \InvalidArgumentException('not valid first name');
+            throw new \InvalidArgumentException('Invalid first name');
         }
         if ($lastname && !self::names($lastname)) {
-            throw new \InvalidArgumentException('not valid last name');
+            throw new \InvalidArgumentException('Invalid last name');
         }
         if ($job_title && !preg_match("/^[a-zA-Z\s'-]{2,100}$/", $job_title)) {
             throw new \InvalidArgumentException('Invalid job title format');
         }
         if ($access_level && ($access_level != "staff" && $access_level != "admin")) {
-            throw new \InvalidArgumentException('not valid access level');
+            throw new \InvalidArgumentException('Invalid access level');
         }
         // Build dynamic query
         $fields = [];
@@ -190,7 +228,13 @@ class User extends Model
         return $stmt->execute();
     }
 
-    // Delete user
+    /**
+     * Delete a user by their ID.
+     *
+     * @param int $id The ID of the user to delete.
+     * @return bool True if the deletion was successful.
+     * @throws \InvalidArgumentException If the ID is invalid.
+     */
     public static function delete($id)
     {
         if (!is_numeric($id) || $id <= 0) {

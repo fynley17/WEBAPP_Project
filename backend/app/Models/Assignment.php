@@ -5,6 +5,7 @@ namespace App\Models;
 class Assignment extends Model
 {
 
+    // Retrieve all assignments, including user details and course information
     public static function all()
     {
         $stmt = self::getDB()->query("
@@ -30,7 +31,7 @@ class Assignment extends Model
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-
+    // Delete an assignment by ID
     public static function delete($id)
     {
         if (!is_numeric($id) || $id <= 0) {
@@ -41,6 +42,7 @@ class Assignment extends Model
         return $stmt->execute();
     }
 
+    // Find an assignment by its ID
     public static function findByID($id)
     {
         if (!is_numeric($id) || $id <= 0) {
@@ -73,6 +75,7 @@ class Assignment extends Model
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    // Find assignments by username
     public static function findByUsername($username)
     {
         if (!self::validUsername($username)) {
@@ -104,13 +107,14 @@ class Assignment extends Model
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    // Create a new assignment entry
     public static function create($data)
     {
         if (empty($data['userID']) || !preg_match("/\d+/", $data['userID'])) {
             throw new \InvalidArgumentException('Invalid userID format');
         }
         if (empty($data['courseID']) || !preg_match("/\d+/", $data['courseID'])) {
-            throw new \InvalidArgumentException('invalid courseID format');
+            throw new \InvalidArgumentException('Invalid courseID format');
         }
 
         $userID = htmlspecialchars(trim($data['userID']), ENT_QUOTES, 'utf-8');
@@ -118,6 +122,7 @@ class Assignment extends Model
         $courseID = (int) $courseID;
         $userID = (int) $userID;
 
+        // Check if user is already assigned to the course
         $query = "SELECT COUNT(*) FROM assignments WHERE userID = :userID AND courseID = :courseID";
         $stmt = self::getDB()->prepare($query);
         $stmt->bindParam(':userID', $userID, \PDO::PARAM_INT);
@@ -128,6 +133,7 @@ class Assignment extends Model
             throw new \Exception("User is already registered for this course.");
         }
 
+        // Insert the new assignment into the database
         $query = "INSERT INTO assignments (courseID, userID) VALUES (:courseID, :userID)";
         $stmt = self::getDB()->prepare($query);
         $stmt->bindParam(':courseID', $courseID, \PDO::PARAM_INT);
@@ -135,6 +141,7 @@ class Assignment extends Model
         return $stmt->execute();
     }
 
+    // Update an existing assignment
     public static function update($id, $data)
     {
         if (!is_numeric($id) || $id <= 0) {
@@ -145,10 +152,10 @@ class Assignment extends Model
         $userID = isset($data['userID']) ? htmlspecialchars(trim($data['userID']), ENT_QUOTES, 'utf-8') : null;
 
         if ($userID && !preg_match("/\d+/", $data['userID'])) {
-            throw new \InvalidArgumentException('invalid userID format');
+            throw new \InvalidArgumentException('Invalid userID format');
         }
         if ($courseID && !preg_match("/\d+/", $data['courseID'])) {
-            throw new \InvalidArgumentException('invalid courseID format');
+            throw new \InvalidArgumentException('Invalid courseID format');
         }
 
         $fields = [];
@@ -163,7 +170,7 @@ class Assignment extends Model
         }
 
         if (empty($fields)) {
-            throw new \InvalidArgumentException('no valid fields to update');
+            throw new \InvalidArgumentException('No valid fields to update');
         }
 
         $sql = "UPDATE assignments SET " . implode(', ', $fields) . " WHERE assignmentID = :id";
@@ -174,7 +181,7 @@ class Assignment extends Model
         return $stmt->execute();
     }
 
-
+    // Validate username format
     public static function validUsername($username)
     {
         return preg_match("/^[a-zA-Z0-9_-]{3,30}$/", $username);
