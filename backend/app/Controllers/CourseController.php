@@ -6,37 +6,48 @@ use App\Models\Course;
 
 class CourseController extends Controller
 {
-
-    // Get all courses
+    /**
+     * Retrieve all courses.
+     */
     public function getCourses()
     {
         $courses = Course::all();
         $this->jsonResponse($courses);
     }
 
-    // Get by ID
+    /**
+     * Retrieve a course by its unique ID.
+     * 
+     * @param int $id The ID of the course.
+     */
     public function getCourseByID($id)
     {
         $course = Course::findByID($id);
         if ($course) {
             $this->jsonResponse($course);
         } else {
-            $this->jsonResponse(['error' => 'course not found'], 404);
+            $this->jsonResponse(['error' => 'Course not found'], 404);
         }
     }
 
-    // Get by title
+    /**
+     * Retrieve a course by its title.
+     * 
+     * @param string $courseName The title of the course.
+     */
     public function getCourseByTitle($courseName)
     {
         $course = Course::findByTitle($courseName);
         if ($course) {
             $this->jsonResponse($course);
         } else {
-            $this->jsonResponse(['error' => 'course not found'], 404);
+            $this->jsonResponse(['error' => 'Course not found'], 404);
         }
     }
 
-    // Create course 
+    /**
+     * Create a new course.
+     */
     public function createCourse()
     {
         try {
@@ -52,35 +63,49 @@ class CourseController extends Controller
         }
     }
 
-    // Update a course
+    /**
+     * Update an existing course.
+     * 
+     * @param int $id The ID of the course to update.
+     */
     public function updateCourse($id)
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $updated = Course::update($id, $data);
         if ($updated) {
-            $this->jsonResponse(['message' => 'course updated successfully']);
+            $this->jsonResponse(['message' => 'Course updated successfully']);
         } else {
-            $this->jsonResponse(['error' => 'Failed to update assigncoursement'], 500);
+            $this->jsonResponse(['error' => 'Failed to update course'], 500);
         }
     }
 
-    // Delete Course
+    /**
+     * Delete a course by its ID.
+     * 
+     * @param int $id The ID of the course to delete.
+     */
     public function deleteCourse($id)
     {
         $deleted = Course::delete($id);
         if ($deleted) {
-            $this->jsonResponse(['message' => 'course deleted successfully']);
+            $this->jsonResponse(['message' => 'Course deleted successfully']);
         } else {
             $this->jsonResponse(['error' => 'Failed to delete course'], 500);
         }
     }
 
-    public function assignedUsers($id){
+    /**
+     * Retrieve users assigned to a specific course.
+     * 
+     * @param int $id The ID of the course.
+     */
+    public function assignedUsers($id)
+    {
         $users = Course::findAssignedUsers($id);
         if ($users) {
             $this->jsonResponse($users);
         } else {
-            $this->jsonResponse(['error' => 'course not found'], 404);
+            $this->jsonResponse(['error' => 'Course not found'], 404);
         }
     }
 }

@@ -8,13 +8,14 @@ require_once __DIR__ . '/../helpers/Email.php';
 
 class AssignmentController extends Controller
 {
+    // Retrieve all assignments
     public function getAssignments()
     {
         $assignments = Assignment::all();
         $this->jsonResponse($assignments);
     }
 
-    // Get by ID
+    // Retrieve an assignment by ID
     public function getAssignmentByID($id)
     {
         $assignment = Assignment::findByID($id);
@@ -25,7 +26,7 @@ class AssignmentController extends Controller
         }
     }
 
-    // Get by title
+    // Retrieve an assignment by title
     public function getAssignmentByUsername($assignmentName)
     {
         $assignment = Assignment::findByUsername($assignmentName);
@@ -36,13 +37,14 @@ class AssignmentController extends Controller
         }
     }
 
-    // Create assignment 
+    // Create a new assignment
     public function createAssignment()
     {
         try {
             $data = json_decode(file_get_contents("php://input"), true);
             $result = Assignment::create($data);
             if ($result) {
+                // Send an enrolment email upon successful creation
                 \App\Helpers\Email::Enroll($data['userID'], $data['courseID']);
                 $this->jsonResponse(['message' => 'Assignment created successfully'], 201);
             } else {
@@ -53,24 +55,24 @@ class AssignmentController extends Controller
         }
     }
 
-    // Update a assignment
+    // Update an existing assignment
     public function updateAssignment($id)
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $updated = Assignment::update($id, $data);
         if ($updated) {
-            $this->jsonResponse(['message' => 'assignment updated successfully']);
+            $this->jsonResponse(['message' => 'Assignment updated successfully']);
         } else {
-            $this->jsonResponse(['error' => 'Failed to update assignassignmentment'], 500);
+            $this->jsonResponse(['error' => 'Failed to update assignment'], 500);
         }
     }
 
-    // Delete Assignment
+    // Delete an assignment
     public function deleteAssignment($id)
     {
         $deleted = Assignment::delete($id);
         if ($deleted) {
-            $this->jsonResponse(['message' => 'assignment deleted successfully']);
+            $this->jsonResponse(['message' => 'Assignment deleted successfully']);
         } else {
             $this->jsonResponse(['error' => 'Failed to delete assignment'], 500);
         }

@@ -7,36 +7,36 @@ use App\Models\User;
 class UserController extends Controller
 {
 
-    // Get all users
+    // Retrieve all users from the database and return as JSON response
     public function getUsers()
     {
         $users = User::all();
         $this->jsonResponse($users);
     }
 
-    // Get by ID
+    // Retrieve a specific user by their ID
     public function getUserByID($id)
     {
         $user = User::findByID($id);
         if ($user) {
             $this->jsonResponse($user);
         } else {
-            $this->jsonResponse(['error' => 'user not found'], 404);
+            $this->jsonResponse(['error' => 'User not found'], 404);
         }
     }
 
-    // Get by username
+    // Retrieve a specific user by their username
     public function getUserByUsername($username)
     {
         $user = User::findByUsername($username);
         if ($user) {
             $this->jsonResponse($user);
         } else {
-            $this->jsonResponse(['error' => 'user not found'], 404);
+            $this->jsonResponse(['error' => 'User not found'], 404);
         }
     }
 
-    // Create user 
+    // Create a new user entry in the database
     public function createUser()
     {
         try {
@@ -52,24 +52,24 @@ class UserController extends Controller
         }
     }
 
-    // Update a user
+    // Update an existing user entry
     public function updateUser($id)
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $updated = User::update($id, $data);
         if ($updated) {
-            $this->jsonResponse(['message' => 'user updated successfully']);
+            $this->jsonResponse(['message' => 'User updated successfully']);
         } else {
             $this->jsonResponse(['error' => 'Failed to update user'], 500);
         }
     }
 
-    // Delete User
+    // Delete a user entry from the database
     public function deleteUser($id)
     {
         $deleted = User::delete($id);
         if ($deleted) {
-            $this->jsonResponse(['message' => 'user deleted successfully']);
+            $this->jsonResponse(['message' => 'User deleted successfully']);
         } else {
             $this->jsonResponse(['error' => 'Failed to delete user'], 500);
         }
